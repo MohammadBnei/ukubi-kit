@@ -1,0 +1,45 @@
+# KayKit Medieval Hexagon Pack 1.0, free tier (CC0), pinned by commit. Each model's .gltf and .bin are fetched;
+# the pack's one atlas is the image every model's UVs point into.
+name: hexagon
+repo: KayKit-Game-Assets/KayKit-Medieval-Hexagon-Pack-1.0
+commit: 84fa4e91af6a88989be7c99e0891cede11f2ca38
+root: addons/kaykit_medieval_hexagon_pack/Assets/gltf
+atlas: buildings/blue/hexagons_medieval.png
+licence: CC0-1.0
+# the pack's hex tile is 2 flat-to-flat; its buildings already stand on one, so no normalising scale
+scale: 1
+models:
+  - buildings/blue/building_home_A_blue
+  - buildings/blue/building_home_B_blue
+  - buildings/blue/building_tower_base_blue
+  - buildings/blue/building_tower_A_blue
+  - buildings/blue/building_tower_B_blue
+  - buildings/blue/building_castle_blue
+  - buildings/blue/building_mine_blue
+  - buildings/blue/building_market_blue
+  - buildings/blue/building_blacksmith_blue
+  - buildings/blue/building_windmill_blue
+  - buildings/blue/building_church_blue
+  - buildings/blue/building_tavern_blue
+  - buildings/blue/building_barracks_blue
+  - buildings/blue/building_well_blue
+  - buildings/neutral/building_dirt
+  - buildings/neutral/building_scaffolding
+  - buildings/neutral/building_stage_A
+  - buildings/neutral/building_stage_B
+  - buildings/neutral/building_stage_C
+  - buildings/neutral/fence_stone_straight
+  - buildings/neutral/fence_wood_straight
+  - buildings/neutral/wall_straight
+  - decoration/nature/hill_single_A
+  - decoration/nature/rock_single_A
+  - decoration/nature/rock_single_C
+  - decoration/nature/tree_single_A
+  - decoration/nature/tree_single_B
+  - decoration/nature/trees_A_small
+  - decoration/props/barrel
+  - decoration/props/crate_A_small
+  - decoration/props/flag_blue
+  - decoration/props/ladder
+  - decoration/props/wheelbarrow
+  - tiles/base/hex_grass

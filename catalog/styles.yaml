@@ -1,0 +1,68 @@
+# Styles (plan/13 §5): a civ's look per age. A style is an OKLab treatment of every pixel of a kit's atlas
+# (L' = l0 + lk·L; a', b' = s·(a, b) + tint) and, per kit, cells given a colour ("col,row" of the 8×4 swatch grid,
+# row 0 at the top; the cell keeps its own gradient and detail around it). tools/style.mjs paints them; the game swaps
+# the texture, never the geometry. Colours come from the Ukubi wires (office values) where a civ has one.
+#
+# What the cells hold, from the models' UVs (node tools/cells.mjs <kit> [model…] counts the cells models use):
+#   hexagon  0,3 team (roofs, banners)  2,0 stone  6,0 timber  0,2 grass  6,1 grey stone  3,0 dark stone
+#   city     1,0 trim  2,0 light grey  5,0 brick  2,1 blue-grey facade  3,1 ochre facade  6,2 red facade  3,2 green
+#   space    2,0 hull  1,0 white  3,1 band  3,0 dark panel  4,1 red  2,2 green cargo
+# The civ styles share one treatment family (l0 ≈ .38, lk ≈ .55, s ≈ .5) so mixed kits read as one world, and differ
+# by their cells.
+pack: # the packs' own colours, untouched: the reference every style is judged against
+  l0: 0
+  lk: 1
+  s: 1
+clay: # mountain's town (clay.png), fitted; its grass a little greener than the fit
+  l0: 0.423
+  lk: 0.461
+  s: 0.269
+  tint: [-0.0056, 0.0149]
+  cells:
+    hexagon: { "0,2": "#9fb487" }
+fortress-1: # Platform, first age: timber and rough stone, olive (compute) roofs and banners
+  l0: 0.38
+  lk: 0.55
+  s: 0.45
+  tint: [-0.002, 0.008]
+  cells:
+    hexagon: { "0,3": "#6a7a3a", "6,0": "#8a6248", "2,0": "#a49d92", "0,2": "#8fa46e" }
+fortress-2: # Platform, second age: dressed pale stone, slate trim, bright banners
+  l0: 0.38
+  lk: 0.58
+  s: 0.45
+  tint: [-0.004, 0.0]
+  cells:
+    hexagon: { "0,3": "#8fa04a", "6,0": "#5d6670", "2,0": "#c4c0b6", "6,1": "#9a9890", "0,2": "#93a873" }
+spacebase-1: # Fleet, first age: sand hulls, rust (agent) bands
+  l0: 0.38
+  lk: 0.55
+  s: 0.5
+  tint: [0.004, 0.012]
+  cells:
+    space: { "2,0": "#c9b48f", "3,1": "#a8643c", "1,0": "#e6dccb" }
+    hexagon: { "0,3": "#a8643c", "0,2": "#b0a77a" }
+spacebase-2: # Fleet, second age: white steel hulls, lit orange bands
+  l0: 0.38
+  lk: 0.6
+  s: 0.5
+  tint: [0.0, 0.0]
+  cells:
+    space: { "2,0": "#dfe3e6", "3,1": "#ff7a2e", "1,0": "#f4f6f7", "3,0": "#4b5560" }
+    hexagon: { "0,3": "#ff7a2e", "0,2": "#a9ad86" }
+modern-1: # Apps, first age: brick and concrete, ochre (app) facades
+  l0: 0.38
+  lk: 0.55
+  s: 0.5
+  tint: [0.004, 0.01]
+  cells:
+    city: { "5,0": "#9c5a3c", "2,1": "#8a8f94", "3,1": "#9a7a28", "1,0": "#e8e2d6" }
+    hexagon: { "0,3": "#9a7a28", "0,2": "#95a874" }
+modern-2: # Apps, second age: glass and steel, bright signs
+  l0: 0.36
+  lk: 0.6
+  s: 0.55
+  tint: [-0.004, -0.006]
+  cells:
+    city: { "2,1": "#5f8fb3", "5,0": "#9aa3ab", "3,1": "#ffd83a", "1,0": "#f5f6f7", "6,0": "#6d7880" }
+    hexagon: { "0,3": "#ffd83a", "0,2": "#93a873" }

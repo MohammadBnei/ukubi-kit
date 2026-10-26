@@ -1,0 +1,30 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    # GitHub-hosted only: this repo is public, and a public repo's PR must never reach a self-hosted runner
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.22.0
+          cache: npm
+      - run: npm ci
+      # the pinned kit files: keyed by the locks, so a new pin refetches and nothing stale is ever trusted (the build
+      # checks every file against the lock anyway)
+      - uses: actions/cache@v4
+        with:
+          path: cache
+          key: kits-${{ hashFiles('kits/*/lock.json') }}
+      # rebuild from the pinned kits (sha256-locked) and fail unless dist/ is what was committed
+      - run: npm run check
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.27'
+      - run: go vet ./... && go test ./...

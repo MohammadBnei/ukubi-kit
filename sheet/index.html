@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ukubi-kit sheet</title>
+<style>
+  :root { color-scheme: dark; --bg: #1c1814; --ink: #f2e9dc; --muted: #b9a990; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink); font: 14px/20px system-ui, sans-serif; }
+  #c { display: block; width: 100%; height: 100%; }
+  #labels { position: absolute; inset: 0; pointer-events: none; }
+  .l { position: absolute; transform: translate(-50%, 0); color: var(--muted); font-size: 12px; white-space: nowrap; }
+  .row { position: absolute; left: 12px; color: var(--ink); font-weight: 600; }
+  #status { position: absolute; left: 12px; bottom: 8px; color: var(--muted); }
+</style>
+<script type="importmap">{ "imports": { "three": "./vendor/build/three.module.js", "three/addons/": "./vendor/examples/jsm/" } }</script>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="labels"></div>
+<div id="status">loading…</div>
+<script type="module" src="./sheet.js"></script>
+</body>
+</html>

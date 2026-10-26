@@ -1,0 +1,37 @@
+# The civs (plan/13 §2) as the kit draws them: per role (a building's function in the game), the
+# model for each age, first to last. A list in a slot is a set of variants the game picks from by a hash of the
+# building's id. A civ draws only its own roles; a role it doesn't list falls back to default. Models are a kit's
+# own (kit/name) or a recipe (recipe/id). Only some civs are dressed yet; the rest use default, in clay.
+default:
+  styles: [clay, clay]
+  roles:
+    town-centre: [recipe/keep, recipe/castle-flags]
+    houses: [hexagon/building_home_A_blue, recipe/home-yard]
+    workshop: [hexagon/building_blacksmith_blue, hexagon/building_blacksmith_blue]
+    economy: [hexagon/building_mine_blue, hexagon/building_mine_blue]
+    utility: [hexagon/building_well_blue, hexagon/building_windmill_blue]
+    defence: [hexagon/building_tower_base_blue, recipe/tower-flag]
+    trade: [hexagon/building_market_blue, hexagon/building_tavern_blue]
+    barracks: [hexagon/building_barracks_blue, hexagon/building_barracks_blue]
+    product: [hexagon/building_home_A_blue, hexagon/building_church_blue]
+platform:
+  styles: [fortress-1, fortress-2]
+  roles:
+    houses: [hexagon/building_home_A_blue, recipe/home-yard]
+    utility: [hexagon/building_tower_base_blue, recipe/tower-flag]
+fleet:
+  styles: [spacebase-1, spacebase-2]
+  roles:
+    barracks: [[space/basemodule_A, space/basemodule_B, space/basemodule_garage], [recipe/hub, recipe/hub-solar, space/drill_structure]]
+apps:
+  styles: [modern-1, modern-2]
+  roles:
+    product: [[city/building_A_withoutBase, city/building_B_withoutBase, city/building_C_withoutBase], [city/building_E_withoutBase, city/building_F_withoutBase, city/building_G_withoutBase, city/building_H_withoutBase]]
+# Construction (plan/13 §3): a goal's work in progress puts scaffold up around its standing building (the frame, at the
+# building's hex, then props beside it); a new building rises through the stages. Painted in the civ's style.
+states:
+  scaffold: [hexagon/building_scaffolding, hexagon/ladder, hexagon/wheelbarrow]
+  stages: [hexagon/building_dirt, hexagon/building_stage_A, hexagon/building_stage_B, hexagon/building_stage_C]
+# Dressing (plan/13 §5, doubt 2): never a building; seeded variants of the land around them.
+dress:
+  grove: { kit: hexagon, count: 4, parts: [hexagon/tree_single_A, hexagon/tree_single_B, hexagon/rock_single_A, hexagon/rock_single_C] }

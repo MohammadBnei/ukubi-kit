@@ -1,0 +1,37 @@
+# Kitbash recipes: one model from several parts of one kit. at: [x, y, z]; rot: radians about +y; stack: sits on
+# the previous part's top. A recipe never stands for something real on its own; the catalog maps roles to it.
+hub: # a space module with a cargo roof
+  kit: space
+  parts:
+    - { model: basemodule_C }
+    - { model: roofmodule_cargo_A, stack: true }
+hub-solar:
+  kit: space
+  parts:
+    - { model: basemodule_E }
+    - { model: roofmodule_solarpanels, stack: true }
+keep: # the town centre's first age: a tower base inside a wooden fence (fences are hex-edge pieces: rotate them)
+  kit: hexagon
+  parts:
+    - { model: building_tower_base_blue }
+    - { model: fence_wood_straight }
+    - { model: fence_wood_straight, rot: 2.0944 }
+    - { model: fence_wood_straight, rot: 4.1888 }
+    - { model: flag_blue, at: [0.6, 0, 0.45] }
+castle-flags: # the town centre's second age
+  kit: hexagon
+  parts:
+    - { model: building_castle_blue }
+    - { model: flag_blue, at: [0.6, 0, 0.75] }
+    - { model: flag_blue, at: [-0.6, 0, 0.75] }
+tower-flag:
+  kit: hexagon
+  parts:
+    - { model: building_tower_A_blue }
+    - { model: flag_blue, at: [0.5, 0, 0.45] }
+home-yard:
+  kit: hexagon
+  parts:
+    - { model: building_home_B_blue }
+    - { model: barrel, at: [0.5, 0, 0.35] }
+    - { model: crate_A_small, at: [0.55, 0, 0.05] }

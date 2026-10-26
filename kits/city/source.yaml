@@ -1,0 +1,22 @@
+# KayKit City Builder Bits 1.0, free tier (CC0), pinned by commit.
+name: city
+repo: KayKit-Game-Assets/KayKit-City-Builder-Bits-1.0
+commit: 63976910ca04d16f0fc531b9c614244be8128713
+root: addons/kaykit_city_builder_bits/Assets/gltf
+atlas: citybits_texture.png
+licence: CC0-1.0
+# its plots are 2 x 2 squares: 0.7 fits one inside a hex of 2 flat-to-flat (the footprint check holds it)
+scale: 0.7
+models:
+  - building_A_withoutBase
+  - building_B_withoutBase
+  - building_C_withoutBase
+  - building_D_withoutBase
+  - building_E_withoutBase
+  - building_F_withoutBase
+  - building_G_withoutBase
+  - building_H_withoutBase
+  - watertower
+  - bush
+  - streetlight
+  - car_sedan
