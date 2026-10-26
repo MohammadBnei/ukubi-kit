@@ -22,6 +22,7 @@ import { fetchKit } from './fetch.mjs';
 import { generateKit } from './procgen/kit.mjs';
 import { rng } from './procgen/random.mjs';
 import { build, io } from './model.mjs';
+import { character, clips } from './character.mjs';
 import { paint } from './style.mjs';
 
 const ROOT = new URL('..', import.meta.url).pathname;
@@ -38,15 +39,21 @@ const FOOTPRINT = { building: 1.1, 'town-centre': 1.25, plot: 1.0, 'on-plot': 0.
 const ROLES = ['town-centre', 'houses', 'workshop', 'economy', 'utility', 'defence', 'trade', 'barracks', 'product'];
 // any model; a building (the town draws about 80) has a tighter one, so a district stays inside the town's budget
 const MAX_TRIS = 8000, MAX_BUILDING_TRIS = 4500;
+// a character (one skinned draw: its body, its hat or cape baked in, nothing held)
+const MAX_CHARACTER_TRIS = 5500;
 
 async function run(out) {
   const kits = {};
   for (const k of (await readdir(join(ROOT, 'kits'))).sort()) kits[k] = await yaml(`kits/${k}/source.yaml`);
   const recipes = await yaml('catalog/recipes.yaml'), styles = await yaml('catalog/styles.yaml'), { states, ...civs } = await yaml('catalog/civs.yaml');
   const SHAPES = Object.keys(await yaml('catalog/shapes.yaml'));
-  const errors = [], manifest = { kits: {}, models: {}, styles: {}, civs: {}, states: {} };
+  const errors = [], manifest = { kits: {}, models: {}, styles: {}, civs: {}, states: {}, characters: {}, clips: null };
 
   const files = {}, atlases = {};
+  // a character kit (kits/<kit>/source.yaml characters:) is the town's people: its own path (characters()), never a
+  // civ's model kit: no style paints it, no role draws it
+  const people = Object.fromEntries(Object.entries(kits).filter(([, k]) => k.characters));
+  for (const name of Object.keys(people)) delete kits[name];
   for (const [name, kit] of Object.entries(kits)) {
     const f = kit.generator ? await generateKit(ROOT, kit) : await fetchKit(ROOT, kit, { lock: args.has('--lock') }); // a kit of our own is made (procgen), not fetched
     files[name] = f.models;
@@ -131,6 +138,8 @@ async function run(out) {
     }
   }
 
+  await characters(people, write, manifest, errors);
+
   const model = (ref, where) => {
     if (!manifest.models[ref]) errors.push(`${where}: ${ref} is not a model`);
     return ref;
@@ -188,6 +197,36 @@ async function run(out) {
 
   await write('manifest.json', JSON.stringify(manifest, null, 1) + '\n');
   return errors;
+}
+
+// characters: each character kit's people (dist/characters/<name>.glb, its texture <png>.png, one per image) and the
+// clip file (dist/characters/clips.glb: the rig and the named clips), checked: every character on the clips' rig, by
+// joint name and order, and within its triangle budget.
+async function characters(people, write, manifest, errors) {
+  for (const [kitName, kit] of Object.entries(people)) {
+    const f = await fetchKit(ROOT, { ...kit, models: Object.values(kit.characters).map((c) => c.model) }, { lock: args.has('--lock') });
+    manifest.kits[kitName] = { repo: kit.repo, commit: kit.commit, licence: kit.licence, characters: true };
+    const fileOf = (model) => f.models[model.split('/').pop().replace(/\.glb$/, '')];
+    const rig = await clips(fileOf(kit.characters[kit.clips.from].model), kit.clips.names);
+    const cbytes = Buffer.from(await io.writeBinary(rig.doc));
+    await write('characters/clips.glb', cbytes);
+    if (manifest.clips) errors.push(`${kitName}: a second clip file (one rig for the town)`);
+    manifest.clips = { kit: kitName, file: 'characters/clips.glb', bytes: cbytes.length, sha256: sha256(cbytes), names: kit.clips.names, joints: rig.joints.length };
+    const textures = {};
+    let bind; // the clips' character's inverse bind matrices: every character's must match (the clips carry its bones' rest)
+    for (const [name, c] of Object.entries({ [kit.clips.from]: kit.characters[kit.clips.from], ...kit.characters })) {
+      const ch = await character(fileOf(c.model), c.keep);
+      if (ch.joints.join() !== rig.joints.join()) errors.push(`character ${name}: its rig is not the clips' (${ch.joints.length} joints)`);
+      bind ||= ch.ibms;
+      if (ch.ibms.length !== bind.length || ch.ibms.some((x, i) => Math.abs(x - bind[i]) > 1e-4)) errors.push(`character ${name}: its bones are not the clips' rig (inverse bind matrices differ)`);
+      if (ch.tris > MAX_CHARACTER_TRIS) errors.push(`character ${name}: ${ch.tris} triangles, over ${MAX_CHARACTER_TRIS}`);
+      const bytes = Buffer.from(await io.writeBinary(ch.doc)), file = `characters/${name}.glb`, h = sha256(ch.png);
+      textures[h] ||= `characters/${name}.png`; // characters sharing an image share its file
+      if (textures[h] === `characters/${name}.png`) await write(textures[h], ch.png);
+      await write(file, bytes);
+      manifest.characters[name] = { kit: kitName, file, texture: textures[h], bytes: bytes.length, sha256: sha256(bytes), tris: ch.tris, height: ch.height };
+    }
+  }
 }
 
 // tree: every file under dir by its content hash; a PNG by its decoded pixels, since zlib's deflate output may differ

@@ -1,0 +1,20 @@
+# KayKit Adventurers Character Pack 1.0, free tier (CC0), pinned by commit: the town's people (plan/13 §5 Characters).
+# Each character is one skinned draw: the body meshes it keeps, its hat and cape baked into the skin, nothing held (a
+# weapon is a look no signal stands behind yet). Which character plays which unit is the game's, never the kit's.
+name: adventurers
+repo: KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0
+commit: 672074b73ba276876a19e8816ecdc5241817ab47
+root: addons/kaykit_character_pack_adventures
+licence: CC0-1.0
+characters:
+  barbarian:
+    model: Characters/gltf/Barbarian.glb
+    keep: [Barbarian_Body, Barbarian_Head, Barbarian_ArmLeft, Barbarian_ArmRight, Barbarian_LegLeft, Barbarian_LegRight, Barbarian_Hat, Barbarian_Cape]
+  mage:
+    model: Characters/gltf/Mage.glb
+    keep: [Mage_Body, Mage_Head, Mage_ArmLeft, Mage_ArmRight, Mage_LegLeft, Mage_LegRight, Mage_Hat, Mage_Cape]
+# one clip file for every character (they share one 41-joint rig): standing, walking, at work (no "work" clip in the
+# pack: Interact stands in)
+clips:
+  from: barbarian
+  names: [Idle, Walking_A, Interact]

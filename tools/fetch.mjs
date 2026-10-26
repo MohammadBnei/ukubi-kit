@@ -55,7 +55,7 @@ export async function fetchKit(root, kit, { lock = false } = {}) {
     if (models[name]) throw new Error(`${kit.name}: two models named ${name}`);
     models[name] = file;
   }
-  const atlas = (await get(kit.atlas)).file;
+  const atlas = kit.atlas ? (await get(kit.atlas)).file : null; // a character kit has none: each character its own
   if (lock) await writeFile(lockPath, JSON.stringify(Object.fromEntries(Object.entries(got).sort()), null, 2) + '\n');
   return { models, atlas };
 }
