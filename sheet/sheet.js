@@ -61,6 +61,7 @@ for (const civ of civs) {
       for (const id of slot[age]) {
         const x = col * DX;
         tris += await place(tile, style, x, z);
+        if (c.plot) tris += await place(c.plot, style, x, z);
         tris += await place(id, style, x, z);
         text(`${role} · ${id.split('/').pop().replace('_withoutBase', '').replace('_blue', '')}`, x, 0, z + 1.2 + (col % 2) * 0.45);
         col++; models++;
@@ -68,12 +69,12 @@ for (const civ of civs) {
     }
   }
 }
-// construction and dressing, in clay and in each dressed civ's first style
-for (const style of ['clay', ...civs.filter((c) => c !== 'default').map((c) => manifest.civs[c].styles[0])]) {
-  const z = row++ * DZ;
-  text(`states · ${style}`, -DX * 1.2, 0, z, 'row');
+// each civ's biome (its tiles, plot and dressing) and the construction states, in its first style
+for (const civ of civs) {
+  const c = manifest.civs[civ], style = q.get('style') || c.styles[0], z = row++ * DZ;
+  text(`${civ} · land and construction · ${style}`, -DX * 1.2, 0, z, 'row');
   let col = 0;
-  for (const id of [...manifest.states.stages, ...manifest.states.scaffold, ...manifest.dress.grove]) {
+  for (const id of [...(c.plot ? [c.plot] : []), ...c.dress, ...(civ === 'default' ? manifest.states.stages : []), ...manifest.states.scaffold.slice(0, 1)]) {
     const x = col++ * DX;
     tris += await place(tile, style, x, z);
     tris += await place(id, style, x, z);
@@ -81,10 +82,16 @@ for (const style of ['clay', ...civs.filter((c) => c !== 'default').map((c) => m
     models++;
   }
 }
-const W = 10 * DX, H = row * DZ;
-controls.target.set(W / 2 - DX, 0, H / 2 - DZ / 2);
-const view = q.get('view');
-if (view === 'close') camera.position.set(W / 2, 9, H / 2 + 12); else camera.position.set(W / 2 - DX, H * 1.1 + 8, H / 2 + H * 0.55 + 6);
+// fit the camera to what was placed, looking down from the front at about 50°
+resize();
+scene.updateMatrixWorld(true);
+const box = new THREE.Box3();
+scene.traverse((o) => { if (o.isMesh) box.expandByObject(o); });
+const centre = box.getCenter(new THREE.Vector3()), size = box.getSize(new THREE.Vector3());
+const half = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)), dir = new THREE.Vector3(0, 1.25, 1.05).normalize();
+const dist = Math.max(size.x / 2 / (half * camera.aspect), (size.z * dir.y + size.y * dir.z) / 2 / half) * 1.08;
+controls.target.copy(centre);
+camera.position.copy(centre).addScaledVector(dir, dist);
 controls.update();
 
 function resize() {

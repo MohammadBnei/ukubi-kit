@@ -8,6 +8,8 @@ atlas: buildings/blue/hexagons_medieval.png
 licence: CC0-1.0
 # the pack's hex tile is 2 flat-to-flat; its buildings already stand on one, so no normalising scale
 scale: 1
+# a hex model turns in sixths; a square kit's in quarters (City's in halves: its blocks face one street)
+turns: 6
 models:
   - buildings/blue/building_home_A_blue
   - buildings/blue/building_home_B_blue

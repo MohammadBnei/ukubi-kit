@@ -1,8 +1,13 @@
-# The civs (plan/13 §2) as the kit draws them: per role (a building's function in the game), the
-# model for each age, first to last. A list in a slot is a set of variants the game picks from by a hash of the
-# building's id. A civ draws only its own roles; a role it doesn't list falls back to default. Models are a kit's
-# own (kit/name) or a recipe (recipe/id). Only some civs are dressed yet; the rest use default, in clay.
+# The civs (plan/13 §2) as the kit draws them. A civ draws from one kit only (`kit`; build.mjs refuses a model of
+# another): per role (a building's function in the game) the model for each age, first to last, a list in a slot
+# being variants the game picks from by a hash of the building's id. A role a civ doesn't list draws its own
+# `product`, never another civ's. Models are a kit's own (kit/name) or a recipe (recipe/id) of that kit.
+#
+# Its biome is from the same kit: the hex tiles in its styles' ground colour, a `plot` under every building (a floor
+# piece of the kit; none for a kit whose buildings stand on their own base or pads: hexagon, space, city), and `dress`, seeded variants of the kit's
+# props on the free land. default is the town centre's (the town's own, not a civ's) and an unknown realm's.
 default:
+  kit: hexagon
   styles: [clay, clay]
   roles:
     town-centre: [recipe/keep, recipe/castle-flags]
@@ -14,24 +19,63 @@ default:
     trade: [hexagon/building_market_blue, hexagon/building_tavern_blue]
     barracks: [hexagon/building_barracks_blue, hexagon/building_barracks_blue]
     product: [hexagon/building_home_A_blue, hexagon/building_church_blue]
-platform:
+  dress: { count: 4, parts: [hexagon/tree_single_A, hexagon/tree_single_B, hexagon/rock_single_A, hexagon/rock_single_C] }
+platform: # medieval: timber homes, wells and mills, then towers
+  kit: hexagon
   styles: [fortress-1, fortress-2]
   roles:
-    houses: [hexagon/building_home_A_blue, recipe/home-yard]
-    utility: [hexagon/building_tower_base_blue, recipe/tower-flag]
-fleet:
+    houses: [[hexagon/building_home_A_blue, hexagon/building_home_B_blue], [recipe/home-yard, hexagon/building_tavern_blue]]
+    utility: [[hexagon/building_well_blue, hexagon/building_windmill_blue, hexagon/building_tower_base_blue, hexagon/building_mine_blue], [recipe/tower-flag, hexagon/building_tower_A_blue, hexagon/building_tower_B_blue, hexagon/building_windmill_blue]]
+    product: [hexagon/building_home_A_blue, recipe/home-yard]
+  dress: { count: 4, scale: 0.7, parts: [hexagon/tree_single_A, hexagon/tree_single_B, hexagon/rock_single_A, hexagon/rock_single_C] }
+data: # dungeon: walled vaults, then pillared treasuries and a tower
+  kit: dungeon
+  styles: [vault-1, vault-2]
+  roles:
+    economy: [[recipe/vault-chest, recipe/vault-coins, recipe/store-yard], [recipe/treasury-banners, recipe/treasury-gated, recipe/treasury-tower]]
+    product: [recipe/vault-chest, recipe/treasury-banners]
+  plot: { model: dungeon/floor_tile_large, scale: 1.12 }
+  dress: { count: 4, scale: 0.8, parts: [dungeon/floor_tile_small, dungeon/floor_tile_small, dungeon/barrel_large, dungeon/column] }
+operations: # prototype: block sheds and stock yards, then depots of two storeys
+  kit: prototype
+  styles: [depot-1, depot-2]
+  roles:
+    trade: [[recipe/shed-slope, recipe/depot-room, recipe/stock-yard], [recipe/depot-storeys, recipe/depot-roofstock, recipe/depot-block]]
+    product: [recipe/depot-room, recipe/depot-storeys]
+  plot: { model: prototype/Floor, scale: 1.12 }
+  dress: { count: 4, parts: [prototype/Pallet_Small, prototype/Box_A, prototype/Box_B, prototype/Box_C] }
+guard: # halloween: shrines, gates and watch posts, then crypts and a gatehouse
+  kit: halloween
+  styles: [vigil-1, vigil-2]
+  roles:
+    defence: [[recipe/shrine-yard, recipe/gate-lanterns, recipe/watch-post], [recipe/crypt-lone, recipe/crypt-lanterns, recipe/gatehouse]]
+    product: [recipe/shrine-yard, recipe/crypt-lone]
+  plot: { model: halloween/floor_dirt, scale: 1.12 }
+  dress: { count: 4, scale: 0.6, parts: [halloween/tree_dead_large, halloween/tree_dead_medium, halloween/tree_pine_orange_medium, halloween/gravestone, halloween/grave_A, halloween/pumpkin_orange] }
+fleet: # space base: modules, then hubs, solar and drills
+  kit: space
   styles: [spacebase-1, spacebase-2]
   roles:
     barracks: [[space/basemodule_A, space/basemodule_B, space/basemodule_garage], [recipe/hub, recipe/hub-solar, space/drill_structure]]
-apps:
+    product: [space/basemodule_A, recipe/hub]
+  dress: { count: 4, parts: [space/containers_A, space/containers_A, space/solarpanel] }
+apps: # city: low blocks, then towers
+  kit: city
   styles: [modern-1, modern-2]
   roles:
     product: [[city/building_A_withoutBase, city/building_B_withoutBase, city/building_C_withoutBase], [city/building_E_withoutBase, city/building_F_withoutBase, city/building_G_withoutBase, city/building_H_withoutBase]]
+  dress: { count: 4, parts: [city/bush, city/bush, city/streetlight, city/watertower] }
+code: # ours (tools/gen-ukubi.mjs): gabled workshops, then factories
+  kit: ukubi
+  styles: [forge-1, forge-2]
+  roles:
+    workshop: [[ukubi/workshop_A, ukubi/workshop_B, ukubi/workshop_C], [ukubi/factory_A, ukubi/factory_B, ukubi/factory_C]]
+    product: [ukubi/workshop_A, ukubi/factory_A]
+  plot: { model: ukubi/plot_yard }
+  dress: { count: 4, parts: [ukubi/crates, ukubi/logs, ukubi/spool, ukubi/shrub, ukubi/drum] }
 # Construction (plan/13 §3): a goal's work in progress puts scaffold up around its standing building (the frame, at the
-# building's hex, then props beside it); a new building rises through the stages. Painted in the civ's style.
+# building's hex, then props beside it); a new building rises through the stages. Shared by every civ (a world state,
+# like the hex tiles), painted in the civ's style.
 states:
   scaffold: [hexagon/building_scaffolding, hexagon/ladder, hexagon/wheelbarrow]
   stages: [hexagon/building_dirt, hexagon/building_stage_A, hexagon/building_stage_B, hexagon/building_stage_C]
-# Dressing (plan/13 §5, doubt 2): never a building; seeded variants of the land around them.
-dress:
-  grove: { kit: hexagon, count: 4, parts: [hexagon/tree_single_A, hexagon/tree_single_B, hexagon/rock_single_A, hexagon/rock_single_C] }

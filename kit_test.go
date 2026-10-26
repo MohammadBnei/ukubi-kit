@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"io/fs"
+	"maps"
 	"slices"
 	"strconv"
 	"testing"
@@ -41,6 +42,20 @@ func TestManifest(t *testing.T) {
 		if len(c.Styles) != m.Ages() {
 			t.Errorf("%s: %d styles, %d ages", name, len(c.Styles), m.Ages())
 		}
+		if name != Default && c.Roles[Product] == nil {
+			t.Errorf("%s: no product", name)
+		}
+		// one kit per civ: its buildings, its plot and its dressing
+		for _, id := range append(slices.Concat(slices.Concat(slices.Collect(maps.Values(c.Roles))...)...), append(c.Dress, c.Plot)...) {
+			if id != "" && m.Models[id].Kit != c.Kit {
+				t.Errorf("%s draws %s, a %s model, not its own kit's (%s)", name, id, m.Models[id].Kit, c.Kit)
+			}
+		}
+		for _, st := range c.Styles {
+			if m.Styles[st]["hexagon"] == "" {
+				t.Errorf("%s: style %s does not paint the tiles and construction (hexagon)", name, st)
+			}
+		}
 		for role, ages := range c.Roles {
 			for a, vs := range ages {
 				for _, id := range vs {
@@ -65,8 +80,8 @@ func TestPick(t *testing.T) {
 	if !ok || a != b || sa != m.Civs["apps"].Styles[1] {
 		t.Errorf("apps/product/2 = %s %s %v, then %s: a pick must be stable", a, sa, ok, b)
 	}
-	if id, s, ok := m.Pick("apps", "town-centre", 1, "x"); !ok || s != m.Civs["apps"].Styles[0] || !slices.Contains(m.Civs[Default].Roles["town-centre"][0], id) {
-		t.Errorf("a role the civ lacks draws the default civ's model in the civ's own style: %s %s %v", id, s, ok)
+	if id, s, ok := m.Pick("guard", "houses", 1, "x"); !ok || s != m.Civs["guard"].Styles[0] || !slices.Contains(m.Civs["guard"].Roles[Product][0], id) {
+		t.Errorf("a role the civ lacks draws its own product: %s %s %v", id, s, ok)
 	}
 	if _, s, _ := m.Pick("nowhere", "houses", 1, "x"); s != m.Civs[Default].Styles[0] {
 		t.Errorf("an unknown civ is the default civ: %s", s)
@@ -85,7 +100,7 @@ func TestPick(t *testing.T) {
 		before[s], _, _ = m.Pick("apps", "product", 2, s)
 	}
 	roles := map[string][][]string{"product": {c.Roles["product"][0], append(slices.Clone(c.Roles["product"][1]), "extra")}}
-	m.Civs["apps"] = Civ{Styles: c.Styles, Roles: roles}
+	m.Civs["apps"] = Civ{Kit: c.Kit, Styles: c.Styles, Roles: roles}
 	for s, was := range before {
 		if now, _, _ := m.Pick("apps", "product", 2, s); now != was && now != "extra" {
 			t.Errorf("seed %s moved from %s to %s, not to the new variant", s, was, now)

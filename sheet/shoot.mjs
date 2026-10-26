@@ -23,8 +23,8 @@ try { pw = require('playwright'); } catch { pw = require(join(process.env.NODE_P
 const browser = await pw.chromium.launch(process.env.PLAYWRIGHT_CHROMIUM ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM } : {});
 const errors = [];
 await mkdir(OUT, { recursive: true });
-for (const [name, qs, w, h] of [['sheet', '', 1800, 1400], ['default', '?civ=default&view=close', 1600, 900], ['platform', '?civ=platform&view=close', 1600, 900],
-  ['fleet', '?civ=fleet&view=close', 1600, 900], ['apps', '?civ=apps&view=close', 1600, 900]]) {
+const civs = ['default', 'platform', 'data', 'operations', 'guard', 'fleet', 'apps', 'code'];
+for (const [name, qs, w, h] of [['sheet', '', 1800, 1400], ...civs.map((c) => [c, `?civ=${c}&view=close`, 1600, 900])]) {
   const page = await browser.newPage({ viewport: { width: w, height: h } });
   page.on('pageerror', (e) => errors.push(`${name}: ${e.message}`));
   page.on('console', (m) => { if (m.type() === 'error') errors.push(`${name}: ${m.text()}`); });

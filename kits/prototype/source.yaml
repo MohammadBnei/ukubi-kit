@@ -1,0 +1,47 @@
+# KayKit Prototype Bits 1.0, free tier (CC0), pinned by commit. Operations' kit: blocks, slopes, walls with doors and
+# windows, pallets, barrels and boxes; its buildings are kitbashed (catalog/recipes.yaml). Its atlas holds 10
+# swatches (row 0, and cells 0,1 and 1,1) and one blueprint-grid image over the rest.
+name: prototype
+repo: KayKit-Game-Assets/KayKit-Prototype-Bits-1.0
+commit: bb159596f4f5106b663741d002c8eb45c80c0f41
+root: addons/kaykit_prototype_bits/Assets/gltf
+atlas: prototypebits_texture.png
+licence: CC0-1.0
+# a 4-unit grid like Halloween's
+scale: 0.32
+turns: 4
+# the cells a style may recolour: the swatches (the blueprint image's cells keep the treatment only)
+swatches: ['0,0', '1,0', '2,0', '3,0', '4,0', '5,0', '6,0', '7,0', '0,1', '1,1']
+models:
+  - Primitive_Cube
+  - Primitive_Cube_Small
+  - Primitive_Slope
+  - Primitive_Slope_Half
+  - Primitive_Wall
+  - Primitive_Wall_Half
+  - Primitive_Doorway
+  - Primitive_Window
+  - Primitive_Floor
+  - Primitive_Pillar
+  - Primitive_Beam
+  - Primitive_Stairs
+  - Cube_Prototype_Large_A
+  - Cube_Prototype_Small
+  - Wall
+  - Wall_Doorway
+  - Wall_Window_Closed
+  - Wall_Window_Open
+  - Wall_Decorated
+  - Door_A
+  - Door_B
+  - Pillar_A
+  - Floor
+  - Floor_Dirt
+  - Pallet_Large
+  - Pallet_Small
+  - Pallet_Small_Decorated_A
+  - Barrel_A
+  - Barrel_B
+  - Box_A
+  - Box_B
+  - Box_C

@@ -7,6 +7,7 @@ atlas: citybits_texture.png
 licence: CC0-1.0
 # its plots are 2 x 2 squares: 0.7 fits one inside a hex of 2 flat-to-flat (the footprint check holds it)
 scale: 0.7
+turns: 2
 models:
   - building_A_withoutBase
   - building_B_withoutBase

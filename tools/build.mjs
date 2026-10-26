@@ -2,11 +2,14 @@
 // build: kits (kits/*/source.yaml) and the catalog (catalog/*.yaml) into dist/, the files the game embeds:
 //   dist/models/<kit>/<name>.glb      a kit's model, imported (model.mjs)
 //   dist/models/recipe/<id>.glb        a kitbash (catalog/recipes.yaml)
-//   dist/models/dress/<id>-<n>.glb     seeded dressing (catalog/civs.yaml dress)
-//   dist/styles/<style>/<kit>.png      a kit's atlas in a style (style.mjs), for every style and kit
+//   dist/models/plot/<civ>.glb         the floor under a civ's buildings (catalog/civs.yaml plot), lying on the tile
+//   dist/models/dress/<civ>-<n>.glb    a civ's seeded dressing (catalog/civs.yaml dress)
+//   dist/styles/<style>/<kit>.png      a kit's atlas in a style (style.mjs): the kits the style's civs draw, and
+//                                      hexagon (the tiles and construction states every civ shares)
 //   dist/manifest.json                 what is where: kits and licences, models (tris, bounds, footprint), styles, civs
-// Then it validates: every catalog reference resolves, every civ draws each of its roles in every age, buildings fit a
-// hex, and no model is over its triangle budget.
+// Then it validates: every catalog reference resolves, a civ draws from its own kit only and has a product, every civ
+// draws each of its roles in every age, buildings, plots and dressing fit a hex, and no model is over its triangle
+// budget.
 //   --lock   write kits/*/lock.json from what the pins fetch (review the diff)
 //   --check  build into a temporary directory and fail unless it equals dist/ byte for byte (determinism, freshness)
 import { createHash } from 'node:crypto';
@@ -16,6 +19,7 @@ import { join, relative } from 'node:path';
 import { PNG } from 'pngjs';
 import { parse } from 'yaml';
 import { fetchKit } from './fetch.mjs';
+import { generateKit } from './gen-ukubi.mjs';
 import { build, io } from './model.mjs';
 import { paint } from './style.mjs';
 
@@ -26,23 +30,27 @@ const sha256 = (b) => createHash('sha256').update(b).digest('hex');
 
 // a building fits its hex (2 flat-to-flat, pointy along z): no vertex farther than 10% past the hex's edge (KayKit's
 // own buildings overhang their tile a little: they are drawn for it). The town centre may take a little more.
-const FOOTPRINT = { building: 1.1, 'town-centre': 1.25 };
+// A plot stays inside its hex (a neighbour's would overlap it at the same height), and a building on a plot stays
+// inside the plot, so the plot shows around it.
+const FOOTPRINT = { building: 1.1, 'town-centre': 1.25, plot: 1.0, 'on-plot': 0.9 };
 // the roles a building can have: atlas's functions, but the land (plan/13 §1)
 const ROLES = ['town-centre', 'houses', 'workshop', 'economy', 'utility', 'defence', 'trade', 'barracks', 'product'];
-const MAX_TRIS = 8000;
+// any model; a building (the town draws about 80) has a tighter one, so a district stays inside the town's budget
+const MAX_TRIS = 8000, MAX_BUILDING_TRIS = 4500;
 
 async function run(out) {
   const kits = {};
   for (const k of (await readdir(join(ROOT, 'kits'))).sort()) kits[k] = await yaml(`kits/${k}/source.yaml`);
-  const recipes = await yaml('catalog/recipes.yaml'), styles = await yaml('catalog/styles.yaml'), civs = await yaml('catalog/civs.yaml');
-  const errors = [], manifest = { kits: {}, models: {}, styles: {}, civs: {}, states: {}, dress: {} };
+  const recipes = await yaml('catalog/recipes.yaml'), styles = await yaml('catalog/styles.yaml'), { states, ...civs } = await yaml('catalog/civs.yaml');
+  const errors = [], manifest = { kits: {}, models: {}, styles: {}, civs: {}, states: {} };
 
   const files = {}, atlases = {};
   for (const [name, kit] of Object.entries(kits)) {
-    const f = await fetchKit(ROOT, kit, { lock: args.has('--lock') });
+    const f = kit.generator === 'ukubi' ? await generateKit(ROOT, kit) : await fetchKit(ROOT, kit, { lock: args.has('--lock') }); // a kit of our own is made, not fetched
     files[name] = f.models;
     atlases[name] = await readFile(f.atlas);
-    manifest.kits[name] = { repo: kit.repo, commit: kit.commit, licence: kit.licence, scale: kit.scale };
+    manifest.kits[name] = { ...(kit.generator ? { generator: kit.generator } : { repo: kit.repo, commit: kit.commit }), licence: kit.licence, scale: kit.scale, turns: kit.turns };
+    if (![2, 4, 6].includes(kit.turns)) errors.push(`kit ${name}: turns ${kit.turns} is not 2, 4 or 6`);
   }
   const write = async (rel, bytes) => { await mkdir(join(out, rel, '..'), { recursive: true }); await writeFile(join(out, rel), bytes); };
   const emit = async (id, kit, parts, opts) => {
@@ -64,24 +72,37 @@ async function run(out) {
     if (parts.some((p) => !p.file)) { errors.push(`recipe ${id}: a part is not a ${r.kit} model`); continue; }
     await emit(`recipe/${id}`, r.kit, parts);
   }
-  for (const [id, d] of Object.entries(civs.dress || {})) {
+  // a civ's plot and its dressing, from its own kit
+  for (const [civ, c] of Object.entries(civs)) {
+    if (!kits[c.kit]) { errors.push(`${civ}: kit ${c.kit} is not in kits/`); continue; }
+    if (c.plot) {
+      const p = part(c.plot.model);
+      if (!p || p.kit !== c.kit) errors.push(`${civ}: plot ${c.plot.model} is not a ${c.kit} model`);
+      else await emit(`plot/${civ}`, c.kit, [{ file: p.file, scale: c.plot.scale || 1 }], { ground: 'top' });
+    }
+    const d = c.dress;
+    if (!d) continue;
+    const bad = d.parts.filter((ref) => !part(ref) || part(ref).kit !== c.kit);
+    if (bad.length) { errors.push(`${civ}: dress ${bad.join(', ')} not ${c.kit} models`); continue; }
     for (let n = 0; n < d.count; n++) {
-      const rnd = mulberry32(hash32(`${id}/${n}`)), parts = [];
-      const bad = d.parts.filter((ref) => !part(ref) || part(ref).kit !== d.kit);
-      if (bad.length) { errors.push(`dress ${id}: ${bad.join(', ')} not ${d.kit} models`); break; }
+      const rnd = mulberry32(hash32(`${civ}/${n}`)), parts = [], unit = 1 / kits[c.kit].scale; // offsets in hex units
       for (let i = 0, k = 3 + Math.floor(rnd() * 3); i < k; i++) {
         const p = part(d.parts[Math.floor(rnd() * d.parts.length)]);
-        const a = rnd() * Math.PI * 2, r = 0.15 + rnd() * 0.55;
-        parts.push({ file: p.file, at: [Math.cos(a) * r, 0, Math.sin(a) * r], rot: rnd() * Math.PI * 2, scale: 0.8 + rnd() * 0.4 });
+        const a = rnd() * Math.PI * 2, r = (0.15 + rnd() * 0.55) * unit;
+        parts.push({ file: p.file, at: [Math.cos(a) * r, 0, Math.sin(a) * r], rot: rnd() * Math.PI * 2, scale: (d.scale || 1) * (0.8 + rnd() * 0.4) });
       }
-      await emit(`dress/${id}-${n}`, d.kit, parts);
+      // not grounded: the packs' props stand on their own origin (a tree's roots go below it)
+      await emit(`dress/${civ}-${n}`, c.kit, parts, { ground: false });
     }
-    manifest.dress[id] = Array.from({ length: d.count }, (_, n) => `dress/${id}-${n}`);
   }
 
+  // a style paints the kits its civs draw, and hexagon (tiles, construction); a style no civ uses (pack) paints all
+  const painted = {};
+  for (const c of Object.values(civs)) for (const st of c.styles || []) (painted[st] ||= new Set(['hexagon'])).add(c.kit);
   for (const [id, st] of Object.entries(styles)) {
     manifest.styles[id] = {};
     for (const kit of Object.keys(kits)) {
+      if (painted[id] && !painted[id].has(kit)) continue;
       const file = `styles/${id}/${kit}.png`;
       await write(file, paint(atlases[kit], st, st.cells?.[kit] || {}));
       manifest.styles[id][kit] = file;
@@ -91,6 +112,7 @@ async function run(out) {
       for (const [key, colour] of Object.entries(cells)) {
         const [c, r] = key.split(',').map(Number);
         if (!(c >= 0 && c < 8 && r >= 0 && r < 4) || !/^#[0-9a-f]{6}$/i.test(colour)) errors.push(`style ${id}: ${kit} cell ${key}: ${colour} is not "col,row" (8×4) to #rrggbb`);
+        else if (kits[kit]?.swatches && !kits[kit].swatches.includes(key)) errors.push(`style ${id}: ${kit} cell ${key} is not one of its swatches (recolouring it would cut a seam through its image)`);
       }
     }
   }
@@ -101,7 +123,8 @@ async function run(out) {
   };
   const ages = civs.default.styles.length;
   for (const [civ, c] of Object.entries(civs)) {
-    if (['states', 'dress'].includes(civ)) continue;
+    if (!kits[c.kit]) continue; // reported above
+    if (civ !== 'default' && !c.roles.product) errors.push(`${civ}: no product (a role it doesn't list draws its product)`);
     if (c.styles.length !== ages) errors.push(`${civ}: ${c.styles.length} styles, the default has ${ages} ages`);
     for (const s of c.styles) if (!styles[s]) errors.push(`${civ}: style ${s} is not in styles.yaml`);
     const roles = {};
@@ -110,12 +133,24 @@ async function run(out) {
       if (perAge.length !== ages) errors.push(`${civ}/${role}: ${perAge.length} ages, want ${ages}`);
       roles[role] = perAge.map((v, age) => [v].flat().map((ref) => {
         const id = model(ref, `${civ}/${role}/${age + 1}`), m = manifest.models[id];
-        const limit = FOOTPRINT[role === 'town-centre' ? 'town-centre' : 'building'];
+        if (m && m.kit !== c.kit) errors.push(`${civ}/${role}/${age + 1}: ${ref} is a ${m.kit} model, and ${civ} draws ${c.kit} only`);
+        if (m && role !== 'town-centre' && m.tris > MAX_BUILDING_TRIS) errors.push(`${civ}/${role}/${age + 1}: ${ref} has ${m.tris} triangles, over ${MAX_BUILDING_TRIS} for a building`);
+        const limit = FOOTPRINT[role === 'town-centre' ? 'town-centre' : c.plot ? 'on-plot' : 'building'];
         if (m && m.reach > limit) errors.push(`${civ}/${role}/${age + 1}: ${ref} reaches ${m.reach} of its hex, over ${limit}`);
         return id;
       }));
     }
-    manifest.civs[civ] = { styles: c.styles, roles };
+    manifest.civs[civ] = { kit: c.kit, styles: c.styles, roles, ...(c.plot && { plot: `plot/${civ}` }),
+      dress: c.dress ? Array.from({ length: c.dress.count }, (_, n) => `dress/${civ}-${n}`) : [] };
+    for (const id of [manifest.civs[civ].plot, ...manifest.civs[civ].dress].filter(Boolean)) {
+      const limit = id.startsWith('plot/') ? FOOTPRINT.plot : FOOTPRINT.building;
+      if (manifest.models[id]?.reach > limit) errors.push(`${id} reaches ${manifest.models[id].reach} of its hex, over ${limit}`);
+    }
+    // its district's ground is the hex tile in its style: the style must colour the tile's grass (0,2), and, but for
+    // the town's own, the team cell (0,3) the shared construction props show
+    for (const st of c.styles) for (const cell of civ === 'default' ? ['0,2'] : ['0,2', '0,3']) {
+      if (!styles[st]?.cells?.hexagon?.[cell]) errors.push(`${civ}: style ${st} has no hexagon cell ${cell} (its ground and construction colours)`);
+    }
   }
   for (const [civ, c] of Object.entries(manifest.civs)) {
     if (civ !== 'default') continue;
@@ -123,11 +158,10 @@ async function run(out) {
       if (!c.roles[role]) errors.push(`default: no ${role}`);
     }
   }
-  for (const [state, refs] of Object.entries(civs.states)) {
+  for (const [state, refs] of Object.entries(states)) {
     manifest.states[state] = refs.map((r) => model(r, `states/${state}`));
     for (const r of refs) if (manifest.models[r]?.reach > FOOTPRINT.building) errors.push(`states/${state}: ${r} reaches ${manifest.models[r].reach} of its hex`);
   }
-  for (const [id, vs] of Object.entries(manifest.dress)) for (const v of vs) if (manifest.models[v]?.reach > FOOTPRINT.building) errors.push(`dress ${id}: ${v} reaches ${manifest.models[v].reach}`);
   manifest.roles = ROLES;
 
   await write('manifest.json', JSON.stringify(manifest, null, 1) + '\n');

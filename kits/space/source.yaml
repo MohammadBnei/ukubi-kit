@@ -7,6 +7,7 @@ atlas: spacebits_texture.png
 licence: CC0-1.0
 # its modules sit on 2 x 2 squares like the city's, but reach their corners: a little smaller
 scale: 0.66
+turns: 4
 models:
   - basemodule_A
   - basemodule_B

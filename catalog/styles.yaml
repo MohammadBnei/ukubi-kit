@@ -7,6 +7,13 @@
 #   hexagon  0,3 team (roofs, banners)  2,0 stone  6,0 timber  0,2 grass  6,1 grey stone  3,0 dark stone
 #   city     1,0 trim  2,0 light grey  5,0 brick  2,1 blue-grey facade  3,1 ochre facade  6,2 red facade  3,2 green
 #   space    2,0 hull  1,0 white  3,1 band  3,0 dark panel  4,1 red  2,2 green cargo
+#   dungeon  1,0 wall stone  0,0 dark trim  4,0 wood  5,0 floor  7,2 gold  6,2 banner  0,1 banner white  7,0 rubble
+#   halloween 3,0 stone  7,0 roof and pumpkins  1,0 iron  7,1 wood and bark  6,1 dirt  4,0 candles  0,1 orange pines
+#   prototype 0,0 blocks  2,0 walls  1,1 trim  6,0 pallets and doors  3,0 floor  1,0 boxes  (swatches only: row 0, 0,1, 1,1)
+#   ukubi    0,0 plaster  1,0 timber  2,0 brick  3,0 slate  4,0 concrete  5,0 steel  6,0 team  7,0 glass  7,1 lit
+#            1,1 roof metal  3,1 hazard  5,1 sand  6,1 rust  (tools/gen-ukubi.mjs draws them)
+# Every civ style colours the hex tile's grass (hexagon 0,2: its district's ground) and team cell (0,3: the
+# construction props every civ shares).
 # The civ styles share one treatment family (l0 ≈ .38, lk ≈ .55, s ≈ .5) so mixed kits read as one world, and differ
 # by their cells.
 pack: # the packs' own colours, untouched: the reference every style is judged against
@@ -66,3 +73,67 @@ modern-2: # Apps, second age: glass and steel, bright signs
   cells:
     city: { "2,1": "#5f8fb3", "5,0": "#9aa3ab", "3,1": "#ffd83a", "1,0": "#f5f6f7", "6,0": "#6d7880" }
     hexagon: { "0,3": "#ffd83a", "0,2": "#93a873" }
+vault-1: # Data, first age: rough grey stone, cold teal (data) banners, dull gold
+  l0: 0.38
+  lk: 0.55
+  s: 0.45
+  tint: [-0.004, 0.0]
+  cells:
+    dungeon: { "1,0": "#8a8d8f", "0,0": "#4f5458", "4,0": "#6e4e34", "5,0": "#7d7b74", "7,2": "#c9a03e", "6,2": "#2a8f88" }
+    hexagon: { "0,3": "#2a8f88", "0,2": "#8b9a80" }
+vault-2: # Data, second age: dressed pale stone, slate trim, bright teal banners, bright gold
+  l0: 0.38
+  lk: 0.6
+  s: 0.5
+  tint: [-0.004, -0.002]
+  cells:
+    dungeon: { "1,0": "#c3c6c9", "0,0": "#4b5563", "4,0": "#7a5232", "5,0": "#a7a49a", "7,2": "#ffd24a", "6,2": "#1ff2dc" }
+    hexagon: { "0,3": "#1ff2dc", "0,2": "#90a184" }
+depot-1: # Operations, first age: raw concrete blocks, timber pallets, blue (operations) trim
+  l0: 0.38
+  lk: 0.55
+  s: 0.45
+  tint: [-0.002, 0.004]
+  cells:
+    prototype: { "0,0": "#a9a59a", "2,0": "#8e9296", "1,1": "#3f6f9a", "6,0": "#9a6a3e", "3,0": "#6b6e70", "1,0": "#d8cfbd" }
+    hexagon: { "0,3": "#3f6f9a", "0,2": "#a2a687" }
+depot-2: # Operations, second age: white render, steel walls, bright blue trim and stock
+  l0: 0.38
+  lk: 0.6
+  s: 0.5
+  tint: [-0.004, -0.004]
+  cells:
+    prototype: { "0,0": "#e0e1df", "2,0": "#b7bec6", "1,1": "#3fa2ff", "6,0": "#8a6a4a", "3,0": "#5a6068", "7,0": "#3fa2ff" }
+    hexagon: { "0,3": "#3fa2ff", "0,2": "#a0a98a" }
+vigil-1: # Guard, first age: dark weathered stone, black iron, dim roofs, autumn ground
+  l0: 0.36
+  lk: 0.52
+  s: 0.45
+  tint: [0.002, 0.006]
+  cells:
+    halloween: { "3,0": "#8f8a80", "7,0": "#6e5a48", "1,0": "#33302c", "7,1": "#5e4a38", "6,1": "#7a6a52", "4,0": "#e8d9a8" }
+    hexagon: { "0,3": "#9a8a72", "0,2": "#857f5f" }
+vigil-2: # Guard, second age: pale dressed stone (the guard's own colour), slate roofs, lit lanterns
+  l0: 0.38
+  lk: 0.58
+  s: 0.45
+  tint: [0.0, 0.004]
+  cells:
+    halloween: { "3,0": "#c4bfb3", "7,0": "#5d6772", "1,0": "#2b2b2e", "7,1": "#6a5440", "6,1": "#857661", "4,0": "#ffe6a0" }
+    hexagon: { "0,3": "#9a8a72", "0,2": "#8a8762" }
+forge-1: # Code, first age: plaster and timber sheds, slate, muted pink (code) signs
+  l0: 0.38
+  lk: 0.55
+  s: 0.45
+  tint: [0.002, 0.004]
+  cells:
+    ukubi: { "6,0": "#b8558f", "2,0": "#a5583f", "0,0": "#e6dccb" }
+    hexagon: { "0,3": "#b8558f", "0,2": "#97a676" }
+forge-2: # Code, second age: brick and steel, bright glass, pink signs
+  l0: 0.38
+  lk: 0.6
+  s: 0.5
+  tint: [0.0, -0.002]
+  cells:
+    ukubi: { "6,0": "#ff5cc8", "5,0": "#9fb3c4", "7,0": "#a8dcf5", "2,0": "#b4634a" }
+    hexagon: { "0,3": "#ff5cc8", "0,2": "#93a873" }

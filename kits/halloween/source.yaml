@@ -1,0 +1,39 @@
+# KayKit Halloween Bits 1.0, free tier (CC0), pinned by commit. Guard's kit: a crypt, shrines, gate arches, fences,
+# lanterns, graves and dead trees; most buildings are kitbashed from them (catalog/recipes.yaml).
+name: halloween
+repo: KayKit-Game-Assets/KayKit-Halloween-Bits-1.0
+commit: 6dc69bf6b2fa766a985754f35ec6a0324090e6c6
+root: addons/kaykit_halloween_bits/Assets/gltf
+atlas: halloweenbits_texture.png
+licence: CC0-1.0
+# its grid is 4 units (a fence, a floor slab): 0.32 keeps a 4 × 4 square at 0.87 of a hex, inside its plot (a 4 × 4 floor at 1.12, 0.98)
+scale: 0.32
+turns: 4
+models:
+  - crypt
+  - shrine
+  - shrine_candles
+  - arch
+  - arch_gate
+  - fence
+  - fence_gate
+  - fence_pillar
+  - pillar
+  - post_lantern
+  - post_skull
+  - lantern_standing
+  - plaque_candles
+  - bench_decorated
+  - floor_dirt
+  - path_A
+  - path_B
+  - grave_A
+  - grave_B
+  - gravestone
+  - gravemarker_A
+  - tree_dead_large
+  - tree_dead_medium
+  - tree_pine_orange_medium
+  - tree_pine_yellow_medium
+  - pumpkin_orange
+  - pumpkin_yellow_small

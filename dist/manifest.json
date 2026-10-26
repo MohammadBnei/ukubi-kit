@@ -4,19 +4,49 @@
    "repo": "KayKit-Game-Assets/KayKit-City-Builder-Bits-1.0",
    "commit": "63976910ca04d16f0fc531b9c614244be8128713",
    "licence": "CC0-1.0",
-   "scale": 0.7
+   "scale": 0.7,
+   "turns": 2
+  },
+  "dungeon": {
+   "repo": "KayKit-Game-Assets/KayKit-Dungeon-Remastered-1.0",
+   "commit": "b0ca9bd96a8072ab36a3a5464f00ed1e06a16d07",
+   "licence": "CC0-1.0",
+   "scale": 0.32,
+   "turns": 4
+  },
+  "halloween": {
+   "repo": "KayKit-Game-Assets/KayKit-Halloween-Bits-1.0",
+   "commit": "6dc69bf6b2fa766a985754f35ec6a0324090e6c6",
+   "licence": "CC0-1.0",
+   "scale": 0.32,
+   "turns": 4
   },
   "hexagon": {
    "repo": "KayKit-Game-Assets/KayKit-Medieval-Hexagon-Pack-1.0",
    "commit": "84fa4e91af6a88989be7c99e0891cede11f2ca38",
    "licence": "CC0-1.0",
-   "scale": 1
+   "scale": 1,
+   "turns": 6
+  },
+  "prototype": {
+   "repo": "KayKit-Game-Assets/KayKit-Prototype-Bits-1.0",
+   "commit": "bb159596f4f5106b663741d002c8eb45c80c0f41",
+   "licence": "CC0-1.0",
+   "scale": 0.32,
+   "turns": 4
   },
   "space": {
    "repo": "KayKit-Game-Assets/KayKit-Space-Base-Bits-1.0",
    "commit": "6dfbcac9927d06283752c4defd4882cfe0d29666",
    "licence": "CC0-1.0",
-   "scale": 0.66
+   "scale": 0.66,
+   "turns": 4
+  },
+  "ukubi": {
+   "generator": "ukubi",
+   "licence": "CC0-1.0",
+   "scale": 1,
+   "turns": 4
   }
  },
  "models": {
@@ -175,6 +205,695 @@
     0.657
    ],
    "reach": 0.354
+  },
+  "dungeon/wall": {
+   "kit": "dungeon",
+   "file": "models/dungeon/wall.glb",
+   "bytes": 24952,
+   "sha256": "c3abed80f3e7f592c2fb5df1d22e211ecde1cb2e72ab14c311f98e46bc1989c7",
+   "tris": 494,
+   "size": [
+    1.28,
+    1.28,
+    0.32
+   ],
+   "reach": 0.64
+  },
+  "dungeon/wall_doorway": {
+   "kit": "dungeon",
+   "file": "models/dungeon/wall_doorway.glb",
+   "bytes": 38924,
+   "sha256": "55451336df1a702a5dd8445abd424afe1d3b70d98d21ba25edf610951279b5af",
+   "tris": 1068,
+   "size": [
+    1.28,
+    1.28,
+    0.32
+   ],
+   "reach": 0.64
+  },
+  "dungeon/wall_gated": {
+   "kit": "dungeon",
+   "file": "models/dungeon/wall_gated.glb",
+   "bytes": 20604,
+   "sha256": "79e48367e92172b978b015be1df58cf85efe217fe765b251fbfded05331a80cc",
+   "tris": 449,
+   "size": [
+    1.28,
+    1.28,
+    0.32
+   ],
+   "reach": 0.64
+  },
+  "dungeon/wall_window_open": {
+   "kit": "dungeon",
+   "file": "models/dungeon/wall_window_open.glb",
+   "bytes": 27764,
+   "sha256": "5659cae2b2fe9b087d1cf4d74026e9ad9d45f148905969dd9862311066eadea6",
+   "tris": 604,
+   "size": [
+    1.28,
+    1.28,
+    0.32
+   ],
+   "reach": 0.64
+  },
+  "dungeon/wall_archedwindow_gated": {
+   "kit": "dungeon",
+   "file": "models/dungeon/wall_archedwindow_gated.glb",
+   "bytes": 32736,
+   "sha256": "37ee0b9eab0c6353f4564db5188848bc459050ebeef662f8957cb744fb5fe1a6",
+   "tris": 732,
+   "size": [
+    1.28,
+    1.28,
+    0.32
+   ],
+   "reach": 0.64
+  },
+  "dungeon/wall_half": {
+   "kit": "dungeon",
+   "file": "models/dungeon/wall_half.glb",
+   "bytes": 14276,
+   "sha256": "63578697a918f51984f01ae37aa2ece0c86acac403d3a80d42a54c2d0d0faa9f",
+   "tris": 272,
+   "size": [
+    0.64,
+    1.28,
+    0.32
+   ],
+   "reach": 0.64
+  },
+  "dungeon/wall_corner": {
+   "kit": "dungeon",
+   "file": "models/dungeon/wall_corner.glb",
+   "bytes": 22408,
+   "sha256": "748bfa7499a4dd8f76780d9945dd9467060df97ed4b8e5269d01ca3e868bcfc6",
+   "tris": 443,
+   "size": [
+    0.8,
+    1.28,
+    0.8
+   ],
+   "reach": 0.64
+  },
+  "dungeon/wall_pillar": {
+   "kit": "dungeon",
+   "file": "models/dungeon/wall_pillar.glb",
+   "bytes": 26336,
+   "sha256": "f979eda5087d23a476350c17594aaa2566f17841cbf9cc6e9f9e150a6ccaaaee",
+   "tris": 540,
+   "size": [
+    1.28,
+    1.28,
+    0.48
+   ],
+   "reach": 0.64
+  },
+  "dungeon/column": {
+   "kit": "dungeon",
+   "file": "models/dungeon/column.glb",
+   "bytes": 3332,
+   "sha256": "24445dc2e4a25c42d389ad9b9f941ebff664da8313e332ad2cbba83dbab55c2e",
+   "tris": 44,
+   "size": [
+    0.224,
+    0.448,
+    0.224
+   ],
+   "reach": 0.153
+  },
+  "dungeon/pillar": {
+   "kit": "dungeon",
+   "file": "models/dungeon/pillar.glb",
+   "bytes": 6920,
+   "sha256": "6ae5f2809a509ecf5f968c0289bbfc315a991129b6ecc93644d3bdfe17692638",
+   "tris": 136,
+   "size": [
+    0.48,
+    1.28,
+    0.48
+   ],
+   "reach": 0.252
+  },
+  "dungeon/pillar_decorated": {
+   "kit": "dungeon",
+   "file": "models/dungeon/pillar_decorated.glb",
+   "bytes": 31384,
+   "sha256": "d8c526e4f31f6079c28661734177a2ab5404a8cd7bc66ead4be6fdb5dad9a8c4",
+   "tris": 761,
+   "size": [
+    0.714,
+    1.28,
+    0.547
+   ],
+   "reach": 0.357
+  },
+  "dungeon/floor_tile_large": {
+   "kit": "dungeon",
+   "file": "models/dungeon/floor_tile_large.glb",
+   "bytes": 8604,
+   "sha256": "7329d4eff1832c9c405c0a434067d64757f6eecc639bf6197c18ffbea8ba3501",
+   "tris": 188,
+   "size": [
+    1.28,
+    0.048,
+    1.28
+   ],
+   "reach": 0.874
+  },
+  "dungeon/floor_tile_small": {
+   "kit": "dungeon",
+   "file": "models/dungeon/floor_tile_small.glb",
+   "bytes": 3728,
+   "sha256": "704634ca43f82754fa68518f040dd480ea1cedf08623f9a2714ad2bcf6ac00cb",
+   "tris": 66,
+   "size": [
+    0.64,
+    0.048,
+    0.64
+   ],
+   "reach": 0.437
+  },
+  "dungeon/floor_dirt_large": {
+   "kit": "dungeon",
+   "file": "models/dungeon/floor_dirt_large.glb",
+   "bytes": 6236,
+   "sha256": "8f309e3dc195fcc2f382113c2e1b4b8cfc091e2ae54d75c03955a30e8e635f27",
+   "tris": 104,
+   "size": [
+    1.28,
+    0.067,
+    1.28
+   ],
+   "reach": 0.874
+  },
+  "dungeon/chest": {
+   "kit": "dungeon",
+   "file": "models/dungeon/chest.glb",
+   "bytes": 29716,
+   "sha256": "26b6eac5a575159f310185529927b0f0a724ac8d66a216d255bfbdf0a72ba157",
+   "tris": 728,
+   "size": [
+    0.544,
+    0.416,
+    0.463
+   ],
+   "reach": 0.302
+  },
+  "dungeon/chest_gold": {
+   "kit": "dungeon",
+   "file": "models/dungeon/chest_gold.glb",
+   "bytes": 57120,
+   "sha256": "d6b3a2be976aba2871a2f7d161301391517aa5e6bf260eddeffbc79aa94f9784",
+   "tris": 1568,
+   "size": [
+    0.544,
+    0.416,
+    0.463
+   ],
+   "reach": 0.302
+  },
+  "dungeon/coin_stack_large": {
+   "kit": "dungeon",
+   "file": "models/dungeon/coin_stack_large.glb",
+   "bytes": 57796,
+   "sha256": "64cf0b5846a48193f4cb4ba843403a3dcdf1b47ebf0ba40ea3c5e3f1e501c9bc",
+   "tris": 1776,
+   "size": [
+    0.46,
+    0.37,
+    0.531
+   ],
+   "reach": 0.303
+  },
+  "dungeon/coin_stack_medium": {
+   "kit": "dungeon",
+   "file": "models/dungeon/coin_stack_medium.glb",
+   "bytes": 32788,
+   "sha256": "3d7e3b0a29295ca4b1beaebe743bc7f5c84c6b5c91743b72c865bd1e4f0c48be",
+   "tris": 968,
+   "size": [
+    0.318,
+    0.205,
+    0.331
+   ],
+   "reach": 0.183
+  },
+  "dungeon/coin_stack_small": {
+   "kit": "dungeon",
+   "file": "models/dungeon/coin_stack_small.glb",
+   "bytes": 15552,
+   "sha256": "da424697648b5736d855a4b91d6a4a267bc90eb9a0840350a5bb70c8b3f34878",
+   "tris": 416,
+   "size": [
+    0.307,
+    0.153,
+    0.287
+   ],
+   "reach": 0.183
+  },
+  "dungeon/barrel_large": {
+   "kit": "dungeon",
+   "file": "models/dungeon/barrel_large.glb",
+   "bytes": 19564,
+   "sha256": "77552058c23f64a7849a32b1484ccdab4d03afd92361e87dcf654e10b0a7064a",
+   "tris": 561,
+   "size": [
+    0.576,
+    0.64,
+    0.576
+   ],
+   "reach": 0.288
+  },
+  "dungeon/barrel_small_stack": {
+   "kit": "dungeon",
+   "file": "models/dungeon/barrel_small_stack.glb",
+   "bytes": 54524,
+   "sha256": "df56e5a8673e40fe4a95f53abca14cfa93efa6b1eae845f9fd611aa81d40b6d0",
+   "tris": 1149,
+   "size": [
+    0.592,
+    0.566,
+    0.32
+   ],
+   "reach": 0.296
+  },
+  "dungeon/crates_stacked": {
+   "kit": "dungeon",
+   "file": "models/dungeon/crates_stacked.glb",
+   "bytes": 58424,
+   "sha256": "f33daaa8b9ea8127c91769869e9caf1bb049edd7d6438d89be928de6cbd5f3a6",
+   "tris": 1331,
+   "size": [
+    0.669,
+    0.686,
+    0.72
+   ],
+   "reach": 0.426
+  },
+  "dungeon/keg": {
+   "kit": "dungeon",
+   "file": "models/dungeon/keg.glb",
+   "bytes": 29868,
+   "sha256": "ffc599dd689a1d9d5ef1cb47c135c56d2f28ba51d449618e67701b43df5f057b",
+   "tris": 807,
+   "size": [
+    0.576,
+    0.656,
+    0.64
+   ],
+   "reach": 0.38
+  },
+  "dungeon/banner_patternA_blue": {
+   "kit": "dungeon",
+   "file": "models/dungeon/banner_patternA_blue.glb",
+   "bytes": 6592,
+   "sha256": "4755d8fd801d05044f19c8b3109c85fff93dd4d2271dcddf2af0b3bf640f3aee",
+   "tris": 110,
+   "size": [
+    0.48,
+    1.023,
+    0.1
+   ],
+   "reach": 0.262
+  },
+  "dungeon/rubble_half": {
+   "kit": "dungeon",
+   "file": "models/dungeon/rubble_half.glb",
+   "bytes": 15768,
+   "sha256": "a0ddf0a53559e3253e024dfccdd0b230df52fff18110974d81e7c5ae02dfa531",
+   "tris": 390,
+   "size": [
+    1.28,
+    1.12,
+    0.96
+   ],
+   "reach": 1.28
+  },
+  "dungeon/stairs_walled": {
+   "kit": "dungeon",
+   "file": "models/dungeon/stairs_walled.glb",
+   "bytes": 37476,
+   "sha256": "63599d03fda1cf4c8735f3be312852f24ed014990c57031e80f57bfd787a1f04",
+   "tris": 790,
+   "size": [
+    1.6,
+    1.28,
+    1.28
+   ],
+   "reach": 1.509
+  },
+  "halloween/crypt": {
+   "kit": "halloween",
+   "file": "models/halloween/crypt.glb",
+   "bytes": 40044,
+   "sha256": "f0f885385b417454406cd884b1a5a21059aec5135633a4bfcc0f3fbb71e6fd56",
+   "tris": 952,
+   "size": [
+    1.92,
+    2.56,
+    2.56
+   ],
+   "reach": 1.589
+  },
+  "halloween/shrine": {
+   "kit": "halloween",
+   "file": "models/halloween/shrine.glb",
+   "bytes": 5348,
+   "sha256": "922cd0a53a6e7abce531a5a0e6c0ea50e9789ef89957478f972d2d9ae9025fe4",
+   "tris": 94,
+   "size": [
+    0.352,
+    0.768,
+    0.352
+   ],
+   "reach": 0.24
+  },
+  "halloween/shrine_candles": {
+   "kit": "halloween",
+   "file": "models/halloween/shrine_candles.glb",
+   "bytes": 14320,
+   "sha256": "961416d6f7460155d7759af2507a6da623931b10ef62ae732c52e0df6d687951",
+   "tris": 360,
+   "size": [
+    0.352,
+    0.573,
+    0.352
+   ],
+   "reach": 0.24
+  },
+  "halloween/arch": {
+   "kit": "halloween",
+   "file": "models/halloween/arch.glb",
+   "bytes": 20280,
+   "sha256": "b518a3f04fd43722355b3ff1fc13778384309f9bfcd7cadf2e13231f3df896c6",
+   "tris": 436,
+   "size": [
+    1.35,
+    1.412,
+    0.246
+   ],
+   "reach": 0.675
+  },
+  "halloween/arch_gate": {
+   "kit": "halloween",
+   "file": "models/halloween/arch_gate.glb",
+   "bytes": 39640,
+   "sha256": "8d675b8c86fd595cf959443ec5fb2abbb06b4dda12153151e9ad87224703086b",
+   "tris": 868,
+   "size": [
+    1.35,
+    1.412,
+    0.246
+   ],
+   "reach": 0.675
+  },
+  "halloween/fence": {
+   "kit": "halloween",
+   "file": "models/halloween/fence.glb",
+   "bytes": 18808,
+   "sha256": "18bd9538d32de482570a93e1ba674bafcb0d376e17e0d7d675bcd1994960e273",
+   "tris": 380,
+   "size": [
+    1.28,
+    0.704,
+    0.16
+   ],
+   "reach": 0.64
+  },
+  "halloween/fence_gate": {
+   "kit": "halloween",
+   "file": "models/halloween/fence_gate.glb",
+   "bytes": 28936,
+   "sha256": "667930e1fc8257b68b31ff9b962bc1414e6a5191b80334a0725420c598a87d0a",
+   "tris": 620,
+   "size": [
+    1.28,
+    0.96,
+    0.16
+   ],
+   "reach": 0.64
+  },
+  "halloween/fence_pillar": {
+   "kit": "halloween",
+   "file": "models/halloween/fence_pillar.glb",
+   "bytes": 5408,
+   "sha256": "1befe5e9526f7957f64b8a1a84df6346e1b3cd04c42f5531352787d30712e4f1",
+   "tris": 94,
+   "size": [
+    0.16,
+    0.704,
+    0.16
+   ],
+   "reach": 0.109
+  },
+  "halloween/pillar": {
+   "kit": "halloween",
+   "file": "models/halloween/pillar.glb",
+   "bytes": 5400,
+   "sha256": "ec3791cd2a7b0d14efe0ebb595631aabe96e2f0a42d32d54961c75b1cd253209",
+   "tris": 94,
+   "size": [
+    0.32,
+    1.408,
+    0.32
+   ],
+   "reach": 0.219
+  },
+  "halloween/post_lantern": {
+   "kit": "halloween",
+   "file": "models/halloween/post_lantern.glb",
+   "bytes": 18536,
+   "sha256": "fc69fa140a7526b062d66c007542c487f04ec719450a69a9012858c398c4499a",
+   "tris": 568,
+   "size": [
+    0.205,
+    1.056,
+    0.501
+   ],
+   "reach": 0.417
+  },
+  "halloween/post_skull": {
+   "kit": "halloween",
+   "file": "models/halloween/post_skull.glb",
+   "bytes": 21684,
+   "sha256": "eab0cce19e14f3c330a14c77029722ddb0c59f9ee668ed12cdbabda9e82f1610",
+   "tris": 776,
+   "size": [
+    0.259,
+    1.056,
+    0.501
+   ],
+   "reach": 0.393
+  },
+  "halloween/lantern_standing": {
+   "kit": "halloween",
+   "file": "models/halloween/lantern_standing.glb",
+   "bytes": 9604,
+   "sha256": "6fbc21036257fa33c64d1e569b1f9a375f16cd40d27ef89eaaca0dded5a2df42",
+   "tris": 264,
+   "size": [
+    0.205,
+    0.296,
+    0.205
+   ],
+   "reach": 0.14
+  },
+  "halloween/plaque_candles": {
+   "kit": "halloween",
+   "file": "models/halloween/plaque_candles.glb",
+   "bytes": 16068,
+   "sha256": "787adeaa917511b877ff7308ae9559b82189fa9dd78473eda96f43e606fb8f9a",
+   "tris": 418,
+   "size": [
+    0.64,
+    0.362,
+    0.64
+   ],
+   "reach": 0.437
+  },
+  "halloween/bench_decorated": {
+   "kit": "halloween",
+   "file": "models/halloween/bench_decorated.glb",
+   "bytes": 33112,
+   "sha256": "ca0de331f1fc495417ad898465c52a80c7407bbafe679f5ccb603cb124c4f084",
+   "tris": 978,
+   "size": [
+    0.64,
+    0.537,
+    0.325
+   ],
+   "reach": 0.32
+  },
+  "halloween/floor_dirt": {
+   "kit": "halloween",
+   "file": "models/halloween/floor_dirt.glb",
+   "bytes": 6768,
+   "sha256": "526a830bd89481e3584a8a354c226d34114ca9855f1d26a5dfa52a8876b5bb4b",
+   "tris": 120,
+   "size": [
+    1.28,
+    0.17,
+    1.28
+   ],
+   "reach": 0.874
+  },
+  "halloween/path_A": {
+   "kit": "halloween",
+   "file": "models/halloween/path_A.glb",
+   "bytes": 11280,
+   "sha256": "6a4042760a0591d9694fcb2a7e2c8ea7b65a3009cd7232940d0f03e7a246ce93",
+   "tris": 361,
+   "size": [
+    0.609,
+    0.032,
+    0.603
+   ],
+   "reach": 0.388
+  },
+  "halloween/path_B": {
+   "kit": "halloween",
+   "file": "models/halloween/path_B.glb",
+   "bytes": 11232,
+   "sha256": "ffeb9aa258178c10b22594f0c572cad2c2311dcfadf0dd4f186714f19c1698b8",
+   "tris": 370,
+   "size": [
+    0.604,
+    0.032,
+    0.594
+   ],
+   "reach": 0.385
+  },
+  "halloween/grave_A": {
+   "kit": "halloween",
+   "file": "models/halloween/grave_A.glb",
+   "bytes": 11788,
+   "sha256": "23b21894fd6dda1ef09375dbe6f92ac86915f082275b81b1a3a716e297de887b",
+   "tris": 323,
+   "size": [
+    0.64,
+    0.681,
+    0.32
+   ],
+   "reach": 0.32
+  },
+  "halloween/grave_B": {
+   "kit": "halloween",
+   "file": "models/halloween/grave_B.glb",
+   "bytes": 10308,
+   "sha256": "c4e6bfa257e93079b0ef36bd3c636bde9dac44feb793ca6342feee557789bd9d",
+   "tris": 190,
+   "size": [
+    0.64,
+    0.704,
+    0.32
+   ],
+   "reach": 0.32
+  },
+  "halloween/gravestone": {
+   "kit": "halloween",
+   "file": "models/halloween/gravestone.glb",
+   "bytes": 9560,
+   "sha256": "028ad004b51fdbbb2d864f827878931883a59327a342c26438b595a719e0f2a5",
+   "tris": 271,
+   "size": [
+    0.448,
+    0.512,
+    0.128
+   ],
+   "reach": 0.224
+  },
+  "halloween/gravemarker_A": {
+   "kit": "halloween",
+   "file": "models/halloween/gravemarker_A.glb",
+   "bytes": 3928,
+   "sha256": "f55f2c6589bed99c5f9dc400f6ef9f30b7777f736cba5e99fe4e869d61fbb143",
+   "tris": 56,
+   "size": [
+    0.258,
+    0.383,
+    0.089
+   ],
+   "reach": 0.139
+  },
+  "halloween/tree_dead_large": {
+   "kit": "halloween",
+   "file": "models/halloween/tree_dead_large.glb",
+   "bytes": 6368,
+   "sha256": "ab809040dfe88de9f9bfdcfa99cab4a5178212cca30d12885747cf4c003ecbe8",
+   "tris": 256,
+   "size": [
+    0.737,
+    1.621,
+    0.44
+   ],
+   "reach": 0.423
+  },
+  "halloween/tree_dead_medium": {
+   "kit": "halloween",
+   "file": "models/halloween/tree_dead_medium.glb",
+   "bytes": 5244,
+   "sha256": "264f1de3874718b76209b3c01dad8176baec08b22557b8fe772a0f58f2a26f0b",
+   "tris": 216,
+   "size": [
+    0.579,
+    1.34,
+    0.149
+   ],
+   "reach": 0.423
+  },
+  "halloween/tree_pine_orange_medium": {
+   "kit": "halloween",
+   "file": "models/halloween/tree_pine_orange_medium.glb",
+   "bytes": 12872,
+   "sha256": "5664f97d5ec05e4c5d2c4cfacd4322f50548295b2b281855a8be53ba66e340cc",
+   "tris": 318,
+   "size": [
+    1.066,
+    1.879,
+    0.999
+   ],
+   "reach": 0.609
+  },
+  "halloween/tree_pine_yellow_medium": {
+   "kit": "halloween",
+   "file": "models/halloween/tree_pine_yellow_medium.glb",
+   "bytes": 12872,
+   "sha256": "68f2cac61fd561aa986272b070e781cd0989cf487cf950aabbfc84a59bc369d9",
+   "tris": 318,
+   "size": [
+    1.066,
+    1.879,
+    0.999
+   ],
+   "reach": 0.609
+  },
+  "halloween/pumpkin_orange": {
+   "kit": "halloween",
+   "file": "models/halloween/pumpkin_orange.glb",
+   "bytes": 7372,
+   "sha256": "c108b3e8390c84988662617b8fdc80705f1d375b656286add112edb3850c3d95",
+   "tris": 306,
+   "size": [
+    0.321,
+    0.224,
+    0.321
+   ],
+   "reach": 0.183
+  },
+  "halloween/pumpkin_yellow_small": {
+   "kit": "halloween",
+   "file": "models/halloween/pumpkin_yellow_small.glb",
+   "bytes": 7824,
+   "sha256": "e1a871c6805ecebcd70615030443ea3f0140f407f1e1084e0e26f64e667f1dc1",
+   "tris": 322,
+   "size": [
+    0.192,
+    0.176,
+    0.192
+   ],
+   "reach": 0.107
   },
   "hexagon/building_home_A_blue": {
    "kit": "hexagon",
@@ -618,6 +1337,422 @@
    ],
    "reach": 1
   },
+  "prototype/Primitive_Cube": {
+   "kit": "prototype",
+   "file": "models/prototype/Primitive_Cube.glb",
+   "bytes": 1804,
+   "sha256": "20f05427cef1967783e6216e19f82fa1af81bf4c9e80375752e616d07e08499a",
+   "tris": 12,
+   "size": [
+    1.28,
+    1.28,
+    1.28
+   ],
+   "reach": 0.874
+  },
+  "prototype/Primitive_Cube_Small": {
+   "kit": "prototype",
+   "file": "models/prototype/Primitive_Cube_Small.glb",
+   "bytes": 1808,
+   "sha256": "2f45675bdf2420aa68810ffb03105fba0d2c41394894c130285b28b897fa4db0",
+   "tris": 12,
+   "size": [
+    0.64,
+    0.64,
+    0.64
+   ],
+   "reach": 0.437
+  },
+  "prototype/Primitive_Slope": {
+   "kit": "prototype",
+   "file": "models/prototype/Primitive_Slope.glb",
+   "bytes": 1660,
+   "sha256": "bc5323c0001780f7a8d5540ad2972f6eeb71dff57fddb08de7dfa6d40d790ebe",
+   "tris": 8,
+   "size": [
+    1.28,
+    1.28,
+    1.28
+   ],
+   "reach": 0.874
+  },
+  "prototype/Primitive_Slope_Half": {
+   "kit": "prototype",
+   "file": "models/prototype/Primitive_Slope_Half.glb",
+   "bytes": 1952,
+   "sha256": "351bd18ec5c1f67e92a570c496b43c18f30ca6e4e5e3f6a19fc3835043fbc848",
+   "tris": 16,
+   "size": [
+    1.28,
+    1.28,
+    1.28
+   ],
+   "reach": 0.874
+  },
+  "prototype/Primitive_Wall": {
+   "kit": "prototype",
+   "file": "models/prototype/Primitive_Wall.glb",
+   "bytes": 1800,
+   "sha256": "e18945f84495be08a1d4f56d37db65627e55c0b4f4bfa605a24df61a3384a39e",
+   "tris": 12,
+   "size": [
+    1.28,
+    1.28,
+    0.32
+   ],
+   "reach": 0.64
+  },
+  "prototype/Primitive_Wall_Half": {
+   "kit": "prototype",
+   "file": "models/prototype/Primitive_Wall_Half.glb",
+   "bytes": 1808,
+   "sha256": "a4130c1ec551a329a99cb72d36c7db6a9d51f4d0c2bbe36976de22258cef033a",
+   "tris": 12,
+   "size": [
+    0.64,
+    1.28,
+    0.32
+   ],
+   "reach": 0.32
+  },
+  "prototype/Primitive_Doorway": {
+   "kit": "prototype",
+   "file": "models/prototype/Primitive_Doorway.glb",
+   "bytes": 2384,
+   "sha256": "99099028578de8ea7dc4dfe38fa43d4640465653a37ef5e26d89990d503062dc",
+   "tris": 28,
+   "size": [
+    1.28,
+    1.28,
+    0.32
+   ],
+   "reach": 0.64
+  },
+  "prototype/Primitive_Window": {
+   "kit": "prototype",
+   "file": "models/prototype/Primitive_Window.glb",
+   "bytes": 2408,
+   "sha256": "a9988731f7f27fbdcc034fac390a5a67b7d3055922d0299d5a0b46e0a9229c7d",
+   "tris": 32,
+   "size": [
+    1.28,
+    1.28,
+    0.32
+   ],
+   "reach": 0.64
+  },
+  "prototype/Primitive_Floor": {
+   "kit": "prototype",
+   "file": "models/prototype/Primitive_Floor.glb",
+   "bytes": 1804,
+   "sha256": "d8659cd8b9dffc0f524901b2700b38ae99b4389f0058a6677a0b861143b4a5fb",
+   "tris": 12,
+   "size": [
+    1.28,
+    0.32,
+    1.28
+   ],
+   "reach": 0.874
+  },
+  "prototype/Primitive_Pillar": {
+   "kit": "prototype",
+   "file": "models/prototype/Primitive_Pillar.glb",
+   "bytes": 1800,
+   "sha256": "2eefd22aad8a636d55c6463c6fce14aab312769f1ac2dc8c81ce0020254cb0af",
+   "tris": 12,
+   "size": [
+    0.32,
+    1.28,
+    0.32
+   ],
+   "reach": 0.219
+  },
+  "prototype/Primitive_Beam": {
+   "kit": "prototype",
+   "file": "models/prototype/Primitive_Beam.glb",
+   "bytes": 1800,
+   "sha256": "ba6058f0bd24ad29c9c37182d982c4c3c9896da09c88f7420822c81b814a2538",
+   "tris": 12,
+   "size": [
+    1.28,
+    0.32,
+    0.32
+   ],
+   "reach": 0.64
+  },
+  "prototype/Primitive_Stairs": {
+   "kit": "prototype",
+   "file": "models/prototype/Primitive_Stairs.glb",
+   "bytes": 3908,
+   "sha256": "82f7d779b2086058bb404316cce4b9b1e26c4df185b7b00a956d9776cb69c01b",
+   "tris": 68,
+   "size": [
+    1.28,
+    1.28,
+    1.28
+   ],
+   "reach": 0.874
+  },
+  "prototype/Cube_Prototype_Large_A": {
+   "kit": "prototype",
+   "file": "models/prototype/Cube_Prototype_Large_A.glb",
+   "bytes": 2748,
+   "sha256": "ca5dc33972ac023f11103e560c97e7f8d962e6e5cf092dd5c169420ea6a69297",
+   "tris": 44,
+   "size": [
+    1.28,
+    1.28,
+    1.28
+   ],
+   "reach": 0.858
+  },
+  "prototype/Cube_Prototype_Small": {
+   "kit": "prototype",
+   "file": "models/prototype/Cube_Prototype_Small.glb",
+   "bytes": 2828,
+   "sha256": "1212fdeef088f2c4b092a890b56b4d50dfabde7d03a11cad91b9ef415e9c6d8a",
+   "tris": 44,
+   "size": [
+    0.64,
+    0.64,
+    0.64
+   ],
+   "reach": 0.421
+  },
+  "prototype/Wall": {
+   "kit": "prototype",
+   "file": "models/prototype/Wall.glb",
+   "bytes": 5544,
+   "sha256": "3d89906914e490edb84a05ebaa4445f76c7f789be3d307d215a1ce3c8ff0d2e2",
+   "tris": 96,
+   "size": [
+    1.28,
+    1.28,
+    0.17
+   ],
+   "reach": 0.64
+  },
+  "prototype/Wall_Doorway": {
+   "kit": "prototype",
+   "file": "models/prototype/Wall_Doorway.glb",
+   "bytes": 8604,
+   "sha256": "5090aceeaa5e70cbe94e4c249c099b28f3b4efcbc81c9e89c6f0fc51ff6689e8",
+   "tris": 178,
+   "size": [
+    1.28,
+    1.28,
+    0.17
+   ],
+   "reach": 0.64
+  },
+  "prototype/Wall_Window_Closed": {
+   "kit": "prototype",
+   "file": "models/prototype/Wall_Window_Closed.glb",
+   "bytes": 9504,
+   "sha256": "6fe94e91e36eb4351206cd82d50296f06fd6432cc64b12426e12cfa8ae537dbd",
+   "tris": 220,
+   "size": [
+    1.28,
+    1.28,
+    0.17
+   ],
+   "reach": 0.64
+  },
+  "prototype/Wall_Window_Open": {
+   "kit": "prototype",
+   "file": "models/prototype/Wall_Window_Open.glb",
+   "bytes": 8948,
+   "sha256": "c50d8736ba3660a9c464c5864cbc55bd2a46917842ffdc0cef0ca9ca1ebfe2ba",
+   "tris": 208,
+   "size": [
+    1.28,
+    1.28,
+    0.17
+   ],
+   "reach": 0.64
+  },
+  "prototype/Wall_Decorated": {
+   "kit": "prototype",
+   "file": "models/prototype/Wall_Decorated.glb",
+   "bytes": 10304,
+   "sha256": "9f7b154d89dbd9d4c348c3bf52f72583147f2f9988f0dd5f3f8a37e5e20b0c3b",
+   "tris": 288,
+   "size": [
+    1.28,
+    1.28,
+    0.292
+   ],
+   "reach": 0.64
+  },
+  "prototype/Door_A": {
+   "kit": "prototype",
+   "file": "models/prototype/Door_A.glb",
+   "bytes": 11172,
+   "sha256": "e07cb7ac68d7fc140d42c309c8fd058e1f898495c3ddc94c5a5c16523b8e52fb",
+   "tris": 296,
+   "size": [
+    0.512,
+    0.896,
+    0.175
+   ],
+   "reach": 0.512
+  },
+  "prototype/Door_B": {
+   "kit": "prototype",
+   "file": "models/prototype/Door_B.glb",
+   "bytes": 8360,
+   "sha256": "93a2a102a6f9f0b56f633315617bf7dcb434d084897ca9900e690c7f2dae293b",
+   "tris": 167,
+   "size": [
+    0.512,
+    0.896,
+    0.171
+   ],
+   "reach": 0.512
+  },
+  "prototype/Pillar_A": {
+   "kit": "prototype",
+   "file": "models/prototype/Pillar_A.glb",
+   "bytes": 3272,
+   "sha256": "241f354af5c62b78410334b4e5460c432c6b1d4c5ad0f51fb183d66f61683e2f",
+   "tris": 44,
+   "size": [
+    0.192,
+    1.312,
+    0.192
+   ],
+   "reach": 0.131
+  },
+  "prototype/Floor": {
+   "kit": "prototype",
+   "file": "models/prototype/Floor.glb",
+   "bytes": 3160,
+   "sha256": "06a76bb918a2af5c0b67bd3fe614bd1246186e29c634c1ba542bc3f41aeb664d",
+   "tris": 52,
+   "size": [
+    1.28,
+    0.16,
+    1.28
+   ],
+   "reach": 0.874
+  },
+  "prototype/Floor_Dirt": {
+   "kit": "prototype",
+   "file": "models/prototype/Floor_Dirt.glb",
+   "bytes": 6776,
+   "sha256": "5ecff3a5e21cc6bb3ee80f8e4977b0f615205278ba7fdc786c19538b3286e19e",
+   "tris": 120,
+   "size": [
+    1.28,
+    0.17,
+    1.28
+   ],
+   "reach": 0.874
+  },
+  "prototype/Pallet_Large": {
+   "kit": "prototype",
+   "file": "models/prototype/Pallet_Large.glb",
+   "bytes": 7328,
+   "sha256": "6d083b00c8ec5484c03b7306a3c9358c2c7615f40816391b07a7e1e3f72c9be4",
+   "tris": 132,
+   "size": [
+    1.28,
+    0.16,
+    1.28
+   ],
+   "reach": 0.874
+  },
+  "prototype/Pallet_Small": {
+   "kit": "prototype",
+   "file": "models/prototype/Pallet_Small.glb",
+   "bytes": 7328,
+   "sha256": "c2d366c0ba0f9a7d21fb598664d9abe4fb139d1abc9e376cc918e5dbd203f582",
+   "tris": 132,
+   "size": [
+    0.64,
+    0.16,
+    0.64
+   ],
+   "reach": 0.437
+  },
+  "prototype/Pallet_Small_Decorated_A": {
+   "kit": "prototype",
+   "file": "models/prototype/Pallet_Small_Decorated_A.glb",
+   "bytes": 47448,
+   "sha256": "24d84214a35b2afe780d0bf8bdb99546604b9bb91c80a50bbd733b44aad605ae",
+   "tris": 1668,
+   "size": [
+    0.64,
+    0.48,
+    0.64
+   ],
+   "reach": 0.437
+  },
+  "prototype/Barrel_A": {
+   "kit": "prototype",
+   "file": "models/prototype/Barrel_A.glb",
+   "bytes": 11284,
+   "sha256": "d20b0075e7d71f5085f7ed94d07a718135eb0d40e8a20c304257ad924ef4b59e",
+   "tris": 384,
+   "size": [
+    0.32,
+    0.32,
+    0.32
+   ],
+   "reach": 0.16
+  },
+  "prototype/Barrel_B": {
+   "kit": "prototype",
+   "file": "models/prototype/Barrel_B.glb",
+   "bytes": 11284,
+   "sha256": "8748f76febc376d320c4beccce915646b87ca3820baf45469ef037e559f25442",
+   "tris": 384,
+   "size": [
+    0.32,
+    0.32,
+    0.32
+   ],
+   "reach": 0.16
+  },
+  "prototype/Box_A": {
+   "kit": "prototype",
+   "file": "models/prototype/Box_A.glb",
+   "bytes": 3888,
+   "sha256": "9ae287aab5f7fc4a69049113f39ba7daa563e3d576afba3026907af9ab7d899c",
+   "tris": 56,
+   "size": [
+    0.146,
+    0.163,
+    0.148
+   ],
+   "reach": 0.098
+  },
+  "prototype/Box_B": {
+   "kit": "prototype",
+   "file": "models/prototype/Box_B.glb",
+   "bytes": 5112,
+   "sha256": "16a164d65ce6462e8ed0118d7c7eb7a3da0766643a9d0842b1496c598a17df67",
+   "tris": 80,
+   "size": [
+    0.192,
+    0.129,
+    0.13
+   ],
+   "reach": 0.102
+  },
+  "prototype/Box_C": {
+   "kit": "prototype",
+   "file": "models/prototype/Box_C.glb",
+   "bytes": 5940,
+   "sha256": "3f38968df2606b815b47ef8654faa0fbb1bd572c5dc5ce2b46d5a0352814003a",
+   "tris": 98,
+   "size": [
+    0.256,
+    0.129,
+    0.194
+   ],
+   "reach": 0.144
+  },
   "space/basemodule_A": {
    "kit": "space",
    "file": "models/space/basemodule_A.glb",
@@ -839,6 +1974,162 @@
    ],
    "reach": 0.201
   },
+  "ukubi/workshop_A": {
+   "kit": "ukubi",
+   "file": "models/ukubi/workshop_A.glb",
+   "bytes": 6312,
+   "sha256": "f2d5cb6d29eef3dd87b3220377bae290432a84be35c863267e68d853074b2265",
+   "tris": 78,
+   "size": [
+    1.22,
+    1.1,
+    0.92
+   ],
+   "reach": 0.703
+  },
+  "ukubi/workshop_B": {
+   "kit": "ukubi",
+   "file": "models/ukubi/workshop_B.glb",
+   "bytes": 7540,
+   "sha256": "f39455f4f48b4aa003f912c7cc8bcf11310d9e5397ddae2c85490bd62481d2f6",
+   "tris": 96,
+   "size": [
+    1.41,
+    0.88,
+    0.895
+   ],
+   "reach": 0.763
+  },
+  "ukubi/workshop_C": {
+   "kit": "ukubi",
+   "file": "models/ukubi/workshop_C.glb",
+   "bytes": 9632,
+   "sha256": "8fa60835a0886b972f8dbd2d2137ff9387cc18be80a66573d00c54e16413b70b",
+   "tris": 128,
+   "size": [
+    1.41,
+    1.41,
+    0.92
+   ],
+   "reach": 0.75
+  },
+  "ukubi/factory_A": {
+   "kit": "ukubi",
+   "file": "models/ukubi/factory_A.glb",
+   "bytes": 9052,
+   "sha256": "e7f53e69b3375561cd3f3e4fe41728113cab9155cf984cd1f876c686db2c2e8b",
+   "tris": 120,
+   "size": [
+    1.29,
+    1.75,
+    0.945
+   ],
+   "reach": 0.73
+  },
+  "ukubi/factory_B": {
+   "kit": "ukubi",
+   "file": "models/ukubi/factory_B.glb",
+   "bytes": 7124,
+   "sha256": "6dd205ed211c6d961e715c7620dddb44979bb461052f566b873a9b9a8ae053af",
+   "tris": 90,
+   "size": [
+    1.04,
+    1.78,
+    0.895
+   ],
+   "reach": 0.645
+  },
+  "ukubi/factory_C": {
+   "kit": "ukubi",
+   "file": "models/ukubi/factory_C.glb",
+   "bytes": 9856,
+   "sha256": "cc0d797ed495ebc0bbf13978fd57c53ff636ee60193ad7db2e0d71200d8d1d86",
+   "tris": 132,
+   "size": [
+    1.5,
+    1.22,
+    0.97
+   ],
+   "reach": 0.79
+  },
+  "ukubi/plot_yard": {
+   "kit": "ukubi",
+   "file": "models/ukubi/plot_yard.glb",
+   "bytes": 3008,
+   "sha256": "55bd8f0aceca4cf8b416b57c72cc578139276d2323cb1e3a3d3f2c9bce49f337",
+   "tris": 28,
+   "size": [
+    1.94,
+    0.035,
+    2.24
+   ],
+   "reach": 0.97
+  },
+  "ukubi/crates": {
+   "kit": "ukubi",
+   "file": "models/ukubi/crates.glb",
+   "bytes": 3184,
+   "sha256": "ad45ce19b710464936e4b8987c475326d6708ffe88573adf4fac8d1f97f1013b",
+   "tris": 30,
+   "size": [
+    0.4,
+    0.34,
+    0.25
+   ],
+   "reach": 0.29
+  },
+  "ukubi/logs": {
+   "kit": "ukubi",
+   "file": "models/ukubi/logs.glb",
+   "bytes": 3148,
+   "sha256": "808c47453c0284c4dbad1684cb1e796b0fa413f581164a539609640d166638b7",
+   "tris": 30,
+   "size": [
+    0.27,
+    0.18,
+    0.45
+   ],
+   "reach": 0.262
+  },
+  "ukubi/spool": {
+   "kit": "ukubi",
+   "file": "models/ukubi/spool.glb",
+   "bytes": 6716,
+   "sha256": "0bf64e935bbcd0464e89cb929fc4983e65eb98b1a5c3cc1db137bfbdd30b368e",
+   "tris": 84,
+   "size": [
+    0.26,
+    0.22,
+    0.247
+   ],
+   "reach": 0.13
+  },
+  "ukubi/shrub": {
+   "kit": "ukubi",
+   "file": "models/ukubi/shrub.glb",
+   "bytes": 3084,
+   "sha256": "50a530b1ec1502e7bd6500b530c67a4e2814e005afd3eba205e1875cfdee4d79",
+   "tris": 29,
+   "size": [
+    0.32,
+    0.42,
+    0.277
+   ],
+   "reach": 0.16
+  },
+  "ukubi/drum": {
+   "kit": "ukubi",
+   "file": "models/ukubi/drum.glb",
+   "bytes": 4108,
+   "sha256": "eb8a214c9692c91d7bf73860f5988456c597271acb9e8602acd18812186a0f09",
+   "tris": 44,
+   "size": [
+    0.31,
+    0.2,
+    0.21
+   ],
+   "reach": 0.23
+  },
   "recipe/hub": {
    "kit": "space",
    "file": "models/recipe/hub.glb",
@@ -917,103 +2208,780 @@
    ],
    "reach": 0.65
   },
-  "dress/grove-0": {
-   "kit": "hexagon",
-   "file": "models/dress/grove-0.glb",
-   "bytes": 15212,
-   "sha256": "2c22114bfa9db2681fd686173c84d7f5a3c5435bdabf2d0253d290056790dd60",
-   "tris": 538,
+  "recipe/vault-chest": {
+   "kit": "dungeon",
+   "file": "models/recipe/vault-chest.glb",
+   "bytes": 168736,
+   "sha256": "b32a6d79259322b7990c41a5c67c6f6a2c81893fd117b127d734a784b9d10a09",
+   "tris": 4228,
    "size": [
-    0.872,
-    1.383,
-    1.775
+    1.28,
+    1.28,
+    1.28
    ],
-   "reach": 1.025
+   "reach": 0.874
   },
-  "dress/grove-1": {
-   "kit": "hexagon",
-   "file": "models/dress/grove-1.glb",
-   "bytes": 18856,
-   "sha256": "107482617bbf9669e24b7ef3e7a727de36444f40c5986b541f962a08bb0fd63b",
-   "tris": 718,
+  "recipe/vault-coins": {
+   "kit": "dungeon",
+   "file": "models/recipe/vault-coins.glb",
+   "bytes": 144328,
+   "sha256": "50a5cf61eeb45a7dd8ca836daec0539783dd216b663b2ef0186f6c58b3c0e7bf",
+   "tris": 3570,
    "size": [
-    1.402,
-    1.338,
+    1.28,
+    1.28,
+    1.28
+   ],
+   "reach": 0.874
+  },
+  "recipe/store-yard": {
+   "kit": "dungeon",
+   "file": "models/recipe/store-yard.glb",
+   "bytes": 187632,
+   "sha256": "3b0a66a0b256eeeae76ca83d3793b8c503cab24a75e917f22c45e8bdfe2445d6",
+   "tris": 4275,
+   "size": [
+    1.28,
+    1.28,
+    1.28
+   ],
+   "reach": 0.874
+  },
+  "recipe/treasury-banners": {
+   "kit": "dungeon",
+   "file": "models/recipe/treasury-banners.glb",
+   "bytes": 182224,
+   "sha256": "a8429d6e7b04eefd171b5c2a12b53dbd0201985694b19190df1bdbbf964cf8cb",
+   "tris": 4364,
+   "size": [
+    1.28,
+    1.28,
+    1.28
+   ],
+   "reach": 0.834
+  },
+  "recipe/treasury-gated": {
+   "kit": "dungeon",
+   "file": "models/recipe/treasury-gated.glb",
+   "bytes": 160824,
+   "sha256": "e7eb012c5d1393137f6a2e4958dbafebc4d9d138f209bce6b41044c0b17caa96",
+   "tris": 4029,
+   "size": [
+    1.28,
+    1.28,
+    1.28
+   ],
+   "reach": 0.874
+  },
+  "recipe/treasury-tower": {
+   "kit": "dungeon",
+   "file": "models/recipe/treasury-tower.glb",
+   "bytes": 192188,
+   "sha256": "e71ee64f5aceff62bc64c5cacec9ef638752e49e0eb7f91896582f09ca11bc8f",
+   "tris": 4127,
+   "size": [
+    0.96,
+    1.92,
+    0.96
+   ],
+   "reach": 0.656
+  },
+  "recipe/shrine-yard": {
+   "kit": "halloween",
+   "file": "models/recipe/shrine-yard.glb",
+   "bytes": 54412,
+   "sha256": "053f07fb3f02fc9e8f762f3a8c8ba41936d3ab61682c196da9e30ed67b1728cd",
+   "tris": 1420,
+   "size": [
+    1.28,
+    1.229,
+    1.328
+   ],
+   "reach": 0.888
+  },
+  "recipe/gate-lanterns": {
+   "kit": "halloween",
+   "file": "models/recipe/gate-lanterns.glb",
+   "bytes": 64660,
+   "sha256": "1d58bc15c48784601b8b8e6e45374e09fdbcb95139709920a2a7680cf5505d2c",
+   "tris": 1584,
+   "size": [
+    1.696,
+    1.412,
+    0.578
+   ],
+   "reach": 0.848
+  },
+  "recipe/watch-post": {
+   "kit": "halloween",
+   "file": "models/recipe/watch-post.glb",
+   "bytes": 57928,
+   "sha256": "856d6a54408de19800837184a644e0d3c3c81f88f85e952d39e91d2db040a11f",
+   "tris": 1856,
+   "size": [
+    1,
+    1.69,
+    0.864
+   ],
+   "reach": 0.71
+  },
+  "recipe/crypt-lone": {
+   "kit": "halloween",
+   "file": "models/recipe/crypt-lone.glb",
+   "bytes": 40044,
+   "sha256": "f0036bc742484c5bd30db19ad25e44f7c850630879559e876c2047e35e6d5a5e",
+   "tris": 952,
+   "size": [
+    1.485,
+    1.485,
+    1.114
+   ],
+   "reach": 0.853
+  },
+  "recipe/crypt-lanterns": {
+   "kit": "halloween",
+   "file": "models/recipe/crypt-lanterns.glb",
+   "bytes": 74600,
+   "sha256": "154439e2240c23f2c18fdac56c2503f69fc2038acac2e211b2860dfb69e5cda5",
+   "tris": 2088,
+   "size": [
+    1.101,
+    1.075,
+    1.354
+   ],
+   "reach": 0.863
+  },
+  "recipe/gatehouse": {
+   "kit": "halloween",
+   "file": "models/recipe/gatehouse.glb",
+   "bytes": 85636,
+   "sha256": "2b431957c123c420c642a44bc6ccc1b8c9c190eb426cb1823b414e1e3024d0aa",
+   "tris": 2400,
+   "size": [
+    1.792,
+    1.412,
+    0.88
+   ],
+   "reach": 0.896
+  },
+  "recipe/shed-slope": {
+   "kit": "prototype",
+   "file": "models/recipe/shed-slope.glb",
+   "bytes": 48420,
+   "sha256": "77733ddbdafc046d48862b2b6543f478339fce8ef7d66eb3b64eed046a983a19",
+   "tris": 1688,
+   "size": [
+    1.376,
+    1.792,
+    1.184
+   ],
+   "reach": 0.895
+  },
+  "recipe/depot-room": {
+   "kit": "prototype",
+   "file": "models/recipe/depot-room.glb",
+   "bytes": 29824,
+   "sha256": "2a574a2b77bc6ac3efae73bc6ee07d62a00335da2bf9393586cce14f1c762c81",
+   "tris": 726,
+   "size": [
+    1.299,
+    1.6,
+    1.299
+   ],
+   "reach": 0.874
+  },
+  "recipe/stock-yard": {
+   "kit": "prototype",
+   "file": "models/recipe/stock-yard.glb",
+   "bytes": 84680,
+   "sha256": "9c647573f666e0f44592a12fe3d0b60018ccdeb787835fb2f4b8731ede56b85f",
+   "tris": 2802,
+   "size": [
+    1.28,
+    0.616,
+    1.28
+   ],
+   "reach": 0.874
+  },
+  "recipe/depot-storeys": {
+   "kit": "prototype",
+   "file": "models/recipe/depot-storeys.glb",
+   "bytes": 29272,
+   "sha256": "78ac9ca72dc971bf568f618c12254376cccae9d99517deca7d9693346eb674d9",
+   "tris": 714,
+   "size": [
+    1.299,
+    2.368,
+    1.299
+   ],
+   "reach": 0.874
+  },
+  "recipe/depot-roofstock": {
+   "kit": "prototype",
+   "file": "models/recipe/depot-roofstock.glb",
+   "bytes": 79396,
+   "sha256": "6d1286839c4b38f7a02f4d236513ac0f7ec8f965083be0a43ad25b2f992a3c54",
+   "tris": 2506,
+   "size": [
+    1.299,
+    2.08,
+    1.299
+   ],
+   "reach": 0.874
+  },
+  "recipe/depot-block": {
+   "kit": "prototype",
+   "file": "models/recipe/depot-block.glb",
+   "bytes": 32496,
+   "sha256": "64921714e6c1f7caadaf018b30a0f9730b990bb20001b2c622135236b47c6b13",
+   "tris": 1092,
+   "size": [
+    1.152,
+    1.92,
+    1.152
+   ],
+   "reach": 0.767
+  },
+  "dress/default-0": {
+   "kit": "hexagon",
+   "file": "models/dress/default-0.glb",
+   "bytes": 9416,
+   "sha256": "c3de27a628fbb5896d518e9e6a0f5d3f2d6bd23c0adb8d50e951f3954134d9c0",
+   "tris": 198,
+   "size": [
+    1.211,
+    1.151,
+    0.866
+   ],
+   "reach": 0.728
+  },
+  "dress/default-1": {
+   "kit": "hexagon",
+   "file": "models/dress/default-1.glb",
+   "bytes": 13688,
+   "sha256": "173b1cb53f69cef272716f59108f1380f9e4afeb3923e528b2e0a89170fad584",
+   "tris": 490,
+   "size": [
+    1.545,
+    1.375,
     1.221
    ],
-   "reach": 0.764
+   "reach": 0.899
   },
-  "dress/grove-2": {
+  "dress/default-2": {
    "kit": "hexagon",
-   "file": "models/dress/grove-2.glb",
-   "bytes": 13100,
-   "sha256": "afccf0848679dbc809880c5938f440d6545b3e3cc452b999a5bf88005f1a5133",
-   "tris": 476,
+   "file": "models/dress/default-2.glb",
+   "bytes": 13912,
+   "sha256": "6bef6ccab805325c8314a74ebfa4513b1dd9f391e8063080398bba96a9ce9f45",
+   "tris": 494,
    "size": [
-    1.554,
-    1.131,
-    1.344
+    1.315,
+    1.354,
+    1.008
    ],
-   "reach": 0.845
+   "reach": 0.731
   },
-  "dress/grove-3": {
+  "dress/default-3": {
    "kit": "hexagon",
-   "file": "models/dress/grove-3.glb",
-   "bytes": 18048,
-   "sha256": "4e49bf657ac61759a2fe6667ccb0750057ff655da0d1dd088d05965c6cdefb48",
-   "tris": 700,
+   "file": "models/dress/default-3.glb",
+   "bytes": 10924,
+   "sha256": "f564fd7c77feed226bdcb02aed1feaf5800b8263924b2997848704caad45c66f",
+   "tris": 336,
    "size": [
-    1.466,
-    1.38,
-    0.868
+    0.916,
+    1.365,
+    0.99
    ],
-   "reach": 0.795
+   "reach": 0.766
+  },
+  "dress/platform-0": {
+   "kit": "hexagon",
+   "file": "models/dress/platform-0.glb",
+   "bytes": 10112,
+   "sha256": "aec3bc859088253f3e8ac561e60811e1b6beb58f42f9402007deeeaa7a66179e",
+   "tris": 318,
+   "size": [
+    1.039,
+    0.923,
+    1.038
+   ],
+   "reach": 0.757
+  },
+  "dress/platform-1": {
+   "kit": "hexagon",
+   "file": "models/dress/platform-1.glb",
+   "bytes": 5752,
+   "sha256": "f2b6934e7dc5bda6356b70f0e886e868e2e154725807f224a2b6317266fe0563",
+   "tris": 108,
+   "size": [
+    0.366,
+    0.774,
+    0.75
+   ],
+   "reach": 0.687
+  },
+  "dress/platform-2": {
+   "kit": "hexagon",
+   "file": "models/dress/platform-2.glb",
+   "bytes": 10924,
+   "sha256": "d16a5473ae2ecb227a7bf91d079c95e775a91e2c4e79d5bc8147cb7f8a7cad49",
+   "tris": 336,
+   "size": [
+    1.093,
+    0.819,
+    1.351
+   ],
+   "reach": 0.729
+  },
+  "dress/platform-3": {
+   "kit": "hexagon",
+   "file": "models/dress/platform-3.glb",
+   "bytes": 12296,
+   "sha256": "75fd3ea1d5c0b0a3fddf9fce29ec817051a2282c5e6286adb855e574e4bad262",
+   "tris": 458,
+   "size": [
+    0.669,
+    1.003,
+    1.355
+   ],
+   "reach": 0.859
+  },
+  "plot/data": {
+   "kit": "dungeon",
+   "file": "models/plot/data.glb",
+   "bytes": 8604,
+   "sha256": "b91b76f945f1e24d96572fedc6b07a83e4da12e9a785a593ab12d0a074299172",
+   "tris": 188,
+   "size": [
+    1.434,
+    0.054,
+    1.434
+   ],
+   "reach": 0.979
+  },
+  "dress/data-0": {
+   "kit": "dungeon",
+   "file": "models/dress/data-0.glb",
+   "bytes": 44880,
+   "sha256": "0bde52f3e517da23a70a4c7b9e86a27c96a1de3b2308c49b7444db57c18dc78c",
+   "tris": 1298,
+   "size": [
+    1.687,
+    0.505,
+    1.239
+   ],
+   "reach": 0.948
+  },
+  "dress/data-1": {
+   "kit": "dungeon",
+   "file": "models/dress/data-1.glb",
+   "bytes": 24132,
+   "sha256": "38a73ac730ab68f172611998ce594597414e761bbaa940d4a8e873b6b7bba087",
+   "tris": 671,
+   "size": [
+    1.271,
+    0.64,
+    0.849
+   ],
+   "reach": 0.745
+  },
+  "dress/data-2": {
+   "kit": "dungeon",
+   "file": "models/dress/data-2.glb",
+   "bytes": 26992,
+   "sha256": "bc173d6fcbff0a52a9661c3f2db733a1cd88ed24bc0cd1b5ba7b552bc7adb55c",
+   "tris": 759,
+   "size": [
+    1.425,
+    0.44,
+    1.763
+   ],
+   "reach": 0.962
+  },
+  "dress/data-3": {
+   "kit": "dungeon",
+   "file": "models/dress/data-3.glb",
+   "bytes": 7960,
+   "sha256": "3d67c254b91b69ad62f68ee7a0bfa1c71e0791c7a48085720d7ccdc845c9cf11",
+   "tris": 154,
+   "size": [
+    1.202,
+    0.446,
+    1.42
+   ],
+   "reach": 0.953
+  },
+  "plot/operations": {
+   "kit": "prototype",
+   "file": "models/plot/operations.glb",
+   "bytes": 3160,
+   "sha256": "53717f47d512bda21138f4feb989ff596bf508ffded7c9708de3b83a3a685bc3",
+   "tris": 52,
+   "size": [
+    1.434,
+    0.179,
+    1.434
+   ],
+   "reach": 0.979
+  },
+  "dress/operations-0": {
+   "kit": "prototype",
+   "file": "models/dress/operations-0.glb",
+   "bytes": 13820,
+   "sha256": "a6efa9fb778bef2934cb5e8657552ffd4524a7dad26ef4e1352f50b5d092c8de",
+   "tris": 268,
+   "size": [
+    0.852,
+    0.159,
+    0.852
+   ],
+   "reach": 0.807
+  },
+  "dress/operations-1": {
+   "kit": "prototype",
+   "file": "models/dress/operations-1.glb",
+   "bytes": 20280,
+   "sha256": "7815fe1943a545259555e34d556d7fd1596b4f83906ae1f1bffb7404d230063b",
+   "tris": 404,
+   "size": [
+    1.613,
+    0.185,
+    0.927
+   ],
+   "reach": 0.973
+  },
+  "dress/operations-2": {
+   "kit": "prototype",
+   "file": "models/dress/operations-2.glb",
+   "bytes": 16056,
+   "sha256": "52603c1e3133e9db02242368facced937be3e827cc735494609ffb115a78613d",
+   "tris": 320,
+   "size": [
+    1.411,
+    0.19,
+    1.266
+   ],
+   "reach": 0.833
+  },
+  "dress/operations-3": {
+   "kit": "prototype",
+   "file": "models/dress/operations-3.glb",
+   "bytes": 19048,
+   "sha256": "731f499fa65c94ad21e3109d2ef63f277eab90b1d577534e78ad1240cdf33a03",
+   "tris": 380,
+   "size": [
+    1.398,
+    0.176,
+    1.17
+   ],
+   "reach": 1.052
+  },
+  "plot/guard": {
+   "kit": "halloween",
+   "file": "models/plot/guard.glb",
+   "bytes": 6768,
+   "sha256": "cfb34355a4675d2fb0c7f4addd7b07704832ada68b1b57fc3947250285ec3525",
+   "tris": 120,
+   "size": [
+    1.434,
+    0.19,
+    1.434
+   ],
+   "reach": 0.979
+  },
+  "dress/guard-0": {
+   "kit": "halloween",
+   "file": "models/dress/guard-0.glb",
+   "bytes": 46552,
+   "sha256": "5299423eb9326a346398ffb3549dfac931e3462616b47e84d18c8f04d799eda3",
+   "tris": 1277,
+   "size": [
+    1.011,
+    1.29,
+    1.832
+   ],
+   "reach": 0.957
+  },
+  "dress/guard-1": {
+   "kit": "halloween",
+   "file": "models/dress/guard-1.glb",
+   "bytes": 36792,
+   "sha256": "454b23c6149dfeadf708def506b258979fb94aaf5f5009564adc0362d12ad168",
+   "tris": 1168,
+   "size": [
+    1.244,
+    1.079,
+    0.832
+   ],
+   "reach": 0.727
+  },
+  "dress/guard-2": {
+   "kit": "halloween",
+   "file": "models/dress/guard-2.glb",
+   "bytes": 24112,
+   "sha256": "9dcf9eaf9319b898b844cecd9bcf8e63ace1e8637a5c1ad17ada81171e997bff",
+   "tris": 810,
+   "size": [
+    0.804,
+    0.764,
+    0.846
+   ],
+   "reach": 0.681
+  },
+  "dress/guard-3": {
+   "kit": "halloween",
+   "file": "models/dress/guard-3.glb",
+   "bytes": 46100,
+   "sha256": "1cea05a362d8db1c79030ccac9f4c78bf5b0fe6882fe7c40a53b98a6bccf276e",
+   "tris": 1489,
+   "size": [
+    1.253,
+    1.284,
+    1.532
+   ],
+   "reach": 1.058
+  },
+  "dress/fleet-0": {
+   "kit": "space",
+   "file": "models/dress/fleet-0.glb",
+   "bytes": 19012,
+   "sha256": "f9abc76c39fcb45586fce4dbf1135e86f483210fc6b2e40d42de8eba1cd90a13",
+   "tris": 472,
+   "size": [
+    1.484,
+    0.281,
+    1.625
+   ],
+   "reach": 0.939
+  },
+  "dress/fleet-1": {
+   "kit": "space",
+   "file": "models/dress/fleet-1.glb",
+   "bytes": 34528,
+   "sha256": "1787867798f158d297bfeab1ace40e0ec896c5c9c19b7da2faca41ee36f74c88",
+   "tris": 958,
+   "size": [
+    1.519,
+    0.25,
+    1.044
+   ],
+   "reach": 0.823
+  },
+  "dress/fleet-2": {
+   "kit": "space",
+   "file": "models/dress/fleet-2.glb",
+   "bytes": 33784,
+   "sha256": "3662387068f99d279314ada6d33e322eb1a7d3c8ea7b383e78718bacb0419d72",
+   "tris": 914,
+   "size": [
+    1.359,
+    0.28,
+    1.499
+   ],
+   "reach": 0.867
+  },
+  "dress/fleet-3": {
+   "kit": "space",
+   "file": "models/dress/fleet-3.glb",
+   "bytes": 44132,
+   "sha256": "09fa9534f64b843cad179a4efc00275dd2bd5e64e28774c7e85abe83387a5448",
+   "tris": 1238,
+   "size": [
+    1.335,
+    0.281,
+    0.568
+   ],
+   "reach": 0.742
+  },
+  "dress/apps-0": {
+   "kit": "city",
+   "file": "models/dress/apps-0.glb",
+   "bytes": 22644,
+   "sha256": "ef50a5c7f7c3ba630db440e1ad45a50bb8f59540fb8cafc23549fcea7fb2af79",
+   "tris": 614,
+   "size": [
+    0.792,
+    0.586,
+    1.174
+   ],
+   "reach": 0.856
+  },
+  "dress/apps-1": {
+   "kit": "city",
+   "file": "models/dress/apps-1.glb",
+   "bytes": 13712,
+   "sha256": "f24913f546b1f87bd2d4e2cbb7c3452e7563cd00fcc254b73174617b49669514",
+   "tris": 394,
+   "size": [
+    0.467,
+    0.654,
+    1.301
+   ],
+   "reach": 0.743
+  },
+  "dress/apps-2": {
+   "kit": "city",
+   "file": "models/dress/apps-2.glb",
+   "bytes": 11648,
+   "sha256": "102656fb3ec323ae1b6c325c5731b6f843de243fee2b6616310ee593175a2681",
+   "tris": 360,
+   "size": [
+    0.751,
+    0.316,
+    0.598
+   ],
+   "reach": 0.579
+  },
+  "dress/apps-3": {
+   "kit": "city",
+   "file": "models/dress/apps-3.glb",
+   "bytes": 14448,
+   "sha256": "122865f79fe3bb51e98be8657bc7e89ffbaa1bb284dcfb19f9f7867ec9b82085",
+   "tris": 464,
+   "size": [
+    1.242,
+    0.748,
+    0.863
+   ],
+   "reach": 0.639
+  },
+  "plot/code": {
+   "kit": "ukubi",
+   "file": "models/plot/code.glb",
+   "bytes": 3008,
+   "sha256": "72825b3f88f81a63625f6aabc1bbb89fed41fb2a1d544c52997163b7c322c2fc",
+   "tris": 28,
+   "size": [
+    1.94,
+    0.035,
+    2.24
+   ],
+   "reach": 0.97
+  },
+  "dress/code-0": {
+   "kit": "ukubi",
+   "file": "models/dress/code-0.glb",
+   "bytes": 12956,
+   "sha256": "0d0a35f1b24822bc2678e23250e75f27dd96da8e19d2faf545f0b3c714344175",
+   "tris": 178,
+   "size": [
+    1.239,
+    0.346,
+    1.341
+   ],
+   "reach": 0.787
+  },
+  "dress/code-1": {
+   "kit": "ukubi",
+   "file": "models/dress/code-1.glb",
+   "bytes": 19028,
+   "sha256": "f1a4448c40c71eb61585a69e0ae0237fc8a4cdc7af1188618a6cfd42ff8150d1",
+   "tris": 270,
+   "size": [
+    1.223,
+    0.502,
+    1.446
+   ],
+   "reach": 0.824
+  },
+  "dress/code-2": {
+   "kit": "ukubi",
+   "file": "models/dress/code-2.glb",
+   "bytes": 10640,
+   "sha256": "eb50c155a0cbe7a4b1d25e2c77d25a4240217b3913cc3466f78291119a0ccd2e",
+   "tris": 143,
+   "size": [
+    1.208,
+    0.389,
+    0.404
+   ],
+   "reach": 0.747
+  },
+  "dress/code-3": {
+   "kit": "ukubi",
+   "file": "models/dress/code-3.glb",
+   "bytes": 9984,
+   "sha256": "01dc49b678cb9bfe703d69794b69664452a76b59a5c9b5c13b99098f78ade73d",
+   "tris": 133,
+   "size": [
+    1.23,
+    0.496,
+    1.152
+   ],
+   "reach": 0.757
   }
  },
  "styles": {
   "pack": {
    "city": "styles/pack/city.png",
+   "dungeon": "styles/pack/dungeon.png",
+   "halloween": "styles/pack/halloween.png",
    "hexagon": "styles/pack/hexagon.png",
-   "space": "styles/pack/space.png"
+   "prototype": "styles/pack/prototype.png",
+   "space": "styles/pack/space.png",
+   "ukubi": "styles/pack/ukubi.png"
   },
   "clay": {
-   "city": "styles/clay/city.png",
-   "hexagon": "styles/clay/hexagon.png",
-   "space": "styles/clay/space.png"
+   "hexagon": "styles/clay/hexagon.png"
   },
   "fortress-1": {
-   "city": "styles/fortress-1/city.png",
-   "hexagon": "styles/fortress-1/hexagon.png",
-   "space": "styles/fortress-1/space.png"
+   "hexagon": "styles/fortress-1/hexagon.png"
   },
   "fortress-2": {
-   "city": "styles/fortress-2/city.png",
-   "hexagon": "styles/fortress-2/hexagon.png",
-   "space": "styles/fortress-2/space.png"
+   "hexagon": "styles/fortress-2/hexagon.png"
   },
   "spacebase-1": {
-   "city": "styles/spacebase-1/city.png",
    "hexagon": "styles/spacebase-1/hexagon.png",
    "space": "styles/spacebase-1/space.png"
   },
   "spacebase-2": {
-   "city": "styles/spacebase-2/city.png",
    "hexagon": "styles/spacebase-2/hexagon.png",
    "space": "styles/spacebase-2/space.png"
   },
   "modern-1": {
    "city": "styles/modern-1/city.png",
-   "hexagon": "styles/modern-1/hexagon.png",
-   "space": "styles/modern-1/space.png"
+   "hexagon": "styles/modern-1/hexagon.png"
   },
   "modern-2": {
    "city": "styles/modern-2/city.png",
-   "hexagon": "styles/modern-2/hexagon.png",
-   "space": "styles/modern-2/space.png"
+   "hexagon": "styles/modern-2/hexagon.png"
+  },
+  "vault-1": {
+   "dungeon": "styles/vault-1/dungeon.png",
+   "hexagon": "styles/vault-1/hexagon.png"
+  },
+  "vault-2": {
+   "dungeon": "styles/vault-2/dungeon.png",
+   "hexagon": "styles/vault-2/hexagon.png"
+  },
+  "depot-1": {
+   "hexagon": "styles/depot-1/hexagon.png",
+   "prototype": "styles/depot-1/prototype.png"
+  },
+  "depot-2": {
+   "hexagon": "styles/depot-2/hexagon.png",
+   "prototype": "styles/depot-2/prototype.png"
+  },
+  "vigil-1": {
+   "halloween": "styles/vigil-1/halloween.png",
+   "hexagon": "styles/vigil-1/hexagon.png"
+  },
+  "vigil-2": {
+   "halloween": "styles/vigil-2/halloween.png",
+   "hexagon": "styles/vigil-2/hexagon.png"
+  },
+  "forge-1": {
+   "hexagon": "styles/forge-1/hexagon.png",
+   "ukubi": "styles/forge-1/ukubi.png"
+  },
+  "forge-2": {
+   "hexagon": "styles/forge-2/hexagon.png",
+   "ukubi": "styles/forge-2/ukubi.png"
   }
  },
  "civs": {
   "default": {
+   "kit": "hexagon",
    "styles": [
     "clay",
     "clay"
@@ -1091,9 +3059,16 @@
       "hexagon/building_church_blue"
      ]
     ]
-   }
+   },
+   "dress": [
+    "dress/default-0",
+    "dress/default-1",
+    "dress/default-2",
+    "dress/default-3"
+   ]
   },
   "platform": {
+   "kit": "hexagon",
    "styles": [
     "fortress-1",
     "fortress-2"
@@ -1101,23 +3076,154 @@
    "roles": {
     "houses": [
      [
+      "hexagon/building_home_A_blue",
+      "hexagon/building_home_B_blue"
+     ],
+     [
+      "recipe/home-yard",
+      "hexagon/building_tavern_blue"
+     ]
+    ],
+    "utility": [
+     [
+      "hexagon/building_well_blue",
+      "hexagon/building_windmill_blue",
+      "hexagon/building_tower_base_blue",
+      "hexagon/building_mine_blue"
+     ],
+     [
+      "recipe/tower-flag",
+      "hexagon/building_tower_A_blue",
+      "hexagon/building_tower_B_blue",
+      "hexagon/building_windmill_blue"
+     ]
+    ],
+    "product": [
+     [
       "hexagon/building_home_A_blue"
      ],
      [
       "recipe/home-yard"
      ]
-    ],
-    "utility": [
+    ]
+   },
+   "dress": [
+    "dress/platform-0",
+    "dress/platform-1",
+    "dress/platform-2",
+    "dress/platform-3"
+   ]
+  },
+  "data": {
+   "kit": "dungeon",
+   "styles": [
+    "vault-1",
+    "vault-2"
+   ],
+   "roles": {
+    "economy": [
      [
-      "hexagon/building_tower_base_blue"
+      "recipe/vault-chest",
+      "recipe/vault-coins",
+      "recipe/store-yard"
      ],
      [
-      "recipe/tower-flag"
+      "recipe/treasury-banners",
+      "recipe/treasury-gated",
+      "recipe/treasury-tower"
+     ]
+    ],
+    "product": [
+     [
+      "recipe/vault-chest"
+     ],
+     [
+      "recipe/treasury-banners"
      ]
     ]
-   }
+   },
+   "plot": "plot/data",
+   "dress": [
+    "dress/data-0",
+    "dress/data-1",
+    "dress/data-2",
+    "dress/data-3"
+   ]
+  },
+  "operations": {
+   "kit": "prototype",
+   "styles": [
+    "depot-1",
+    "depot-2"
+   ],
+   "roles": {
+    "trade": [
+     [
+      "recipe/shed-slope",
+      "recipe/depot-room",
+      "recipe/stock-yard"
+     ],
+     [
+      "recipe/depot-storeys",
+      "recipe/depot-roofstock",
+      "recipe/depot-block"
+     ]
+    ],
+    "product": [
+     [
+      "recipe/depot-room"
+     ],
+     [
+      "recipe/depot-storeys"
+     ]
+    ]
+   },
+   "plot": "plot/operations",
+   "dress": [
+    "dress/operations-0",
+    "dress/operations-1",
+    "dress/operations-2",
+    "dress/operations-3"
+   ]
+  },
+  "guard": {
+   "kit": "halloween",
+   "styles": [
+    "vigil-1",
+    "vigil-2"
+   ],
+   "roles": {
+    "defence": [
+     [
+      "recipe/shrine-yard",
+      "recipe/gate-lanterns",
+      "recipe/watch-post"
+     ],
+     [
+      "recipe/crypt-lone",
+      "recipe/crypt-lanterns",
+      "recipe/gatehouse"
+     ]
+    ],
+    "product": [
+     [
+      "recipe/shrine-yard"
+     ],
+     [
+      "recipe/crypt-lone"
+     ]
+    ]
+   },
+   "plot": "plot/guard",
+   "dress": [
+    "dress/guard-0",
+    "dress/guard-1",
+    "dress/guard-2",
+    "dress/guard-3"
+   ]
   },
   "fleet": {
+   "kit": "space",
    "styles": [
     "spacebase-1",
     "spacebase-2"
@@ -1134,10 +3240,25 @@
       "recipe/hub-solar",
       "space/drill_structure"
      ]
+    ],
+    "product": [
+     [
+      "space/basemodule_A"
+     ],
+     [
+      "recipe/hub"
+     ]
     ]
-   }
+   },
+   "dress": [
+    "dress/fleet-0",
+    "dress/fleet-1",
+    "dress/fleet-2",
+    "dress/fleet-3"
+   ]
   },
   "apps": {
+   "kit": "city",
    "styles": [
     "modern-1",
     "modern-2"
@@ -1156,7 +3277,49 @@
       "city/building_H_withoutBase"
      ]
     ]
-   }
+   },
+   "dress": [
+    "dress/apps-0",
+    "dress/apps-1",
+    "dress/apps-2",
+    "dress/apps-3"
+   ]
+  },
+  "code": {
+   "kit": "ukubi",
+   "styles": [
+    "forge-1",
+    "forge-2"
+   ],
+   "roles": {
+    "workshop": [
+     [
+      "ukubi/workshop_A",
+      "ukubi/workshop_B",
+      "ukubi/workshop_C"
+     ],
+     [
+      "ukubi/factory_A",
+      "ukubi/factory_B",
+      "ukubi/factory_C"
+     ]
+    ],
+    "product": [
+     [
+      "ukubi/workshop_A"
+     ],
+     [
+      "ukubi/factory_A"
+     ]
+    ]
+   },
+   "plot": "plot/code",
+   "dress": [
+    "dress/code-0",
+    "dress/code-1",
+    "dress/code-2",
+    "dress/code-3"
+   ]
   }
  },
  "states": {
@@ -1170,14 +3333,6 @@
    "hexagon/building_stage_A",
    "hexagon/building_stage_B",
    "hexagon/building_stage_C"
-  ]
- },
- "dress": {
-  "grove": [
-   "dress/grove-0",
-   "dress/grove-1",
-   "dress/grove-2",
-   "dress/grove-3"
   ]
  },
  "roles": [

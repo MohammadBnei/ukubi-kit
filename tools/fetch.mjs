@@ -1,4 +1,4 @@
-// fetch: a kit's pinned files (each model's .gltf and the buffers it names, and the atlas) into cache/, checked
+// fetch: a kit's pinned files (each model's .gltf and the buffers it names, or its .glb, and the atlas) into cache/, checked
 // against kits/<kit>/lock.json (sha256 per file). --lock writes the lock instead; a file the lock doesn't name is
 // refused, so a changed pin or list is always a reviewed lock change.
 import { createHash } from 'node:crypto';
@@ -42,14 +42,18 @@ export async function fetchKit(root, kit, { lock = false } = {}) {
   };
   const models = {};
   for (const m of kit.models) {
-    const { file, bytes } = await get(`${m}.gltf`);
-    const gltf = JSON.parse(bytes.toString('utf8'));
-    for (const buf of gltf.buffers || []) {
-      if (!buf.uri || buf.uri.includes(':') || buf.uri.includes('..')) throw new Error(`${kit.name}: ${m}: a buffer uri atlas will not follow (${buf.uri})`);
-      await get(posix.join(posix.dirname(m), buf.uri));
+    // an entry naming a .glb is that one file (binary glTF holds its own buffer); any other is a .gltf and its buffers
+    const glb = m.endsWith('.glb'), name = posix.basename(m).replace(/(\.gltf)?\.glb$/, '');
+    const { file, bytes } = await get(glb ? m : `${m}.gltf`);
+    if (!glb) {
+      const gltf = JSON.parse(bytes.toString('utf8'));
+      for (const buf of gltf.buffers || []) {
+        if (!buf.uri || buf.uri.includes(':') || buf.uri.includes('..')) throw new Error(`${kit.name}: ${m}: a buffer uri atlas will not follow (${buf.uri})`);
+        await get(posix.join(posix.dirname(m), buf.uri));
+      }
     }
-    if (models[posix.basename(m)]) throw new Error(`${kit.name}: two models named ${posix.basename(m)}`);
-    models[posix.basename(m)] = file;
+    if (models[name]) throw new Error(`${kit.name}: two models named ${name}`);
+    models[name] = file;
   }
   const atlas = (await get(kit.atlas)).file;
   if (lock) await writeFile(lockPath, JSON.stringify(Object.fromEntries(Object.entries(got).sort()), null, 2) + '\n');

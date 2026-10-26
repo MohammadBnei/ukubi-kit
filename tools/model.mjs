@@ -11,8 +11,13 @@ import { dedup, flatten, join as joinMeshes, mergeDocuments, prune, quantize, tr
 export const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
 const quiet = new Logger(Logger.Verbosity.WARN);
 
-/** read a cached .gltf with its buffers, its images and textures dropped before glTF-Transform sees them. */
+/** read a cached .gltf with its buffers (its images and textures dropped before glTF-Transform sees them), or a .glb. */
 export async function readGLTF(file) {
+  if (file.endsWith('.glb')) { // binary glTF: its embedded images go after the read, before anything uses them
+    const doc = await io.read(file);
+    for (const t of doc.getRoot().listTextures()) t.dispose();
+    return doc;
+  }
   const json = JSON.parse(await readFile(file, 'utf8'));
   for (const m of json.materials || []) {
     if (m.pbrMetallicRoughness) delete m.pbrMetallicRoughness.baseColorTexture;
@@ -42,6 +47,14 @@ export async function build(parts, kitScale = 1, { ground = true } = {}) {
   for (const p of parts) {
     const part = await readGLTF(p.file);
     part.setLogger(quiet);
+    // one material for the whole part: the style paints every model of a kit with one texture, and a pack's
+    // per-node material copies (a chest's lid) would otherwise keep its meshes apart
+    const [mat] = part.getRoot().listMaterials();
+    // and one set of attributes: what the style needs (some packs carry TANGENT or COLOR_0, which join won't mix)
+    for (const mesh of part.getRoot().listMeshes()) for (const prim of mesh.listPrimitives()) {
+      prim.setMaterial(mat);
+      for (const sem of prim.listSemantics()) if (!['POSITION', 'NORMAL', 'TEXCOORD_0'].includes(sem)) prim.setAttribute(sem, null);
+    }
     await part.transform(flatten(), joinMeshes(), prune({ keepAttributes: true })); // keep the UVs: no texture uses them here, the style does at runtime
     const b = getBounds(part.getRoot().getDefaultScene() || part.getRoot().listScenes()[0]);
     const at = [...(p.at || [0, 0, 0])];
@@ -57,8 +70,9 @@ export async function build(parts, kitScale = 1, { ground = true } = {}) {
   // dedup first: each merged part brought its own copy of the material, and join merges only what shares one
   await doc.transform(unpartition(), dedup(), flatten(), joinMeshes(), prune({ keepAttributes: true }));
   if (kitScale !== 1) for (const mesh of doc.getRoot().listMeshes()) transformMesh(mesh, TRS([0, 0, 0], 0, kitScale));
-  if (ground) { // stand on y = 0 (City's withoutBase models float 0.07 above it); tiles keep their own top at 0
-    const y = getBounds(scene).min[1];
+  if (ground) { // stand on y = 0 (City's withoutBase models float 0.07 above it); tiles keep their own top at 0. A
+    // plot ('top') lies on the tile instead: its top just above y = 0, the rest sunk into the tile
+    const b = getBounds(scene), y = ground === 'top' ? b.max[1] - 0.02 : b.min[1];
     for (const mesh of doc.getRoot().listMeshes()) transformMesh(mesh, TRS([0, -y, 0]));
   }
   const bounds = getBounds(scene);

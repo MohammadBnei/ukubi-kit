@@ -1,0 +1,39 @@
+# KayKit Dungeon Remastered 1.0, free tier (CC0), pinned by commit. Data's kit: walls with doors, gates and windows,
+# columns, chests, gold, barrels; no building stands alone, so every one is kitbashed (catalog/recipes.yaml). The
+# pack ships binary glTF (the entry names its file) with its atlas embedded; the atlas is fetched on its own.
+name: dungeon
+repo: KayKit-Game-Assets/KayKit-Dungeon-Remastered-1.0
+commit: b0ca9bd96a8072ab36a3a5464f00ed1e06a16d07
+root: addons/kaykit_dungeon_remastered/Assets
+atlas: texture/dungeon_texture.png
+licence: CC0-1.0
+# a 4-unit grid like Halloween's
+scale: 0.32
+turns: 4
+models:
+  - gltf/wall.gltf.glb
+  - gltf/wall_doorway.glb
+  - gltf/wall_gated.gltf.glb
+  - gltf/wall_window_open.gltf.glb
+  - gltf/wall_archedwindow_gated.gltf.glb
+  - gltf/wall_half.gltf.glb
+  - gltf/wall_corner.gltf.glb
+  - gltf/wall_pillar.gltf.glb
+  - gltf/column.gltf.glb
+  - gltf/pillar.gltf.glb
+  - gltf/pillar_decorated.gltf.glb
+  - gltf/floor_tile_large.gltf.glb
+  - gltf/floor_tile_small.gltf.glb
+  - gltf/floor_dirt_large.gltf.glb
+  - gltf/chest.glb
+  - gltf/chest_gold.glb
+  - gltf/coin_stack_large.gltf.glb
+  - gltf/coin_stack_medium.gltf.glb
+  - gltf/coin_stack_small.gltf.glb
+  - gltf/barrel_large.gltf.glb
+  - gltf/barrel_small_stack.gltf.glb
+  - gltf/crates_stacked.gltf.glb
+  - gltf/keg.gltf.glb
+  - gltf/banner_patternA_blue.gltf.glb
+  - gltf/rubble_half.gltf.glb
+  - gltf/stairs_walled.gltf.glb

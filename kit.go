@@ -26,19 +26,21 @@ func FS() fs.FS {
 
 // Manifest is dist/manifest.json.
 type Manifest struct {
-	Kits   map[string]Kit               `json:"kits"`
-	Models map[string]Model             `json:"models"`
-	Styles map[string]map[string]string `json:"styles"` // style -> kit -> texture file
-	Civs   map[string]Civ               `json:"civs"`
-	States map[string][]string          `json:"states"` // scaffold, stages -> model ids
-	Dress  map[string][]string          `json:"dress"`  // a dressing -> its seeded variants
+	Kits      map[string]Kit               `json:"kits"`
+	Models    map[string]Model             `json:"models"`
+	Styles    map[string]map[string]string `json:"styles"` // style -> kit -> texture file
+	Civs      map[string]Civ               `json:"civs"`
+	States    map[string][]string          `json:"states"` // scaffold, stages -> model ids (shared by every civ)
+	RoleNames []string                     `json:"roles"`  // every role a building can have
 }
 
 type Kit struct {
-	Repo    string  `json:"repo"`
-	Commit  string  `json:"commit"`
-	Licence string  `json:"licence"`
-	Scale   float64 `json:"scale"`
+	Repo      string  `json:"repo,omitempty"`      // a fetched pack, at Commit
+	Commit    string  `json:"commit,omitempty"`    //
+	Generator string  `json:"generator,omitempty"` // or a kit of our own, made by the build
+	Licence   string  `json:"licence"`
+	Scale     float64 `json:"scale"`
+	Turns     int     `json:"turns"` // the turns its models take about +y: 6 (a hex), 4 (a square), 2 (one front)
 }
 
 type Model struct {
@@ -48,16 +50,24 @@ type Model struct {
 	SHA256 string     `json:"sha256"`
 	Tris   int        `json:"tris"`
 	Size   [3]float64 `json:"size"`
-	Reach  float64    `json:"reach"` // the box's farthest corner, in hexes (1 = the hex's own edge)
+	Reach  float64    `json:"reach"` // the farthest vertex, in hexes (1 = the hex's own edge)
 }
 
+// Civ is a civ as the kit draws it: from one kit only, per role the model per age, and its biome (the plot under
+// its buildings, if its kit has one, and its dressing's seeded variants).
 type Civ struct {
+	Kit    string                `json:"kit"`
 	Styles []string              `json:"styles"` // one per age
 	Roles  map[string][][]string `json:"roles"`  // role -> age -> variants
+	Plot   string                `json:"plot,omitempty"`
+	Dress  []string              `json:"dress"`
 }
 
-// Default is the civ every role falls back to.
+// Default is the town's own civ (the town centre) and an unknown civ's.
 const Default = "default"
+
+// Product is the role a civ draws for a role it doesn't list.
+const Product = "product"
 
 // Load reads the embedded manifest.
 func Load() (*Manifest, error) {
@@ -75,15 +85,27 @@ func Load() (*Manifest, error) {
 // Ages is how many ages every civ has.
 func (m *Manifest) Ages() int { return len(m.Civs[Default].Styles) }
 
+// Civ is the civ the kit draws for name: itself, or the default civ for a civ it doesn't know.
+func (m *Manifest) Civ(name string) Civ {
+	if c, ok := m.Civs[name]; ok {
+		return c
+	}
+	return m.Civs[Default]
+}
+
 // Pick is what a building draws: the model for its role in its civ at age (1-based; clamped into the ages), a
 // variant chosen by a hash of seed (the building's id, so it never changes), and the style that paints it. A civ
-// without the role draws the default civ's model in its own style, so its district stays one look; an unknown civ is
-// the default civ. ok is false when no civ has the role.
+// draws from its own kit only: a role it doesn't list draws its product. An unknown civ is the default civ. ok is
+// false for a role the kit doesn't know.
 func (m *Manifest) Pick(civ, role string, age int, seed string) (model, style string, ok bool) {
+	if !slices.Contains(m.RoleNames, role) {
+		return "", "", false
+	}
+	c := m.Civ(civ)
 	style = m.Style(civ, age)
-	slots := m.Civs[civ].Roles[role]
+	slots := c.Roles[role]
 	if slots == nil {
-		slots = m.Civs[Default].Roles[role]
+		slots = c.Roles[Product]
 	}
 	if len(slots) == 0 {
 		return "", "", false
@@ -109,22 +131,24 @@ func (m *Manifest) Pick(civ, role string, age int, seed string) (model, style st
 
 // Style is a civ's style at age (1-based, clamped); an unknown civ has the default civ's.
 func (m *Manifest) Style(civ string, age int) string {
-	c, ok := m.Civs[civ]
-	if !ok || len(c.Styles) == 0 {
-		c = m.Civs[Default]
-	}
+	c := m.Civ(civ)
 	if len(c.Styles) == 0 {
 		return ""
 	}
 	return c.Styles[min(max(age, 1), len(c.Styles))-1]
 }
 
-// Roles is every role the default civ draws, sorted.
-func (m *Manifest) Roles() []string {
-	var out []string
-	for r := range m.Civs[Default].Roles {
-		out = append(out, r)
+// Turns is how many ways a model may face (its kit's turns about +y), 1 for a model the kit doesn't have.
+func (m *Manifest) Turns(model string) int {
+	if t := m.Kits[m.Models[model].Kit].Turns; t > 0 {
+		return t
 	}
+	return 1
+}
+
+// Roles is every role a building can have, sorted.
+func (m *Manifest) Roles() []string {
+	out := slices.Clone(m.RoleNames)
 	slices.Sort(out)
 	return out
 }
