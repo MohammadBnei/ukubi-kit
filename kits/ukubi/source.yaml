@@ -1,0 +1,22 @@
+# The kit of our own (Code's): made by its generator (models.mjs, with the procgen library: docs/procedural.md) on
+# every build, deterministically, so it has no pin and no lock. Low-poly workshops (age 1) and factories (age 2), a
+# plot and props, painted through its own 8×4 atlas.
+name: ukubi
+generator: models.mjs
+licence: CC0-1.0
+# drawn in hex units already
+scale: 1
+turns: 4
+models:
+  - workshop_A
+  - workshop_B
+  - workshop_C
+  - factory_A
+  - factory_B
+  - factory_C
+  - plot_yard
+  - crates
+  - logs
+  - spool
+  - shrub
+  - drum

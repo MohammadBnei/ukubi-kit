@@ -1,0 +1,192 @@
+# Kitbash recipes: one model from several parts of one kit. at: [x, y, z]; rot: radians about +y; stack: sits on
+# the previous part's top. A recipe never stands for something real on its own; the catalog maps roles to it.
+hub: # a space module with a cargo roof
+  kit: space
+  parts:
+    - { model: basemodule_C }
+    - { model: roofmodule_cargo_A, stack: true }
+hub-solar:
+  kit: space
+  parts:
+    - { model: basemodule_E }
+    - { model: roofmodule_solarpanels, stack: true }
+keep: # the town centre's first age: a tower base inside a wooden fence (fences are hex-edge pieces: rotate them)
+  kit: hexagon
+  parts:
+    - { model: building_tower_base_blue }
+    - { model: fence_wood_straight }
+    - { model: fence_wood_straight, rot: 2.0944 }
+    - { model: fence_wood_straight, rot: 4.1888 }
+    - { model: flag_blue, at: [0.6, 0, 0.45] }
+castle-flags: # the town centre's second age
+  kit: hexagon
+  parts:
+    - { model: building_castle_blue }
+    - { model: flag_blue, at: [0.6, 0, 0.75] }
+    - { model: flag_blue, at: [-0.6, 0, 0.75] }
+tower-flag:
+  kit: hexagon
+  parts:
+    - { model: building_tower_A_blue }
+    - { model: flag_blue, at: [0.5, 0, 0.45] }
+home-yard:
+  kit: hexagon
+  parts:
+    - { model: building_home_B_blue }
+    - { model: barrel, at: [0.5, 0, 0.35] }
+    - { model: crate_A_small, at: [0.55, 0, 0.05] }
+
+# Data (dungeon): no building of the pack stands alone; a vault is four walls on the civ's plot (its flagstones) (the pack's 4-unit grid:
+# walls at ±1.5, turned to face out: front 0, right 1.5708, back 3.1416, left 4.7124), its stock inside.
+vault-chest:
+  kit: dungeon
+  parts:
+    - { model: wall_doorway, at: [0, 0, 1.5] }
+    - { model: wall_window_open, at: [1.5, 0, 0], rot: 1.5708 }
+    - { model: wall, at: [0, 0, -1.5], rot: 3.1416 }
+    - { model: wall, at: [-1.5, 0, 0], rot: 4.7124 }
+    - { model: chest_gold, at: [0, 0, -0.4] }
+vault-coins:
+  kit: dungeon
+  parts:
+    - { model: wall_gated, at: [0, 0, 1.5] }
+    - { model: wall, at: [1.5, 0, 0], rot: 1.5708 }
+    - { model: wall_window_open, at: [0, 0, -1.5], rot: 3.1416 }
+    - { model: wall, at: [-1.5, 0, 0], rot: 4.7124 }
+    - { model: coin_stack_medium, at: [-0.4, 0, -0.3] }
+    - { model: barrel_large, at: [0.5, 0, 0.2] }
+store-yard: # an open store: two walls and its stock
+  kit: dungeon
+  parts:
+    - { model: wall, at: [0, 0, -1.5], rot: 3.1416 }
+    - { model: wall, at: [-1.5, 0, 0], rot: 4.7124 }
+    - { model: crates_stacked, at: [0.6, 0, -0.6], scale: 0.9 }
+    - { model: keg, at: [-0.5, 0, 0.6] }
+    - { model: barrel_small_stack, at: [0.8, 0, 0.9], rot: 0.4 }
+treasury-banners: # age 2: pillared walls, banners on the front, gold
+  kit: dungeon
+  parts:
+    - { model: wall_pillar, at: [0, 0, 1.25] }
+    - { model: wall_pillar, at: [1.25, 0, 0], rot: 1.5708 }
+    - { model: wall_pillar, at: [0, 0, -1.25], rot: 3.1416 }
+    - { model: wall_pillar, at: [-1.25, 0, 0], rot: 4.7124 }
+    - { model: banner_patternA_blue, at: [-1, 0, 1.3] }
+    - { model: banner_patternA_blue, at: [1, 0, 1.3] }
+    - { model: chest_gold, at: [-0.3, 0, -0.2] }
+    - { model: coin_stack_small, at: [0.5, 0, 0.3] }
+treasury-gated:
+  kit: dungeon
+  parts:
+    - { model: wall_gated, at: [0, 0, 1.5] }
+    - { model: wall_archedwindow_gated, at: [1.5, 0, 0], rot: 1.5708 }
+    - { model: wall_archedwindow_gated, at: [0, 0, -1.5], rot: 3.1416 }
+    - { model: wall_archedwindow_gated, at: [-1.5, 0, 0], rot: 4.7124 }
+    - { model: coin_stack_medium, at: [0, 0, -0.2] }
+    - { model: coin_stack_small, at: [0.6, 0, 0.5] }
+treasury-tower: # two storeys of a smaller vault, closed
+  kit: dungeon
+  parts:
+    - { model: wall_gated, at: [0, 0, 1.125], scale: 0.75 }
+    - { model: wall, at: [1.125, 0, 0], rot: 1.5708, scale: 0.75 }
+    - { model: wall, at: [0, 0, -1.125], rot: 3.1416, scale: 0.75 }
+    - { model: wall, at: [-1.125, 0, 0], rot: 4.7124, scale: 0.75 }
+    - { model: wall_window_open, at: [0, 3, 1.125], scale: 0.75 }
+    - { model: wall, at: [1.125, 3, 0], rot: 1.5708, scale: 0.75 }
+    - { model: wall, at: [0, 3, -1.125], rot: 3.1416, scale: 0.75 }
+    - { model: wall_window_open, at: [-1.125, 3, 0], rot: 4.7124, scale: 0.75 }
+
+# Guard (halloween): a shrine in its yard, a gate, a watch post; then a crypt.
+shrine-yard:
+  kit: halloween
+  parts:
+    - { model: shrine, at: [0, 0, -0.4], scale: 1.6 }
+    - { model: fence, at: [0, 0, -1.8] }
+    - { model: plaque_candles, at: [0, 0, 1.1] }
+    - { model: lantern_standing, at: [-1.3, 0, 0.6] }
+    - { model: lantern_standing, at: [1.3, 0, 0.6] }
+gate-lanterns:
+  kit: halloween
+  parts:
+    - { model: arch_gate }
+    - { model: fence_pillar, at: [-2.4, 0, 0] }
+    - { model: fence_pillar, at: [2.4, 0, 0] }
+    - { model: lantern_standing, at: [-1.1, 0, 1.1] }
+    - { model: lantern_standing, at: [1.1, 0, 1.1] }
+watch-post:
+  kit: halloween
+  parts:
+    - { model: pillar, scale: 1.2 }
+    - { model: post_lantern, at: [-1.2, 0, 0.3] }
+    - { model: post_skull, at: [1.2, 0, 0.3] }
+    - { model: plaque_candles, at: [0, 0, 1.3], scale: 0.8 }
+crypt-lone: # age 2
+  kit: halloween
+  parts:
+    - { model: crypt, rot: 1.5708, scale: 0.58 }
+crypt-lanterns:
+  kit: halloween
+  parts:
+    - { model: crypt, at: [0, 0, -0.4], scale: 0.42 }
+    - { model: post_lantern, at: [-1.4, 0, 0.8] }
+    - { model: post_lantern, at: [1.4, 0, 0.8] }
+gatehouse:
+  kit: halloween
+  parts:
+    - { model: arch_gate }
+    - { model: pillar, at: [-2.3, 0, 0] }
+    - { model: pillar, at: [2.3, 0, 0] }
+    - { model: post_skull, at: [-1.2, 0, 0.9] }
+    - { model: post_lantern, at: [1.2, 0, 0.9] }
+
+# Operations (prototype): a depot is a room of the pack's walls under a slab (walls at ±1.75, facing out), or blocks
+# under a slope; its stock beside it.
+shed-slope:
+  kit: prototype
+  parts:
+    - { model: Primitive_Cube, at: [-0.6, 0, -0.4], scale: 0.7 }
+    - { model: Primitive_Slope, at: [-0.6, 0, -0.4], scale: 0.7, stack: true }
+    - { model: Pallet_Small_Decorated_A, at: [1.3, 0, 0.9] }
+depot-room:
+  kit: prototype
+  parts:
+    - { model: Wall_Doorway, at: [0, 0, 1.75] }
+    - { model: Wall_Window_Closed, at: [1.75, 0, 0], rot: 1.5708 }
+    - { model: Wall, at: [0, 0, -1.75], rot: 3.1416 }
+    - { model: Wall_Window_Closed, at: [-1.75, 0, 0], rot: 4.7124 }
+    - { model: Primitive_Floor, stack: true }
+stock-yard:
+  kit: prototype
+  parts:
+    - { model: Pallet_Large }
+    - { model: Pallet_Small_Decorated_A, at: [-0.9, 0.5, -0.9], scale: 0.95 }
+    - { model: Barrel_A, at: [0.9, 1.0, -0.9] }
+    - { model: Barrel_B, at: [1.3, 1.0, -0.3] }
+    - { model: Box_C, at: [0.8, 0.5, 0.9] }
+    - { model: Box_B, at: [-0.6, 0.5, 1.0] }
+    - { model: Box_A, at: [-1.1, 0.5, 0.5] }
+depot-storeys: # age 2: a room with a block storey above it
+  kit: prototype
+  parts:
+    - { model: Wall_Doorway, at: [0, 0, 1.75] }
+    - { model: Wall_Window_Open, at: [1.75, 0, 0], rot: 1.5708 }
+    - { model: Wall, at: [0, 0, -1.75], rot: 3.1416 }
+    - { model: Wall_Window_Open, at: [-1.75, 0, 0], rot: 4.7124 }
+    - { model: Primitive_Floor, stack: true }
+    - { model: Primitive_Cube, at: [-0.5, 0, -0.5], scale: 0.6, stack: true }
+depot-roofstock:
+  kit: prototype
+  parts:
+    - { model: Wall_Window_Open, at: [0, 0, 1.75] }
+    - { model: Wall_Window_Closed, at: [1.75, 0, 0], rot: 1.5708 }
+    - { model: Wall_Window_Closed, at: [0, 0, -1.75], rot: 3.1416 }
+    - { model: Wall_Doorway, at: [-1.75, 0, 0], rot: 4.7124 }
+    - { model: Primitive_Floor, stack: true }
+    - { model: Pallet_Small_Decorated_A, at: [0.7, 0, 0.7], stack: true }
+depot-block:
+  kit: prototype
+  parts:
+    - { model: Primitive_Cube, at: [0, 0, -0.4], scale: 0.75 }
+    - { model: Primitive_Slope_Half, at: [0, 0, -0.4], scale: 0.75, stack: true }
+    - { model: Door_A, at: [-0.8, 0, 1.12] }
+    - { model: Barrel_A, at: [1.2, 0.5, 1.2] }
+    - { model: Barrel_B, at: [1.6, 0.5, 0.8] }

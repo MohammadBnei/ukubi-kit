@@ -1,0 +1,21 @@
+{
+  "name": "ukubi-kit",
+  "private": true,
+  "type": "module",
+  "description": "The game's 3D kit: CC0 models repainted into civ styles, a catalog and a Go package that embeds them.",
+  "license": "CC0-1.0",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "check": "node tools/build.mjs --check",
+    "lock": "node tools/build.mjs --lock",
+    "test": "node --test 'tools/**/*.test.mjs'"
+  },
+  "devDependencies": {
+    "@gltf-transform/core": "4.5.1",
+    "@gltf-transform/extensions": "4.5.1",
+    "@gltf-transform/functions": "4.5.1",
+    "pngjs": "7.0.0",
+    "yaml": "2.9.1"
+  }
+}
