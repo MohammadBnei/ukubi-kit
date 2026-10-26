@@ -8,7 +8,8 @@
   "scripts": {
     "build": "node tools/build.mjs",
     "check": "node tools/build.mjs --check",
-    "lock": "node tools/build.mjs --lock"
+    "lock": "node tools/build.mjs --lock",
+    "test": "node --test 'tools/**/*.test.mjs'"
   },
   "devDependencies": {
     "@gltf-transform/core": "4.5.1",

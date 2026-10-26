@@ -8,8 +8,9 @@ model a civ draws for a role in an age, and a Go package that embeds the result.
 - **Kits** (`kits/<kit>/source.yaml`): a KayKit pack pinned by commit (Medieval Hexagon, City Builder, Space Base,
   Halloween, Dungeon Remastered, Prototype), the models taken from it, a normalising scale so every building fits a
   hex 2 flat-to-flat, and the turns its models take (6 on a hex, 4 on a square). `lock.json` holds each fetched
-  file's sha256. One kit is ours: `ukubi`, low-poly workshops and factories that `tools/gen-ukubi.mjs` makes on every
-  build, deterministically, with its own atlas.
+  file's sha256. One kit is ours: `ukubi`, low-poly workshops and factories made on every build, deterministically,
+  with its own atlas, by the **procgen** library (`tools/procgen/`): a kit's generator is a module of primitives and
+  a palette. To make another kit, read [`docs/procedural.md`](docs/procedural.md).
 - **Styles** (`catalog/styles.yaml`): every kit paints its models through one 8×4 atlas of gradient swatches.
   A style repaints a kit's atlas: an OKLab treatment of every pixel plus cells given a colour, each keeping its own
   gradient and detail. Clay, mountain's town, is the treatment fitted to its `clay.png`. A model never changes with
@@ -40,6 +41,7 @@ npm ci
 npm run build          # kits + catalog -> dist/ (models/, styles/, manifest.json), then validates
 npm run check          # rebuild into a temp dir; fail unless dist/ is current (CI runs this)
 npm run lock           # after changing a pin or a model list: refetch and rewrite kits/*/lock.json, then review it
+npm test               # the procgen library's tests
 node tools/cells.mjs city building_A_withoutBase   # which atlas cells a model's UVs use
 ```
 Validation fails on: a catalog reference that isn't a model, a civ drawing another kit's model, a civ without a

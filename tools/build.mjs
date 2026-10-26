@@ -19,7 +19,8 @@ import { join, relative } from 'node:path';
 import { PNG } from 'pngjs';
 import { parse } from 'yaml';
 import { fetchKit } from './fetch.mjs';
-import { generateKit } from './gen-ukubi.mjs';
+import { generateKit } from './procgen/kit.mjs';
+import { rng } from './procgen/random.mjs';
 import { build, io } from './model.mjs';
 import { paint } from './style.mjs';
 
@@ -46,7 +47,7 @@ async function run(out) {
 
   const files = {}, atlases = {};
   for (const [name, kit] of Object.entries(kits)) {
-    const f = kit.generator === 'ukubi' ? await generateKit(ROOT, kit) : await fetchKit(ROOT, kit, { lock: args.has('--lock') }); // a kit of our own is made, not fetched
+    const f = kit.generator ? await generateKit(ROOT, kit) : await fetchKit(ROOT, kit, { lock: args.has('--lock') }); // a kit of our own is made (procgen), not fetched
     files[name] = f.models;
     atlases[name] = await readFile(f.atlas);
     manifest.kits[name] = { ...(kit.generator ? { generator: kit.generator } : { repo: kit.repo, commit: kit.commit }), licence: kit.licence, scale: kit.scale, turns: kit.turns };
@@ -85,7 +86,7 @@ async function run(out) {
     const bad = d.parts.filter((ref) => !part(ref) || part(ref).kit !== c.kit);
     if (bad.length) { errors.push(`${civ}: dress ${bad.join(', ')} not ${c.kit} models`); continue; }
     for (let n = 0; n < d.count; n++) {
-      const rnd = mulberry32(hash32(`${civ}/${n}`)), parts = [], unit = 1 / kits[c.kit].scale; // offsets in hex units
+      const rnd = rng(`${civ}/${n}`), parts = [], unit = 1 / kits[c.kit].scale; // offsets in hex units
       for (let i = 0, k = 3 + Math.floor(rnd() * 3); i < k; i++) {
         const p = part(d.parts[Math.floor(rnd() * d.parts.length)]);
         const a = rnd() * Math.PI * 2, r = (0.15 + rnd() * 0.55) * unit;
@@ -167,10 +168,6 @@ async function run(out) {
   await write('manifest.json', JSON.stringify(manifest, null, 1) + '\n');
   return errors;
 }
-
-// hash32 and mulberry32: a seeded PRNG, so a variant is the same on every build and machine
-function hash32(s) { let h = 2166136261; for (const c of s) h = Math.imul(h ^ c.charCodeAt(0), 16777619); return h >>> 0; }
-function mulberry32(a) { return () => { a |= 0; a = (a + 0x6d2b79f5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
 
 // tree: every file under dir by its content hash; a PNG by its decoded pixels, since zlib's deflate output may differ
 // between Node builds while the image does not

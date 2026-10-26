@@ -46,9 +46,26 @@ const text = (s, x, y, z, cls = 'l') => { const e = document.createElement('div'
 
 const ROLES = manifest.roles;
 const DX = 2.6, DZ = 3.2;
-const civs = Object.keys(manifest.civs).filter((c) => !q.get('civ') || c === q.get('civ'));
+// ?kit=<name> is the authoring view: every model of one kit, in the style of the civ that draws it (or ?style=)
+const only = q.get('kit');
+const civs = only ? [] : Object.keys(manifest.civs).filter((c) => !q.get('civ') || c === q.get('civ'));
 let row = 0, tris = 0, models = 0;
 const tile = 'hexagon/hex_grass';
+if (only) {
+  const ids = Object.keys(manifest.models).filter((id) => manifest.models[id].kit === only).sort();
+  const owner = Object.values(manifest.civs).find((c) => c.kit === only);
+  const style = q.get('style') || owner?.styles[Number(q.get('age') || 1) - 1] || 'pack';
+  if (!manifest.styles[style]?.[only]) throw new Error(`style ${style} does not paint the ${only} kit`);
+  const per = Math.ceil(Math.sqrt(ids.length * 1.6));
+  for (let i = 0; i < ids.length; i++) {
+    const x = (i % per) * DX, z = Math.floor(i / per) * DZ;
+    tris += await place(tile, style, x, z);
+    tris += await place(ids[i], style, x, z);
+    text(`${ids[i].split('/').pop()} · ${manifest.models[ids[i]].tris}`, x, 0, z + 1.2);
+    models++;
+  }
+  row = Math.ceil(ids.length / per);
+}
 for (const civ of civs) {
   const c = manifest.civs[civ];
   for (let age = 0; age < c.styles.length; age++, row++) {

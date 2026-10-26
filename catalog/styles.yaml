@@ -11,7 +11,7 @@
 #   halloween 3,0 stone  7,0 roof and pumpkins  1,0 iron  7,1 wood and bark  6,1 dirt  4,0 candles  0,1 orange pines
 #   prototype 0,0 blocks  2,0 walls  1,1 trim  6,0 pallets and doors  3,0 floor  1,0 boxes  (swatches only: row 0, 0,1, 1,1)
 #   ukubi    0,0 plaster  1,0 timber  2,0 brick  3,0 slate  4,0 concrete  5,0 steel  6,0 team  7,0 glass  7,1 lit
-#            1,1 roof metal  3,1 hazard  5,1 sand  6,1 rust  (tools/gen-ukubi.mjs draws them)
+#            1,1 roof metal  3,1 hazard  5,1 sand  6,1 rust  (kits/ukubi/models.mjs: its palette)
 # Every civ style colours the hex tile's grass (hexagon 0,2: its district's ground) and team cell (0,3: the
 # construction props every civ shares).
 # The civ styles share one treatment family (l0 ≈ .38, lk ≈ .55, s ≈ .5) so mixed kits read as one world, and differ

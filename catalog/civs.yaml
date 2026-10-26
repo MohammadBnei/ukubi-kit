@@ -65,7 +65,7 @@ apps: # city: low blocks, then towers
   roles:
     product: [[city/building_A_withoutBase, city/building_B_withoutBase, city/building_C_withoutBase], [city/building_E_withoutBase, city/building_F_withoutBase, city/building_G_withoutBase, city/building_H_withoutBase]]
   dress: { count: 4, parts: [city/bush, city/bush, city/streetlight, city/watertower] }
-code: # ours (tools/gen-ukubi.mjs): gabled workshops, then factories
+code: # ours (kits/ukubi/models.mjs, docs/procedural.md): gabled workshops, then factories
   kit: ukubi
   styles: [forge-1, forge-2]
   roles:

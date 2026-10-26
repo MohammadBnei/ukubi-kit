@@ -43,7 +43,7 @@
    "turns": 4
   },
   "ukubi": {
-   "generator": "ukubi",
+   "generator": "models.mjs",
    "licence": "CC0-1.0",
    "scale": 1,
    "turns": 4
@@ -1977,8 +1977,8 @@
   "ukubi/workshop_A": {
    "kit": "ukubi",
    "file": "models/ukubi/workshop_A.glb",
-   "bytes": 6312,
-   "sha256": "f2d5cb6d29eef3dd87b3220377bae290432a84be35c863267e68d853074b2265",
+   "bytes": 6356,
+   "sha256": "32c49e4d59f921168e5c55ea943d6a341bb10ba89dbd04ec9fb8a76853737ad0",
    "tris": 78,
    "size": [
     1.22,
@@ -1990,11 +1990,11 @@
   "ukubi/workshop_B": {
    "kit": "ukubi",
    "file": "models/ukubi/workshop_B.glb",
-   "bytes": 7540,
-   "sha256": "f39455f4f48b4aa003f912c7cc8bcf11310d9e5397ddae2c85490bd62481d2f6",
-   "tris": 96,
+   "bytes": 6920,
+   "sha256": "b0da09483fd3b86fe9b5fe55629247c1b918f85e8739d738cb6f189e961bae83",
+   "tris": 86,
    "size": [
-    1.41,
+    1.39,
     0.88,
     0.895
    ],
@@ -2003,8 +2003,8 @@
   "ukubi/workshop_C": {
    "kit": "ukubi",
    "file": "models/ukubi/workshop_C.glb",
-   "bytes": 9632,
-   "sha256": "8fa60835a0886b972f8dbd2d2137ff9387cc18be80a66573d00c54e16413b70b",
+   "bytes": 9676,
+   "sha256": "3de8041fe85040ebcee507aac995020a409f7026f70e1157f8df0aad1f20d546",
    "tris": 128,
    "size": [
     1.41,
@@ -2016,8 +2016,8 @@
   "ukubi/factory_A": {
    "kit": "ukubi",
    "file": "models/ukubi/factory_A.glb",
-   "bytes": 9052,
-   "sha256": "e7f53e69b3375561cd3f3e4fe41728113cab9155cf984cd1f876c686db2c2e8b",
+   "bytes": 9092,
+   "sha256": "bfad0f59d6567347bef308e228492e945d7d3ae618bd9403e13883c23a0beea5",
    "tris": 120,
    "size": [
     1.29,
@@ -2029,8 +2029,8 @@
   "ukubi/factory_B": {
    "kit": "ukubi",
    "file": "models/ukubi/factory_B.glb",
-   "bytes": 7124,
-   "sha256": "6dd205ed211c6d961e715c7620dddb44979bb461052f566b873a9b9a8ae053af",
+   "bytes": 7164,
+   "sha256": "6002a2e46bbba0aa9df59f26dfb18b44bd7dfd136908c88b920bec69828a12c2",
    "tris": 90,
    "size": [
     1.04,
@@ -2042,25 +2042,25 @@
   "ukubi/factory_C": {
    "kit": "ukubi",
    "file": "models/ukubi/factory_C.glb",
-   "bytes": 9856,
-   "sha256": "cc0d797ed495ebc0bbf13978fd57c53ff636ee60193ad7db2e0d71200d8d1d86",
+   "bytes": 9936,
+   "sha256": "af43859520ff5b2cf9d0b3334ac29caa3ba87a50c4934c185e0b6368082d8055",
    "tris": 132,
    "size": [
-    1.5,
+    1.488,
     1.22,
     0.97
    ],
-   "reach": 0.79
+   "reach": 0.778
   },
   "ukubi/plot_yard": {
    "kit": "ukubi",
    "file": "models/ukubi/plot_yard.glb",
-   "bytes": 3008,
-   "sha256": "55bd8f0aceca4cf8b416b57c72cc578139276d2323cb1e3a3d3f2c9bce49f337",
+   "bytes": 3048,
+   "sha256": "3dee558ef63439130379106df4f7adfce55abc02996996d7cdfba14cb6cdf258",
    "tris": 28,
    "size": [
     1.94,
-    0.035,
+    0.032,
     2.24
    ],
    "reach": 0.97
@@ -2068,8 +2068,8 @@
   "ukubi/crates": {
    "kit": "ukubi",
    "file": "models/ukubi/crates.glb",
-   "bytes": 3184,
-   "sha256": "ad45ce19b710464936e4b8987c475326d6708ffe88573adf4fac8d1f97f1013b",
+   "bytes": 3216,
+   "sha256": "0c1ead718df4adfa5c6a1bd453383e33939f6765d5fbeb230332ccd0779a1edd",
    "tris": 30,
    "size": [
     0.4,
@@ -2081,8 +2081,8 @@
   "ukubi/logs": {
    "kit": "ukubi",
    "file": "models/ukubi/logs.glb",
-   "bytes": 3148,
-   "sha256": "808c47453c0284c4dbad1684cb1e796b0fa413f581164a539609640d166638b7",
+   "bytes": 3176,
+   "sha256": "861dd6de2753ecd83388bba279d547c383619c7a6f5c0a7b6518f1f5e5ab41fa",
    "tris": 30,
    "size": [
     0.27,
@@ -2094,34 +2094,34 @@
   "ukubi/spool": {
    "kit": "ukubi",
    "file": "models/ukubi/spool.glb",
-   "bytes": 6716,
-   "sha256": "0bf64e935bbcd0464e89cb929fc4983e65eb98b1a5c3cc1db137bfbdd30b368e",
+   "bytes": 6748,
+   "sha256": "dc4925f79c6b1224de09310f9865c484011588053511646b59a7027a054af48a",
    "tris": 84,
    "size": [
-    0.26,
+    0.247,
     0.22,
-    0.247
+    0.26
    ],
-   "reach": 0.13
+   "reach": 0.129
   },
   "ukubi/shrub": {
    "kit": "ukubi",
    "file": "models/ukubi/shrub.glb",
-   "bytes": 3084,
-   "sha256": "50a530b1ec1502e7bd6500b530c67a4e2814e005afd3eba205e1875cfdee4d79",
-   "tris": 29,
+   "bytes": 2456,
+   "sha256": "9d92c1e52fd306a558c56d23d8f0fb78b818d627fd9d0d1de5467bb493dd16db",
+   "tris": 19,
    "size": [
-    0.32,
+    0.277,
     0.42,
-    0.277
+    0.32
    ],
-   "reach": 0.16
+   "reach": 0.139
   },
   "ukubi/drum": {
    "kit": "ukubi",
    "file": "models/ukubi/drum.glb",
-   "bytes": 4108,
-   "sha256": "eb8a214c9692c91d7bf73860f5988456c597271acb9e8602acd18812186a0f09",
+   "bytes": 4136,
+   "sha256": "19bd067b9b035d013c6f5bb26edc9989da7e5f7c339380cf3d5209c5ba05298e",
    "tris": 44,
    "size": [
     0.31,
@@ -2848,12 +2848,12 @@
   "plot/code": {
    "kit": "ukubi",
    "file": "models/plot/code.glb",
-   "bytes": 3008,
-   "sha256": "72825b3f88f81a63625f6aabc1bbb89fed41fb2a1d544c52997163b7c322c2fc",
+   "bytes": 3048,
+   "sha256": "6b0e8ffb0aa796d0aa395d801f8d00eb5354385296d3f8d1a2b79d5f50a7e9c8",
    "tris": 28,
    "size": [
     1.94,
-    0.035,
+    0.032,
     2.24
    ],
    "reach": 0.97
@@ -2861,8 +2861,8 @@
   "dress/code-0": {
    "kit": "ukubi",
    "file": "models/dress/code-0.glb",
-   "bytes": 12956,
-   "sha256": "0d0a35f1b24822bc2678e23250e75f27dd96da8e19d2faf545f0b3c714344175",
+   "bytes": 12984,
+   "sha256": "8b5a3a84b5a47d0e98223c20b6b6ee8da689f234ad3b62175f2f5e454c9f6808",
    "tris": 178,
    "size": [
     1.239,
@@ -2874,41 +2874,41 @@
   "dress/code-1": {
    "kit": "ukubi",
    "file": "models/dress/code-1.glb",
-   "bytes": 19028,
-   "sha256": "f1a4448c40c71eb61585a69e0ae0237fc8a4cdc7af1188618a6cfd42ff8150d1",
-   "tris": 270,
+   "bytes": 17740,
+   "sha256": "b38782be857338c1c318f55d9afc8c6d5fc138309131d1c90338019a355bf21c",
+   "tris": 250,
    "size": [
-    1.223,
+    1.212,
     0.502,
-    1.446
+    1.443
    ],
-   "reach": 0.824
+   "reach": 0.825
   },
   "dress/code-2": {
    "kit": "ukubi",
    "file": "models/dress/code-2.glb",
-   "bytes": 10640,
-   "sha256": "eb50c155a0cbe7a4b1d25e2c77d25a4240217b3913cc3466f78291119a0ccd2e",
-   "tris": 143,
+   "bytes": 10016,
+   "sha256": "58e46242c332781742f31225cbbe02513bdb06b996e55dc0000b8130e4cee882",
+   "tris": 133,
    "size": [
-    1.208,
+    1.213,
     0.389,
-    0.404
+    0.397
    ],
-   "reach": 0.747
+   "reach": 0.756
   },
   "dress/code-3": {
    "kit": "ukubi",
    "file": "models/dress/code-3.glb",
-   "bytes": 9984,
-   "sha256": "01dc49b678cb9bfe703d69794b69664452a76b59a5c9b5c13b99098f78ade73d",
-   "tris": 133,
+   "bytes": 9356,
+   "sha256": "e621f98bca70761f6c6d974766a010ccfdf4f703aee91c82ef9cbf120227c85c",
+   "tris": 123,
    "size": [
     1.23,
     0.496,
-    1.152
+    1.141
    ],
-   "reach": 0.757
+   "reach": 0.768
   }
  },
  "styles": {

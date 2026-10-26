@@ -4,7 +4,7 @@
 import { readFile } from 'node:fs/promises';
 import { parse } from 'yaml';
 import { readGLTF } from './model.mjs';
-import { generateKit } from './gen-ukubi.mjs';
+import { generateKit } from './procgen/kit.mjs';
 
 const ROOT = new URL('..', import.meta.url).pathname;
 const [kitName, ...names] = process.argv.slice(2);
