@@ -31,6 +31,25 @@ func TestManifest(t *testing.T) {
 			t.Errorf("%s: kit %s has no licence entry", id, md.Kit)
 		}
 	}
+	if m.Clips == nil || len(m.Characters) == 0 {
+		t.Fatal("no characters or no clips")
+	}
+	for id, c := range m.Characters {
+		b, err := fs.ReadFile(FS(), c.File)
+		if err != nil {
+			t.Errorf("character %s: %v", id, err)
+			continue
+		}
+		if sum := sha256.Sum256(b); hex.EncodeToString(sum[:]) != c.SHA256 || len(b) != c.Bytes {
+			t.Errorf("character %s: %s is not the manifest's", id, c.File)
+		}
+		if _, err := fs.Stat(FS(), c.Texture); err != nil || !m.Kits[c.Kit].People || c.Height <= 0 {
+			t.Errorf("character %s: texture %v, kit %+v, height %v", id, err, m.Kits[c.Kit], c.Height)
+		}
+	}
+	if b, err := fs.ReadFile(FS(), m.Clips.File); err != nil || len(b) != m.Clips.Bytes || !slices.Contains(m.Clips.Names, "Interact") {
+		t.Errorf("clips %+v: %v", m.Clips, err)
+	}
 	for style, kits := range m.Styles {
 		for kit, file := range kits {
 			if _, err := fs.Stat(FS(), file); err != nil {

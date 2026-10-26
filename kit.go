@@ -33,6 +33,31 @@ type Manifest struct {
 	States    map[string][]string          `json:"states"` // scaffold, stages -> model ids (shared by every civ)
 	RoleNames []string                     `json:"roles"`  // every role a building can have
 	Shapes    []string                     `json:"shapes"` // the shape vocabulary (catalog/shapes.yaml)
+	// Characters are the town's people (kits/adventurers): skinned, one draw each, on the one rig Clips animates.
+	// Which character plays which unit is the game's, never the kit's.
+	Characters map[string]Character `json:"characters"`
+	Clips      *Clips               `json:"clips"`
+}
+
+// Character is one skinned model: its body, its hat and cape baked into the skin, nothing held.
+type Character struct {
+	Kit     string  `json:"kit"`
+	File    string  `json:"file"`
+	Texture string  `json:"texture"` // its own image (characters are no civ's: no style paints them)
+	Bytes   int     `json:"bytes"`
+	SHA256  string  `json:"sha256"`
+	Tris    int     `json:"tris"`
+	Height  float64 `json:"height"` // standing, in the model's units
+}
+
+// Clips is the one clip file every character plays: the rig's nodes and the named clips.
+type Clips struct {
+	Kit    string   `json:"kit"`
+	File   string   `json:"file"`
+	Bytes  int      `json:"bytes"`
+	SHA256 string   `json:"sha256"`
+	Names  []string `json:"names"`
+	Joints int      `json:"joints"`
 }
 
 type Kit struct {
@@ -40,6 +65,7 @@ type Kit struct {
 	Commit    string  `json:"commit,omitempty"`    //
 	Generator string  `json:"generator,omitempty"` // or a kit of our own, made by the build
 	Licence   string  `json:"licence"`
+	People    bool    `json:"characters,omitempty"` // a character kit: no civ draws it, no style paints it
 	Scale     float64 `json:"scale"`
 	Turns     int     `json:"turns"` // the turns its models take about +y: 6 (a hex), 4 (a square), 2 (one front)
 }

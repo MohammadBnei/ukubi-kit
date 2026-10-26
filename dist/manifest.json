@@ -47,6 +47,12 @@
    "licence": "CC0-1.0",
    "scale": 1,
    "turns": 4
+  },
+  "adventurers": {
+   "repo": "KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0",
+   "commit": "672074b73ba276876a19e8816ecdc5241817ab47",
+   "licence": "CC0-1.0",
+   "characters": true
   }
  },
  "models": {
@@ -3369,6 +3375,38 @@
    "hexagon/building_stage_B",
    "hexagon/building_stage_C"
   ]
+ },
+ "characters": {
+  "barbarian": {
+   "kit": "adventurers",
+   "file": "characters/barbarian.glb",
+   "texture": "characters/barbarian.png",
+   "bytes": 151112,
+   "sha256": "78d21025887f9fd373e238067e426822e3000177b7ccc8cf8dff59269e114337",
+   "tris": 4777,
+   "height": 2.398
+  },
+  "mage": {
+   "kit": "adventurers",
+   "file": "characters/mage.glb",
+   "texture": "characters/mage.png",
+   "bytes": 146168,
+   "sha256": "94c572cfaf44afbadbd659efc36e8b72eb6cdde3cba9c1da6e8a282ee54226e2",
+   "tris": 4509,
+   "height": 2.716
+  }
+ },
+ "clips": {
+  "kit": "adventurers",
+  "file": "characters/clips.glb",
+  "bytes": 122192,
+  "sha256": "8a1a1d986203130fcd727b9823eb80780091cf53ec4c53d97f6639193be80309",
+  "names": [
+   "Idle",
+   "Walking_A",
+   "Interact"
+  ],
+  "joints": 41
  },
  "roles": [
   "town-centre",

@@ -24,6 +24,11 @@ model a civ draws for a role in an age, and a Go package that embeds the result.
   colour, a plot under every building (a floor piece, for a kit whose buildings have no base of their own) and
   seeded dressing on the free land. `default` is the town centre's and an unknown civ's. Construction states are
   shared by every civ.
+- **Characters** (`kits/adventurers/source.yaml`): the town's people, KayKit's Adventurers pinned by commit. Each
+  character is built apart from the models (`tools/character.mjs`): the meshes it keeps, its hat and cape baked into
+  the skin, nothing held, so it is one skinned draw; its own texture as a file (no style paints people); and one clip
+  file for all of them (`dist/characters/clips.glb`: the 41-joint rig and the named clips, played by bone name).
+  Which character plays which unit is the game's, never this repo's.
 - **Shapes** (`catalog/shapes.yaml`): what a model looks like (tower, gate, yard, vault, mill, bay, rig, pit, wide),
   never what it stands for. A civ tags some variants with one shape each; the game's `PickFor` draws a building among
   the variants with a shape it asks for, else the untagged ones, else all (it is always drawn). Which shapes fit
@@ -52,13 +57,20 @@ Validation fails on: a catalog reference that isn't a model, a civ drawing anoth
 product, a civ missing an age, a building that overhangs its hex by more than 10% (the town centre may take more; a
 building on a plot stays inside the plot, and the plot inside its hex), a model over 8000 triangles or a building
 over 4500, a style cell outside the 8×4 grid or off a kit's swatches, a civ style without the tiles' ground and team
-cells.
+cells. Characters fail on a rig that is not the clip file's (by joint name and order), on more than one draw, or on
+more than 5500 triangles.
 
 ### Using a model
 `manifest.models[id]` gives its `kit` and `file` (a GLB: one mesh, one primitive, KHR_mesh_quantization, no texture);
 `manifest.styles[style][kit]` gives the texture that paints it. Load the texture with `flipY = false` (glTF's UV
 convention) in sRGB. One material per (style, kit) draws every model of that kit in that style, so a scene batches by
 it. A quantized GLB keeps its dequantization on its node: apply the node's matrix (or keep the node).
+
+### Using a character
+`manifest.characters[name]` gives its `file` (a GLB: one skinned mesh, one primitive, quantized) and its `texture`
+(`flipY = false`, sRGB); `manifest.clips` gives the clip file and its clip names. Clone a character with three's
+`SkeletonUtils.clone` and play the clip file's clips on it with an `AnimationMixer` (the tracks bind by bone name).
+There is no root motion: the game moves a walking character itself. `height` is its standing height, unscaled.
 
 ### Not yet as designed
 - Styles are cell maps per kit, not shared named slots (wall, roof, …) mapped once per kit. With one kit per civ a
