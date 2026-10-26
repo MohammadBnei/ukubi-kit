@@ -62,7 +62,8 @@ cells. Characters fail on a rig that is not the clip file's (by joint name and o
 more than 5500 triangles.
 
 ### Using a model
-`manifest.models[id]` gives its `kit` and `file` (a GLB: one mesh, one primitive, KHR_mesh_quantization, no texture);
+`manifest.models[id]` gives its `kit` and `file` (a GLB: one mesh, one primitive, KHR_mesh_quantization, no texture,
+and never an embedded image: the game's pages allow `img-src 'self'` only, and `TestNoEmbeddedImages` holds every GLB to it);
 `manifest.styles[style][kit]` gives the texture that paints it. Load the texture with `flipY = false` (glTF's UV
 convention) in sRGB. One material per (style, kit) draws every model of that kit in that style, so a scene batches by
 it. A quantized GLB keeps its dequantization on its node: apply the node's matrix (or keep the node).
