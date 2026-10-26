@@ -49,10 +49,22 @@ async function run(out) {
   for (const [name, kit] of Object.entries(kits)) {
     const f = kit.generator ? await generateKit(ROOT, kit) : await fetchKit(ROOT, kit, { lock: args.has('--lock') }); // a kit of our own is made (procgen), not fetched
     files[name] = f.models;
+    if (f.palette) { // a made kit: its cells are its palette's, and a style may name them (catalog/styles.yaml)
+      kit.palette = f.palette;
+      kit.swatches = Object.values(f.palette).map((c) => c.cell);
+    }
     atlases[name] = await readFile(f.atlas);
     manifest.kits[name] = { ...(kit.generator ? { generator: kit.generator } : { repo: kit.repo, commit: kit.commit }), licence: kit.licence, scale: kit.scale, turns: kit.turns };
     if (![2, 4, 6].includes(kit.turns)) errors.push(`kit ${name}: turns ${kit.turns} is not 2, 4 or 6`);
   }
+  // a style's cells for a kit, "col,row" -> colour; a made kit's may be named by its palette ("team": its cell), which
+  // keeps a style right when the palette moves a name to another cell
+  const cellsOf = (st, kit) => Object.fromEntries(Object.entries(st.cells?.[kit] || {}).map(([key, colour]) => {
+    if (/^\d,\d$/.test(key)) return [key, colour];
+    const cell = kits[kit]?.palette?.[key]?.cell;
+    if (!cell) errors.push(`a style names ${kit} cell ${key}, which is not in its palette`);
+    return [cell || key, colour];
+  }));
   const write = async (rel, bytes) => { await mkdir(join(out, rel, '..'), { recursive: true }); await writeFile(join(out, rel), bytes); };
   const emit = async (id, kit, parts, opts) => {
     const { doc, tris, bounds, reach, meshes, prims } = await build(parts, kits[kit].scale, opts);
@@ -105,12 +117,12 @@ async function run(out) {
     for (const kit of Object.keys(kits)) {
       if (painted[id] && !painted[id].has(kit)) continue;
       const file = `styles/${id}/${kit}.png`;
-      await write(file, paint(atlases[kit], st, st.cells?.[kit] || {}));
+      await write(file, paint(atlases[kit], st, cellsOf(st, kit)));
       manifest.styles[id][kit] = file;
     }
-    for (const [kit, cells] of Object.entries(st.cells || {})) {
-      if (!kits[kit]) errors.push(`style ${id}: cells for an unknown kit ${kit}`);
-      for (const [key, colour] of Object.entries(cells)) {
+    for (const kit of Object.keys(st.cells || {})) {
+      if (!kits[kit]) { errors.push(`style ${id}: cells for an unknown kit ${kit}`); continue; }
+      for (const [key, colour] of Object.entries(cellsOf(st, kit))) {
         const [c, r] = key.split(',').map(Number);
         if (!(c >= 0 && c < 8 && r >= 0 && r < 4) || !/^#[0-9a-f]{6}$/i.test(colour)) errors.push(`style ${id}: ${kit} cell ${key}: ${colour} is not "col,row" (8×4) to #rrggbb`);
         else if (kits[kit]?.swatches && !kits[kit].swatches.includes(key)) errors.push(`style ${id}: ${kit} cell ${key} is not one of its swatches (recolouring it would cut a seam through its image)`);

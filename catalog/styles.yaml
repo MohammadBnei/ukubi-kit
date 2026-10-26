@@ -10,8 +10,8 @@
 #   dungeon  1,0 wall stone  0,0 dark trim  4,0 wood  5,0 floor  7,2 gold  6,2 banner  0,1 banner white  7,0 rubble
 #   halloween 3,0 stone  7,0 roof and pumpkins  1,0 iron  7,1 wood and bark  6,1 dirt  4,0 candles  0,1 orange pines
 #   prototype 0,0 blocks  2,0 walls  1,1 trim  6,0 pallets and doors  3,0 floor  1,0 boxes  (swatches only: row 0, 0,1, 1,1)
-#   ukubi    0,0 plaster  1,0 timber  2,0 brick  3,0 slate  4,0 concrete  5,0 steel  6,0 team  7,0 glass  7,1 lit
-#            1,1 roof metal  3,1 hazard  5,1 sand  6,1 rust  (kits/ukubi/models.mjs: its palette)
+#   ukubi    a made kit: its cells are named by its palette (kits/ukubi/models.mjs), and its styles use the names:
+#            plaster timber brick slate concrete steel team glass dark metal soot hazard moss sand rust lit
 # Every civ style colours the hex tile's grass (hexagon 0,2: its district's ground) and team cell (0,3: the
 # construction props every civ shares).
 # The civ styles share one treatment family (l0 ≈ .38, lk ≈ .55, s ≈ .5) so mixed kits read as one world, and differ
@@ -127,7 +127,7 @@ forge-1: # Code, first age: plaster and timber sheds, slate, muted pink (code) s
   s: 0.45
   tint: [0.002, 0.004]
   cells:
-    ukubi: { "6,0": "#b8558f", "2,0": "#a5583f", "0,0": "#e6dccb" }
+    ukubi: { team: "#b8558f", brick: "#a5583f", plaster: "#e6dccb" }
     hexagon: { "0,3": "#b8558f", "0,2": "#97a676" }
 forge-2: # Code, second age: brick and steel, bright glass, pink signs
   l0: 0.38
@@ -135,5 +135,5 @@ forge-2: # Code, second age: brick and steel, bright glass, pink signs
   s: 0.5
   tint: [0.0, -0.002]
   cells:
-    ukubi: { "6,0": "#ff5cc8", "5,0": "#9fb3c4", "7,0": "#a8dcf5", "2,0": "#b4634a" }
+    ukubi: { team: "#ff5cc8", steel: "#9fb3c4", glass: "#a8dcf5", brick: "#b4634a" }
     hexagon: { "0,3": "#ff5cc8", "0,2": "#93a873" }

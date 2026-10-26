@@ -6,8 +6,9 @@
 // - rot is radians about +y, turning +z toward +x (as catalog/recipes.yaml's rot: 1.5708 faces a part's front +x);
 // - every face is wound counter-clockwise seen from outside (its normal points out), flat-shaded, in one palette cell.
 //
-// A primitive's `at` is its centre-bottom (x, y0, z) before rot, and rot turns it about its own centre-bottom.
-// Composition: build a sub-assembly as its own Mesh and add() it where it goes; a Mesh never holds a transform.
+// A primitive's `at` is its centre-bottom (x, y0, z) before rot, and rot turns it about its own centre-bottom. Sizes
+// are positive (a primitive refuses anything else). Composition: build a sub-assembly as its own Mesh (or take one
+// from procgen/parts.mjs) and add() it where it goes, turned, tilted, scaled or mirrored; a Mesh holds no transform.
 
 export class Mesh {
   /** palette: {name: {cell: "c,r", …}} (procgen/atlas.mjs); faces name their cell by the palette's names. */
@@ -33,35 +34,48 @@ export class Mesh {
   }
   quad(a, b, c, d, name) { return this.poly([a, b, c, d], name); }
 
-  // ---- primitives (open at the bottom: they stand on something)
+  // ---- primitives (open at the bottom unless asked: most stand on something)
 
-  /** a box: size [sx, sy, sz]; its top may take another cell. */
-  box(at, [sx, sy, sz], name, { top = name, rot = 0 } = {}) {
+  /** a box: size [sx, sy, sz]; its top may take another cell; `bottom` closes it underneath (a raised part). */
+  box(at, [sx, sy, sz], name, { top = name, bottom = false, rot = 0 } = {}) {
+    sizes('box', sx, sy, sz);
     const P = place(at, rot), X = sx / 2, Z = sz / 2;
     const v = [P(-X, 0, -Z), P(X, 0, -Z), P(X, 0, Z), P(-X, 0, Z), P(-X, sy, -Z), P(X, sy, -Z), P(X, sy, Z), P(-X, sy, Z)];
-    return this.quad(v[3], v[2], v[6], v[7], name).quad(v[1], v[0], v[4], v[5], name).quad(v[2], v[1], v[5], v[6], name)
+    this.quad(v[3], v[2], v[6], v[7], name).quad(v[1], v[0], v[4], v[5], name).quad(v[2], v[1], v[5], v[6], name)
       .quad(v[0], v[3], v[7], v[4], name).quad(v[7], v[6], v[5], v[4], top);
+    return bottom ? this.quad(v[0], v[1], v[2], v[3], bottom === true ? name : bottom) : this;
   }
 
-  /** a gable roof over a footprint [sx, sz]: ridge along x at height h, eaves overhanging by o; its two gable ends
-   *  (the wall's triangles under the roof, inside the overhang) may take another cell. */
+  /** a gable roof over a footprint [sx, sz]: ridge along x at height h, eaves overhanging by o. Its two gable ends
+   *  close the wall under the roof (a pentagon up to the roof's underside when it overhangs) and may take another
+   *  cell. */
   gable(at, [sx, sz], h, name, { ends = name, o = 0.06, rot = 0 } = {}) {
-    const P = place(at, rot), X = sx / 2 + o, Z = sz / 2 + o, x = sx / 2, z = sz / 2, hz = h * (z / Z);
-    const r0 = P(-X, h, 0), r1 = P(X, h, 0);
+    sizes('gable', sx, sz, h); need(o >= 0, 'gable: the overhang o is negative');
+    const P = place(at, rot), X = sx / 2 + o, Z = sz / 2 + o, x = sx / 2, z = sz / 2;
+    const r0 = P(-X, h, 0), r1 = P(X, h, 0), eave = (h * o) / Z; // the roof's height above the wall's edge
     this.quad(P(-X, 0, Z), P(X, 0, Z), r1, r0, name).quad(P(X, 0, -Z), P(-X, 0, -Z), r0, r1, name);
-    return this.poly([P(-x, 0, -z), P(-x, 0, z), P(-x, hz, 0)], ends).poly([P(x, 0, z), P(x, 0, -z), P(x, hz, 0)], ends);
+    const end = (s) => { // s = -1 (the -x end) or 1, wound to face s·x
+      const pts = o > 0 ? [P(s * x, 0, s * z), P(s * x, 0, -s * z), P(s * x, eave, -s * z), P(s * x, h, 0), P(s * x, eave, s * z)]
+        : [P(s * x, 0, s * z), P(s * x, 0, -s * z), P(s * x, h, 0)];
+      return this.poly(pts, ends);
+    };
+    end(-1); return end(1);
   }
 
-  /** a hipped roof: four slopes up to a ridge along x (length sx - sz, a pyramid when that is ≤ 0). */
+  /** a hipped roof over [sx, sz] (sx ≥ sz: turn it for a ridge along z): four slopes up to a ridge along x of length
+   *  sx - sz, a pyramid when square. */
   hip(at, [sx, sz], h, name, { o = 0.06, rot = 0 } = {}) {
-    const P = place(at, rot), X = sx / 2 + o, Z = sz / 2 + o, rx = Math.max(0, X - Z);
+    sizes('hip', sx, sz, h); need(sx >= sz, `hip: [${sx}, ${sz}] is deeper than wide; give it rot: Math.PI / 2 instead`);
+    const P = place(at, rot), X = sx / 2 + o, Z = sz / 2 + o, rx = X - Z;
     const a = P(-X, 0, -Z), b = P(X, 0, -Z), c = P(X, 0, Z), d = P(-X, 0, Z), r0 = P(-rx, h, 0), r1 = P(rx, h, 0);
-    if (rx === 0) return this.poly([d, c, r1], name).poly([c, b, r1], name).poly([b, a, r1], name).poly([a, d, r1], name);
+    if (rx < 1e-9) return this.poly([d, c, r1], name).poly([c, b, r1], name).poly([b, a, r1], name).poly([a, d, r1], name);
     return this.quad(d, c, r1, r0, name).quad(b, a, r0, r1, name).poly([c, b, r1], name).poly([a, d, r0], name);
   }
 
-  /** a shed (mono-pitch) roof over [sx, sz]: rising from h0 at the front (+z) to h1 at the back, with its sides. */
+  /** a shed (mono-pitch) block over [sx, sz]: its roof rising from h0 at the front (+z) to h1 at the back, with its
+   *  own walls (a lean-to). */
   shed(at, [sx, sz], h0, h1, name, { sides = name, rot = 0 } = {}) {
+    sizes('shed', sx, sz, h0, h1);
     const P = place(at, rot), X = sx / 2, Z = sz / 2;
     const a = P(-X, h1, -Z), b = P(X, h1, -Z), c = P(X, h0, Z), d = P(-X, h0, Z);
     this.quad(d, c, b, a, name);
@@ -72,6 +86,7 @@ export class Mesh {
 
   /** a sawtooth roof over [sx, sz]: n teeth along x, each a slope rising toward +x and a vertical glazed face. */
   sawtooth(at, [sx, sz], h, n, name, glass, { rot = 0 } = {}) {
+    sizes('sawtooth', sx, sz, h); need(Number.isInteger(n) && n >= 1, `sawtooth: ${n} teeth`);
     const P = place(at, rot), w = sx / n, Z = sz / 2;
     for (let i = 0; i < n; i++) {
       const x0 = -sx / 2 + i * w, x1 = x0 + w;
@@ -82,20 +97,24 @@ export class Mesh {
   }
 
   /** an upright n-sided prism of radius r and height h, tapering to r1 (a chimney, a silo, a tank, a cone at r1 = 0),
-   *  capped unless it comes to a point. */
-  prism(at, r, h, name, { n = 8, r1 = r, top = name, rot = 0 } = {}) {
+   *  capped unless it comes to a point; `bottom` closes it underneath. Lying down: build it upright and add() it
+   *  with tilt. */
+  prism(at, r, h, name, { n = 8, r1 = r, top = name, bottom = false, rot = 0 } = {}) {
+    sizes('prism', r, h); need(r1 >= 0, 'prism: r1 is negative'); need(Number.isInteger(n) && n >= 3, `prism: ${n} sides`);
     const P = place(at, rot);
     const ring = (y, rr) => Array.from({ length: n }, (_, i) => { const a = (i / n) * Math.PI * 2; return P(rr * Math.sin(a), y, rr * Math.cos(a)); });
     const lo = ring(0, r);
+    if (bottom) this.poly([...lo].reverse(), bottom === true ? name : bottom);
     if (r1 === 0) { const apex = P(0, h, 0); for (let i = 0; i < n; i++) this.poly([lo[i], lo[(i + 1) % n], apex], name); return this; }
     const hi = ring(h, r1);
     for (let i = 0; i < n; i++) { const j = (i + 1) % n; this.quad(lo[i], lo[j], hi[j], hi[i], name); }
     return this.poly(hi, top);
   }
 
-  /** a flat slab of n sides (a plot, a pad): radius r to its corners, thickness t, a rim of width w in another cell.
-   *  n = 6 lies pointy along z, like the hex tiles. */
+  /** a flat slab of n sides (a plot, a pad): radius r to its corners, thickness t; a rim of width w (< r) in another
+   *  cell, the inner top a hair above it. n = 6 lies pointy along z, like the hex tiles. */
   slab(at, r, t, name, { n = 6, rim = name, w = 0, rot = 0 } = {}) {
+    sizes('slab', r, t); need(w >= 0 && w < r, `slab: rim ${w} is not inside radius ${r}`); need(Number.isInteger(n) && n >= 3, `slab: ${n} sides`);
     const P = place(at, rot), a0 = n === 6 ? 0 : Math.PI / n;
     const ring = (rr, y) => Array.from({ length: n }, (_, i) => { const a = a0 + (i / n) * Math.PI * 2; return P(rr * Math.sin(a), y, rr * Math.cos(a)); });
     const lo = ring(r, 0), hi = ring(r, t);
@@ -106,13 +125,34 @@ export class Mesh {
     return this.poly(inner, name);
   }
 
+  /** a thin panel seen from both sides (a sail, a sign on a post, a flag): a planar convex polygon given once, drawn
+   *  with both windings. */
+  panel(pts, name) { return this.poly(pts, name).poly([...pts].reverse(), name); }
+
   // ---- composition
 
-  /** add another Mesh (of the same palette), placed: at, rot about +y, uniform scale. */
-  add(other, { at = [0, 0, 0], rot = 0, scale = 1 } = {}) {
+  /** add another Mesh (of the same palette), placed. In order: scale (a number, or [x, y, z]; positive), mirror
+   *  (x → -x, the winding kept outward), tilt (radians about +x, turning +y toward +z: a prism lies down along z at
+   *  π/2), rot (about +y), then at. */
+  add(other, { at = [0, 0, 0], rot = 0, scale = 1, mirror = false, tilt = 0 } = {}) {
     if (other.palette !== this.palette) throw new Error('procgen: add() joins meshes of one palette only');
-    const P = place(at, rot);
-    for (const t of other.tris) this.tris.push({ p: t.p.map(([x, y, z]) => P(x * scale, y * scale, z * scale)), cell: t.cell });
+    const [kx, ky, kz] = typeof scale === 'number' ? [scale, scale, scale] : scale;
+    need([kx, ky, kz].every((k) => k > 0), `add: scale ${scale} must be positive (mirror with mirror: true)`);
+    const P = place(at, rot), ct = Math.cos(tilt), st = Math.sin(tilt);
+    for (const t of other.tris) {
+      const p = t.p.map(([x, y, z]) => {
+        x *= kx * (mirror ? -1 : 1); y *= ky; z *= kz;
+        return P(x, ct * y - st * z, st * y + ct * z);
+      });
+      this.tris.push({ p: mirror ? [p[0], p[2], p[1]] : p, cell: t.cell });
+    }
+    return this;
+  }
+
+  /** repeat: n copies of a Mesh, each `step` [dx, dy, dz] from the last, starting at `at` (a fence, a row of
+   *  windows, stacked crates). */
+  repeat(other, n, step, { at = [0, 0, 0], rot = 0 } = {}) {
+    for (let i = 0; i < n; i++) this.add(other, { at: [at[0] + i * step[0], at[1] + i * step[1], at[2] + i * step[2]], rot });
     return this;
   }
 
@@ -134,6 +174,10 @@ export class Mesh {
     return out;
   }
 }
+
+function need(ok, msg) { if (!ok) throw new Error(`procgen: ${msg}`); }
+// sizes: every size of a primitive is a positive number (a negative one would turn its faces inward)
+function sizes(what, ...vs) { need(vs.every((v) => Number.isFinite(v) && v > 0), `${what}: sizes ${vs.join(', ')} must all be positive`); }
 
 // place: a point's local (x, y, z) turned by rot about +y (+z toward +x) and moved to at
 function place([ax, ay, az], rot) {
