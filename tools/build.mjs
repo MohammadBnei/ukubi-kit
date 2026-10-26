@@ -213,9 +213,12 @@ async function characters(people, write, manifest, errors) {
     if (manifest.clips) errors.push(`${kitName}: a second clip file (one rig for the town)`);
     manifest.clips = { kit: kitName, file: 'characters/clips.glb', bytes: cbytes.length, sha256: sha256(cbytes), names: kit.clips.names, joints: rig.joints.length };
     const textures = {};
-    for (const [name, c] of Object.entries(kit.characters)) {
+    let bind; // the clips' character's inverse bind matrices: every character's must match (the clips carry its bones' rest)
+    for (const [name, c] of Object.entries({ [kit.clips.from]: kit.characters[kit.clips.from], ...kit.characters })) {
       const ch = await character(fileOf(c.model), c.keep);
       if (ch.joints.join() !== rig.joints.join()) errors.push(`character ${name}: its rig is not the clips' (${ch.joints.length} joints)`);
+      bind ||= ch.ibms;
+      if (ch.ibms.length !== bind.length || ch.ibms.some((x, i) => Math.abs(x - bind[i]) > 1e-4)) errors.push(`character ${name}: its bones are not the clips' rig (inverse bind matrices differ)`);
       if (ch.tris > MAX_CHARACTER_TRIS) errors.push(`character ${name}: ${ch.tris} triangles, over ${MAX_CHARACTER_TRIS}`);
       const bytes = Buffer.from(await io.writeBinary(ch.doc)), file = `characters/${name}.glb`, h = sha256(ch.png);
       textures[h] ||= `characters/${name}.png`; // characters sharing an image share its file

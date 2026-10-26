@@ -107,7 +107,10 @@ export async function character(file, keep) {
   const out = root.listMeshes().flatMap((m) => m.listPrimitives());
   if (root.listMeshes().length !== 1 || out.length !== 1 || root.listSkins().length !== 1) throw new Error(`${file}: ${root.listMeshes().length} meshes, ${out.length} primitives, ${root.listSkins().length} skins, not one each`);
   const tris = out[0].getIndices().getCount() / 3;
-  return { doc, png: Buffer.from(png), tris, height: +top.toFixed(3), joints: jointsOf(doc) };
+  // the rig's inverse bind matrices, flat: the clips (one rig's tracks) fit only a character with the same rig
+  const ibms = [], m = [];
+  for (let j = 0; j < joints.length; j++) { ibm.getElement(j, m); ibms.push(...m); }
+  return { doc, png: Buffer.from(png), tris, height: +top.toFixed(3), joints: jointsOf(doc), ibms };
 }
 
 /** clips: the rig (no mesh, no skin) and the named animations of one character file. */
