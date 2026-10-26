@@ -191,6 +191,8 @@ async function run(out) {
   for (const [state, refs] of Object.entries(states)) {
     manifest.states[state] = refs.map((r) => model(r, `states/${state}`));
     for (const r of refs) if (manifest.models[r]?.reach > FOOTPRINT.building) errors.push(`states/${state}: ${r} reaches ${manifest.models[r].reach} of its hex`);
+    // a wonder stands on the town centre's ring like a building: the building's triangle budget
+    for (const r of state === 'wonder' ? refs : []) if (manifest.models[r]?.tris > MAX_BUILDING_TRIS) errors.push(`states/wonder: ${r} has ${manifest.models[r].tris} triangles, over ${MAX_BUILDING_TRIS}`);
   }
   manifest.roles = ROLES;
   manifest.shapes = SHAPES;

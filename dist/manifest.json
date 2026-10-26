@@ -2448,6 +2448,19 @@
    ],
    "reach": 0.767
   },
+  "recipe/monument": {
+   "kit": "hexagon",
+   "file": "models/recipe/monument.glb",
+   "bytes": 94000,
+   "sha256": "f4570651fd36afe1fc7d2dd801acbb7ee0477e7d4ac7413424b293ce57a4b899",
+   "tris": 2574,
+   "size": [
+    1.197,
+    2.793,
+    1.383
+   ],
+   "reach": 0.738
+  },
   "dress/default-0": {
    "kit": "hexagon",
    "file": "models/dress/default-0.glb",
@@ -3374,6 +3387,9 @@
    "hexagon/building_stage_A",
    "hexagon/building_stage_B",
    "hexagon/building_stage_C"
+  ],
+  "wonder": [
+   "recipe/monument"
   ]
  },
  "characters": {

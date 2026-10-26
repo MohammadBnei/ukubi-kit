@@ -89,3 +89,4 @@ code: # ours (kits/ukubi/models.mjs, docs/procedural.md): gabled workshops, then
 states:
   scaffold: [hexagon/building_scaffolding, hexagon/ladder, hexagon/wheelbarrow]
   stages: [hexagon/building_dirt, hexagon/building_stage_A, hexagon/building_stage_B, hexagon/building_stage_C]
+  wonder: [recipe/monument] # a wonder that stands (its rising uses the stages: the banner names it)
