@@ -190,3 +190,11 @@ depot-block:
     - { model: Door_A, at: [-0.8, 0, 1.12] }
     - { model: Barrel_A, at: [1.2, 0.5, 1.2] }
     - { model: Barrel_B, at: [1.6, 0.5, 0.8] }
+monument: # a wonder standing (the town's own: plan/13's multi-goal project), on the town centre's ring: a tall tower
+  # on a hill, flags at its foot; no civ draws it
+  kit: hexagon
+  parts:
+    - { model: hill_single_A }
+    - { model: building_tower_B_blue, stack: true }
+    - { model: flag_blue, at: [0.55, 0, 0.5] }
+    - { model: flag_blue, at: [-0.55, 0, 0.5] }
