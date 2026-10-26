@@ -32,6 +32,7 @@ type Manifest struct {
 	Civs      map[string]Civ               `json:"civs"`
 	States    map[string][]string          `json:"states"` // scaffold, stages -> model ids (shared by every civ)
 	RoleNames []string                     `json:"roles"`  // every role a building can have
+	Shapes    []string                     `json:"shapes"` // the shape vocabulary (catalog/shapes.yaml)
 }
 
 type Kit struct {
@@ -57,8 +58,9 @@ type Model struct {
 // its buildings, if its kit has one, and its dressing's seeded variants).
 type Civ struct {
 	Kit    string                `json:"kit"`
-	Styles []string              `json:"styles"` // one per age
-	Roles  map[string][][]string `json:"roles"`  // role -> age -> variants
+	Styles []string              `json:"styles"`           // one per age
+	Roles  map[string][][]string `json:"roles"`            // role -> age -> variants
+	Shapes map[string]string     `json:"shapes,omitempty"` // variant -> its shape (catalog/shapes.yaml), for the tagged ones
 	Plot   string                `json:"plot,omitempty"`
 	Dress  []string              `json:"dress"`
 }
@@ -98,6 +100,13 @@ func (m *Manifest) Civ(name string) Civ {
 // draws from its own kit only: a role it doesn't list draws its product. An unknown civ is the default civ. ok is
 // false for a role the kit doesn't know.
 func (m *Manifest) Pick(civ, role string, age int, seed string) (model, style string, ok bool) {
+	return m.PickFor(civ, role, age, seed, nil)
+}
+
+// PickFor is Pick for a building that asks for shapes (plan/13 §1: its model derived from what it is): it draws among
+// the slot's variants carrying one of them, else among its untagged variants, else among all, so it is always drawn.
+// Asking for none draws among the untagged variants: a tagged variant waits for a building that asks for its shape.
+func (m *Manifest) PickFor(civ, role string, age int, seed string, shapes []string) (model, style string, ok bool) {
 	if !slices.Contains(m.RoleNames, role) {
 		return "", "", false
 	}
@@ -113,6 +122,20 @@ func (m *Manifest) Pick(civ, role string, age int, seed string) (model, style st
 	vs := slots[min(max(age, 1), len(slots))-1]
 	if len(vs) == 0 {
 		return "", "", false
+	}
+	var asked, untagged []string
+	for _, v := range vs {
+		switch s, tagged := c.Shapes[v]; {
+		case tagged && slices.Contains(shapes, s):
+			asked = append(asked, v)
+		case !tagged:
+			untagged = append(untagged, v)
+		}
+	}
+	if len(asked) > 0 {
+		vs = asked
+	} else if len(untagged) > 0 {
+		vs = untagged
 	}
 	// rendezvous hashing: each variant scores hash(seed, variant), the highest wins; adding a variant moves only the
 	// buildings that now score it highest, never reshuffles the rest

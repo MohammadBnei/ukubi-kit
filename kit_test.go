@@ -100,7 +100,7 @@ func TestPick(t *testing.T) {
 		before[s], _, _ = m.Pick("apps", "product", 2, s)
 	}
 	roles := map[string][][]string{"product": {c.Roles["product"][0], append(slices.Clone(c.Roles["product"][1]), "extra")}}
-	m.Civs["apps"] = Civ{Kit: c.Kit, Styles: c.Styles, Roles: roles}
+	m.Civs["apps"] = Civ{Kit: c.Kit, Styles: c.Styles, Roles: roles, Shapes: c.Shapes}
 	for s, was := range before {
 		if now, _, _ := m.Pick("apps", "product", 2, s); now != was && now != "extra" {
 			t.Errorf("seed %s moved from %s to %s, not to the new variant", s, was, now)
@@ -114,5 +114,53 @@ func TestPick(t *testing.T) {
 	}
 	if len(seen) < 2 {
 		t.Error("variants never vary")
+	}
+}
+
+// TestPickFor: a building asking for a shape draws among the variants carrying it, else the untagged ones, else all;
+// asking for none never draws a tagged variant while an untagged one exists; and a pick is always made.
+func TestPickFor(t *testing.T) {
+	m, err := Load()
+	if err != nil {
+		t.Fatal(err)
+	}
+	for civ, c := range m.Civs {
+		for _, shape := range c.Shapes {
+			if !slices.Contains(m.Shapes, shape) {
+				t.Errorf("%s: shape %q is not in the vocabulary %v", civ, shape, m.Shapes)
+			}
+		}
+		for role, slots := range c.Roles {
+			for age := range slots {
+				vs := slots[age]
+				untagged := slices.ContainsFunc(vs, func(v string) bool { _, ok := c.Shapes[v]; return !ok })
+				for i := range 60 {
+					seed := strconv.Itoa(i)
+					v, _, ok := m.PickFor(civ, role, age+1, seed, nil)
+					if !ok || v == "" {
+						t.Fatalf("%s/%s/%d: nothing drawn", civ, role, age+1)
+					}
+					if _, tagged := c.Shapes[v]; tagged && untagged {
+						t.Errorf("%s/%s/%d: asked for nothing, drew tagged %s", civ, role, age+1, v)
+					}
+					for _, shape := range m.Shapes {
+						v, _, _ := m.PickFor(civ, role, age+1, seed, []string{shape})
+						has := slices.ContainsFunc(vs, func(x string) bool { return c.Shapes[x] == shape })
+						if has && c.Shapes[v] != shape {
+							t.Errorf("%s/%s/%d: asked for %s, drew %s", civ, role, age+1, shape, v)
+						}
+					}
+				}
+			}
+		}
+	}
+	// what the guard's defence draws for a gate, and that Pick is PickFor asking for nothing
+	if v, _, _ := m.PickFor("guard", "defence", 2, "x", []string{"gate"}); v != "recipe/gatehouse" {
+		t.Errorf("guard's gate at age 2: %s", v)
+	}
+	a, _, _ := m.Pick("data", "economy", 1, "y")
+	b, _, _ := m.PickFor("data", "economy", 1, "y", nil)
+	if a != b {
+		t.Errorf("Pick %s, PickFor(nil) %s", a, b)
 	}
 }

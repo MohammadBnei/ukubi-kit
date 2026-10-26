@@ -80,7 +80,7 @@ for (const civ of civs) {
         tris += await place(tile, style, x, z);
         if (c.plot) tris += await place(c.plot, style, x, z);
         tris += await place(id, style, x, z);
-        text(`${role} · ${id.split('/').pop().replace('_withoutBase', '').replace('_blue', '')}`, x, 0, z + 1.2 + (col % 2) * 0.45);
+        text(`${role} · ${id.split('/').pop().replace('_withoutBase', '').replace('_blue', '')}${c.shapes?.[id] ? ` · ${c.shapes[id]}` : ''}`, x, 0, z + 1.2 + (col % 2) * 0.45);
         col++; models++;
       }
     }
