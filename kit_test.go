@@ -2,11 +2,14 @@ package ukubikit
 
 import (
 	"crypto/sha256"
+	"encoding/binary"
 	"encoding/hex"
+	"encoding/json"
 	"io/fs"
 	"maps"
 	"slices"
 	"strconv"
+	"strings"
 	"testing"
 )
 
@@ -181,5 +184,47 @@ func TestPickFor(t *testing.T) {
 	b, _, _ := m.PickFor("data", "economy", 1, "y", nil)
 	if a != b {
 		t.Errorf("Pick %s, PickFor(nil) %s", a, b)
+	}
+}
+
+// TestNoEmbeddedImages: no built model carries an image or a texture. The game's pages run under img-src 'self' (no
+// blob: or data:), and three.js decodes an embedded image through a blob URL: the kit's textures are files of their
+// own (a style's, a character's), never inside a model.
+func TestNoEmbeddedImages(t *testing.T) {
+	n := 0
+	fs.WalkDir(FS(), ".", func(p string, d fs.DirEntry, err error) error {
+		if err != nil || d.IsDir() || !strings.HasSuffix(p, ".glb") {
+			return err
+		}
+		b, err := fs.ReadFile(FS(), p)
+		if err != nil {
+			t.Error(err)
+			return nil
+		}
+		// a GLB: a 12-byte header, then the JSON chunk (length, type "JSON", data)
+		if len(b) < 20 || string(b[:4]) != "glTF" || string(b[16:20]) != "JSON" {
+			t.Errorf("%s: not a GLB with a JSON chunk", p)
+			return nil
+		}
+		l := int(binary.LittleEndian.Uint32(b[12:16]))
+		if 20+l > len(b) {
+			t.Errorf("%s: a short JSON chunk", p)
+			return nil
+		}
+		var doc map[string]json.RawMessage
+		if err := json.Unmarshal(b[20:20+l], &doc); err != nil {
+			t.Errorf("%s: %v", p, err)
+			return nil
+		}
+		for _, k := range []string{"images", "textures"} {
+			if _, ok := doc[k]; ok {
+				t.Errorf("%s holds %s: an embedded image breaks the game's CSP (img-src 'self')", p, k)
+			}
+		}
+		n++
+		return nil
+	})
+	if n == 0 {
+		t.Fatal("no model read")
 	}
 }
