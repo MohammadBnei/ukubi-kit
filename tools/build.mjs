@@ -43,6 +43,7 @@ async function run(out) {
   const kits = {};
   for (const k of (await readdir(join(ROOT, 'kits'))).sort()) kits[k] = await yaml(`kits/${k}/source.yaml`);
   const recipes = await yaml('catalog/recipes.yaml'), styles = await yaml('catalog/styles.yaml'), { states, ...civs } = await yaml('catalog/civs.yaml');
+  const SHAPES = Object.keys(await yaml('catalog/shapes.yaml'));
   const errors = [], manifest = { kits: {}, models: {}, styles: {}, civs: {}, states: {} };
 
   const files = {}, atlases = {};
@@ -153,7 +154,14 @@ async function run(out) {
         return id;
       }));
     }
-    manifest.civs[civ] = { kit: c.kit, styles: c.styles, roles, ...(c.plot && { plot: `plot/${civ}` }),
+    // shapes: one per variant, from the vocabulary, on a variant this civ draws
+    const drawn = new Set(Object.values(roles).flat(2)), shapes = {};
+    for (const [ref, shape] of Object.entries(c.shapes || {})) {
+      if (!SHAPES.includes(shape)) errors.push(`${civ}: shape ${shape} (${ref}) is not one of ${SHAPES.join(', ')}`);
+      if (!drawn.has(ref)) errors.push(`${civ}: shape on ${ref}, which none of its roles draws`);
+      shapes[ref] = shape;
+    }
+    manifest.civs[civ] = { kit: c.kit, styles: c.styles, roles, ...(Object.keys(shapes).length && { shapes }), ...(c.plot && { plot: `plot/${civ}` }),
       dress: c.dress ? Array.from({ length: c.dress.count }, (_, n) => `dress/${civ}-${n}`) : [] };
     for (const id of [manifest.civs[civ].plot, ...manifest.civs[civ].dress].filter(Boolean)) {
       const limit = id.startsWith('plot/') ? FOOTPRINT.plot : FOOTPRINT.building;
@@ -176,6 +184,7 @@ async function run(out) {
     for (const r of refs) if (manifest.models[r]?.reach > FOOTPRINT.building) errors.push(`states/${state}: ${r} reaches ${manifest.models[r].reach} of its hex`);
   }
   manifest.roles = ROLES;
+  manifest.shapes = SHAPES;
 
   await write('manifest.json', JSON.stringify(manifest, null, 1) + '\n');
   return errors;

@@ -24,6 +24,10 @@ model a civ draws for a role in an age, and a Go package that embeds the result.
   colour, a plot under every building (a floor piece, for a kit whose buildings have no base of their own) and
   seeded dressing on the free land. `default` is the town centre's and an unknown civ's. Construction states are
   shared by every civ.
+- **Shapes** (`catalog/shapes.yaml`): what a model looks like (tower, gate, yard, vault, mill, bay, rig, pit, wide),
+  never what it stands for. A civ tags some variants with one shape each; the game's `PickFor` draws a building among
+  the variants with a shape it asks for, else the untagged ones, else all (it is always drawn). Which shapes fit
+  which building is the private side's, never this repo's.
 
 | Civ | Kit | Age 1 → age 2 |
 |---|---|---|

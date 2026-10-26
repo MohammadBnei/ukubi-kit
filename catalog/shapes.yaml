@@ -1,0 +1,13 @@
+# Shapes (plan/13 §1: a building's model is derived, never pinned): what a model looks like, never what it stands for.
+# A civ tags some of its role variants with one shape each (catalog/civs.yaml `shapes:`); the game asks for the
+# shapes that fit a building (the private side maps what a building is to shapes) and draws among the variants that
+# carry one, else among the slot's untagged ones, else among all of them: a building is always drawn.
+tower: tall and narrow
+gate: an arch or a barred entrance
+yard: open ground with stock on it
+vault: a closed, barred or sealed strongroom
+mill: machinery that turns or pumps
+bay: a wide door for vehicles or goods
+rig: an open frame on legs
+pit: dug into rock
+wide: broad and low, a hall

@@ -3107,6 +3107,13 @@
      ]
     ]
    },
+   "shapes": {
+    "hexagon/building_windmill_blue": "mill",
+    "hexagon/building_tower_base_blue": "tower",
+    "hexagon/building_mine_blue": "pit",
+    "hexagon/building_tower_A_blue": "tower",
+    "hexagon/building_tower_B_blue": "tower"
+   },
    "dress": [
     "dress/platform-0",
     "dress/platform-1",
@@ -3141,6 +3148,12 @@
       "recipe/treasury-banners"
      ]
     ]
+   },
+   "shapes": {
+    "recipe/vault-coins": "vault",
+    "recipe/store-yard": "yard",
+    "recipe/treasury-gated": "vault",
+    "recipe/treasury-tower": "tower"
    },
    "plot": "plot/data",
    "dress": [
@@ -3178,6 +3191,12 @@
      ]
     ]
    },
+   "shapes": {
+    "recipe/depot-room": "bay",
+    "recipe/stock-yard": "yard",
+    "recipe/depot-roofstock": "yard",
+    "recipe/depot-block": "tower"
+   },
    "plot": "plot/operations",
    "dress": [
     "dress/operations-0",
@@ -3213,6 +3232,12 @@
       "recipe/crypt-lone"
      ]
     ]
+   },
+   "shapes": {
+    "recipe/gate-lanterns": "gate",
+    "recipe/watch-post": "tower",
+    "recipe/crypt-lone": "vault",
+    "recipe/gatehouse": "gate"
    },
    "plot": "plot/guard",
    "dress": [
@@ -3250,6 +3275,11 @@
      ]
     ]
    },
+   "shapes": {
+    "space/basemodule_garage": "bay",
+    "recipe/hub-solar": "mill",
+    "space/drill_structure": "rig"
+   },
    "dress": [
     "dress/fleet-0",
     "dress/fleet-1",
@@ -3277,6 +3307,11 @@
       "city/building_H_withoutBase"
      ]
     ]
+   },
+   "shapes": {
+    "city/building_C_withoutBase": "tower",
+    "city/building_E_withoutBase": "wide",
+    "city/building_H_withoutBase": "tower"
    },
    "dress": [
     "dress/apps-0",
@@ -3345,5 +3380,16 @@
   "trade",
   "barracks",
   "product"
+ ],
+ "shapes": [
+  "tower",
+  "gate",
+  "yard",
+  "vault",
+  "mill",
+  "bay",
+  "rig",
+  "pit",
+  "wide"
  ]
 }

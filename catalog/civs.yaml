@@ -3,6 +3,10 @@
 # being variants the game picks from by a hash of the building's id. A role a civ doesn't list draws its own
 # `product`, never another civ's. Models are a kit's own (kit/name) or a recipe (recipe/id) of that kit.
 #
+# `shapes` tags some variants with one shape each (catalog/shapes.yaml): the game draws a building among the variants
+# whose shape it asks for, else among the slot's untagged ones, else among all of them. A shape says what the model
+# looks like, never what it stands for.
+#
 # Its biome is from the same kit: the hex tiles in its styles' ground colour, a `plot` under every building (a floor
 # piece of the kit; none for a kit whose buildings stand on their own base or pads: hexagon, space, city), and `dress`, seeded variants of the kit's
 # props on the free land. default is the town centre's (the town's own, not a civ's) and an unknown realm's.
@@ -27,6 +31,7 @@ platform: # medieval: timber homes, wells and mills, then towers
     houses: [[hexagon/building_home_A_blue, hexagon/building_home_B_blue], [recipe/home-yard, hexagon/building_tavern_blue]]
     utility: [[hexagon/building_well_blue, hexagon/building_windmill_blue, hexagon/building_tower_base_blue, hexagon/building_mine_blue], [recipe/tower-flag, hexagon/building_tower_A_blue, hexagon/building_tower_B_blue, hexagon/building_windmill_blue]]
     product: [hexagon/building_home_A_blue, recipe/home-yard]
+  shapes: { hexagon/building_windmill_blue: mill, hexagon/building_tower_base_blue: tower, hexagon/building_mine_blue: pit, hexagon/building_tower_A_blue: tower, hexagon/building_tower_B_blue: tower }
   dress: { count: 4, scale: 0.7, parts: [hexagon/tree_single_A, hexagon/tree_single_B, hexagon/rock_single_A, hexagon/rock_single_C] }
 data: # dungeon: walled vaults, then pillared treasuries and a tower
   kit: dungeon
@@ -35,6 +40,7 @@ data: # dungeon: walled vaults, then pillared treasuries and a tower
     economy: [[recipe/vault-chest, recipe/vault-coins, recipe/store-yard], [recipe/treasury-banners, recipe/treasury-gated, recipe/treasury-tower]]
     product: [recipe/vault-chest, recipe/treasury-banners]
   plot: { model: dungeon/floor_tile_large, scale: 1.12 }
+  shapes: { recipe/vault-coins: vault, recipe/store-yard: yard, recipe/treasury-gated: vault, recipe/treasury-tower: tower }
   dress: { count: 4, scale: 0.8, parts: [dungeon/floor_tile_small, dungeon/floor_tile_small, dungeon/barrel_large, dungeon/column] }
 operations: # prototype: block sheds and stock yards, then depots of two storeys
   kit: prototype
@@ -43,6 +49,7 @@ operations: # prototype: block sheds and stock yards, then depots of two storeys
     trade: [[recipe/shed-slope, recipe/depot-room, recipe/stock-yard], [recipe/depot-storeys, recipe/depot-roofstock, recipe/depot-block]]
     product: [recipe/depot-room, recipe/depot-storeys]
   plot: { model: prototype/Floor, scale: 1.12 }
+  shapes: { recipe/depot-room: bay, recipe/stock-yard: yard, recipe/depot-roofstock: yard, recipe/depot-block: tower }
   dress: { count: 4, parts: [prototype/Pallet_Small, prototype/Box_A, prototype/Box_B, prototype/Box_C] }
 guard: # halloween: shrines, gates and watch posts, then crypts and a gatehouse
   kit: halloween
@@ -51,6 +58,7 @@ guard: # halloween: shrines, gates and watch posts, then crypts and a gatehouse
     defence: [[recipe/shrine-yard, recipe/gate-lanterns, recipe/watch-post], [recipe/crypt-lone, recipe/crypt-lanterns, recipe/gatehouse]]
     product: [recipe/shrine-yard, recipe/crypt-lone]
   plot: { model: halloween/floor_dirt, scale: 1.12 }
+  shapes: { recipe/gate-lanterns: gate, recipe/watch-post: tower, recipe/crypt-lone: vault, recipe/gatehouse: gate }
   dress: { count: 4, scale: 0.6, parts: [halloween/tree_dead_large, halloween/tree_dead_medium, halloween/tree_pine_orange_medium, halloween/gravestone, halloween/grave_A, halloween/pumpkin_orange] }
 fleet: # space base: modules, then hubs, solar and drills
   kit: space
@@ -58,12 +66,14 @@ fleet: # space base: modules, then hubs, solar and drills
   roles:
     barracks: [[space/basemodule_A, space/basemodule_B, space/basemodule_garage], [recipe/hub, recipe/hub-solar, space/drill_structure]]
     product: [space/basemodule_A, recipe/hub]
+  shapes: { space/basemodule_garage: bay, recipe/hub-solar: mill, space/drill_structure: rig }
   dress: { count: 4, parts: [space/containers_A, space/containers_A, space/solarpanel] }
 apps: # city: low blocks, then towers
   kit: city
   styles: [modern-1, modern-2]
   roles:
     product: [[city/building_A_withoutBase, city/building_B_withoutBase, city/building_C_withoutBase], [city/building_E_withoutBase, city/building_F_withoutBase, city/building_G_withoutBase, city/building_H_withoutBase]]
+  shapes: { city/building_C_withoutBase: tower, city/building_E_withoutBase: wide, city/building_H_withoutBase: tower }
   dress: { count: 4, parts: [city/bush, city/bush, city/streetlight, city/watertower] }
 code: # ours (kits/ukubi/models.mjs, docs/procedural.md): gabled workshops, then factories
   kit: ukubi
