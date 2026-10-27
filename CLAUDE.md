@@ -29,3 +29,21 @@ The game's public 3D kit (orientation only; the design is mountain `plan/13-game
 - **Bun is the toolchain,** pinned to an exact version. When a change of toolchain or engine changes dist (GLBs are
   hashed byte for byte), the new models are reviewed in that PR, and the game's budget gate runs again.
 - **A refactor never changes dist.** `check` proves it.
+
+## Making a change (the ukubi dev rules; mountain `plan/16-dev-rules.md`, private)
+- **Every non-trivial change runs the loop:** a short plan; a doubt cycle (a fresh agent gets the plan and the code,
+  read-only, and tries to disprove it; every finding is taken or answered); the proof, built and run on main first;
+  the build; the local checks; an independent review (every finding fixed or answered); the PR; the merge on the
+  owner's word, after local checks and CI; the branch re-synced. A step is skipped only on the owner's word.
+- **A plan checks every claim against the code** (`file:line`), and lists every test it edits and every behaviour
+  it changes. A refactor's test edits touch setup, imports and names, never an assertion.
+- **Order is behaviour:** sort ties, map and registry order, the order errors are printed in.
+- **The proof must reach the changed code.** Run it twice on main first, break the code on purpose to see it fail.
+  Here: `check` under Bun on Linux and macOS and under Node (dist byte for byte); a mutation harness, written for the
+  change as in #7, that breaks one catalog input per case on a fresh copy and compares exit codes and error classes;
+  the output of the tools CI doesn't run (`bun tools/cells.mjs <kit>`) diffed by hand.
+- **Engines differ:** a comparator that never returns 0 leaves ties in an engine-defined order (V8 against
+  JavaScriptCore; a stable sort doesn't help), and Bun's Math is the host's libm. Do an engine-dependent step in the
+  kit, in one written-down order (#6).
+- **Every new test gets a mutation and a positive control.**
+- **Reviews keep catching prose:** re-read every doc line, comment and commit message against the code.
