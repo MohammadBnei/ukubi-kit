@@ -25,3 +25,11 @@ test('a kit that is two kinds is refused; the origin a kind records', () => {
   assert.deepEqual(sources.fetch.origin({ repo: 'a/b', commit: 'c' }), { repo: 'a/b', commit: 'c' });
   assert.deepEqual(sources.generator.origin({ generator: 'models.mjs' }), { generator: 'models.mjs' });
 });
+
+test('a kind\'s files: a pinned pack\'s from the cache, by its commit; the people\'s origin is their pack\'s', async () => {
+  const file = await sources.fetch.file('/r', { name: 'k', commit: 'c0' });
+  assert.equal(file('a/b.glb'), '/r/cache/k/c0/a/b.glb');
+  assert.equal(file('a/b'), '/r/cache/k/c0/a/b.gltf');
+  assert.deepEqual(sources.characters.origin({ repo: 'a/b', commit: 'c', characters: {} }), { repo: 'a/b', commit: 'c' });
+  assert.equal(sources.characters.file, undefined); // a people kit has no atlas grid: cells.mjs refuses it
+});

@@ -86,7 +86,8 @@ code: # ours (kits/ukubi/models.mjs, docs/procedural.md): gabled workshops, then
 # The world kit: the hex tiles every district stands on and the construction states every civ shares, painted in each
 # civ's style. build.mjs names no kit: it reads this. `tiles` are its models that are tiles (each lies at its own
 # origin, never grounded); `ground` is the cell a style colours for a district's ground, `team` the cell the shared
-# construction props show a civ's colour in ("col,row", quoted: unquoted, YAML splits it at the comma).
+# construction props show a civ's colour in ("col,row" on the atlas grid; quoted, since in flow style a bare 0,2 splits
+# at the comma). `world` and `states` are reserved: neither names a civ.
 world:
   kit: hexagon
   tiles: [hex_grass]

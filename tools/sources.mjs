@@ -1,5 +1,6 @@
 // sources: where a kit comes from, by kind (kits/<kit>/source.yaml). A kind loads its models and atlas, and says what
-// the manifest records of its origin; build.mjs and cells.mjs go through it and name no kind themselves.
+// the manifest records of its origin. build.mjs and cells.mjs go through it; build.mjs names the characters kind only to
+// give the town's people their own path.
 //   fetch       a CC0 pack pinned at a commit (repo, commit, root), sha256-locked (fetch.mjs)
 //   generator   a kit of our own, made by the procgen library (generator: its module) (procgen/kit.mjs)
 //   characters  the town's people (characters:): their own path, characters() in build.mjs; never a civ's kit
