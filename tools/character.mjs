@@ -5,10 +5,12 @@
 //     space of that bone, weighted 1 to it, so the whole character is one skinned primitive: one draw;
 //   - no clips (the kit's one clip file holds them: clips()), no image (its texture is written apart, served as a
 //     file, so the page never decodes a blob: the town's CSP);
-//   - quantized (KHR_mesh_quantization, which corrects the inverse bind matrices).
+//   - quantized (KHR_mesh_quantization, which corrects the inverse bind matrices), its skin weights put in order by
+//     weights.mjs, not by quantize (whose order depends on the engine).
 import { Logger } from '@gltf-transform/core';
 import { joinPrimitives, prune, quantize } from '@gltf-transform/functions';
 import { io } from './model.mjs';
+import { canonicalWeights } from './weights.mjs';
 
 const quiet = new Logger(Logger.Verbosity.WARN);
 
@@ -102,10 +104,11 @@ export async function character(file, keep) {
   const pos = joined.getAttribute('POSITION'), v = [];
   for (let i = 0; i < pos.getCount(); i++) top = Math.max(top, pos.getElement(i, v)[1]);
   // quantize gives the mesh a skin of its own (its inverse bind matrices corrected), so prune again after it
-  await doc.transform(prune({ keepAttributes: true, keepLeaves: true }), quantize({ quantizePosition: 16, quantizeNormal: 16, quantizeTexcoord: 16 }),
+  await doc.transform(prune({ keepAttributes: true, keepLeaves: true }), quantize({ quantizePosition: 16, quantizeNormal: 16, quantizeTexcoord: 16, normalizeWeights: false }),
     prune({ keepAttributes: true, keepLeaves: true }));
   const out = root.listMeshes().flatMap((m) => m.listPrimitives());
   if (root.listMeshes().length !== 1 || out.length !== 1 || root.listSkins().length !== 1) throw new Error(`${file}: ${root.listMeshes().length} meshes, ${out.length} primitives, ${root.listSkins().length} skins, not one each`);
+  canonicalWeights(out[0]);
   const tris = out[0].getIndices().getCount() / 3;
   // the rig's inverse bind matrices, flat: the clips (one rig's tracks) fit only a character with the same rig
   const ibms = [], m = [];
