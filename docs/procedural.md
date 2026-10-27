@@ -126,8 +126,8 @@ build looks the name up in the palette. (A fetched pack's cells are named by pos
    style, and `'kit=<name>&style=<style>'` in any style; quote the query, or the shell takes the `&`.
 4. **Give it to a civ:**
    - `catalog/civs.yaml`: `kit: <name>`, its roles per age, its `product`, its `plot` and its `dress`;
-   - `catalog/styles.yaml`: the civ's two styles, with their cells for the new kit, plus the hexagon tiles' `0,2`
-     (ground) and `0,3` (team). Name the kit's cells by its palette.
+   - `catalog/styles.yaml`: the civ's two styles, with their cells for the new kit, plus the world kit's ground and team
+     cells (`catalog/civs.yaml` `world`: the hexagon tiles' `0,2` and `0,3`). Name the kit's cells by its palette.
 5. **Check it:**
    - `bun run test`;
    - `bun run build`: it fails on reach, triangles, a foreign kit, or a missing product or cell;
@@ -183,7 +183,8 @@ arches, stairs.
 
 ## How a build makes it
 
-- `build.mjs` sees `generator:` and calls `generateKit()` instead of fetching.
+- `generator:` makes the kit a generator kind (`tools/sources.mjs`), whose source calls `generateKit()` instead of
+  fetching.
 - `generateKit()` hashes every `.mjs` file of the library and of the kit's directory into a version, removes older
   versions, and writes `cache/<kit>/<version>/<model>.gltf|.bin` and `atlas.png` (through temporary files of its own,
   so two runs at once never collide). It rewrites them on every run; the version only keeps old outputs apart. The

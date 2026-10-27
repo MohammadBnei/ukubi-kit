@@ -1,9 +1,10 @@
 // style: a kit's atlas repainted into a style (plan/13 §5). A style is an OKLab treatment of every pixel,
-// L' = l0 + lk·L, (a', b') = s·(a, b) + tint, plus recoloured cells: the atlases are 8×4 grids of vertical gradient
+// L' = l0 + lk·L, (a', b') = s·(a, b) + tint, plus recoloured cells: the atlases are COLS×ROWS (8×4) grids of vertical gradient
 // swatches, and a cell given a colour keeps its own gradient and detail (its pixels' offsets from the cell's mean
 // lightness, a third of their chroma offsets) around that colour. Clay, mountain's town, is the treatment
 // {l0 .423, lk .461, s .269, tint [-.0056, .0149]} fitted to clay.png (mean error under 9/255 per channel).
 import { PNG } from 'pngjs';
+import { COLS, ROWS } from './procgen/atlas.mjs';
 
 const lin = (c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
 const gam = (c) => { c = Math.min(1, Math.max(0, c)); return c <= 0.0031308 ? c * 12.92 : 1.055 * c ** (1 / 2.4) - 0.055; };
@@ -37,7 +38,7 @@ export function paint(atlasBytes, style, cells = {}, out = 256) {
     const [L, A, B] = toLab(r / k / k, g / k / k, b / k / k), o = (y * out + x) * 3;
     lab[o] = style.l0 + style.lk * L; lab[o + 1] = style.s * A + ta; lab[o + 2] = style.s * B + tb;
   }
-  const cw = out / 8, ch = out / 4;
+  const cw = out / COLS, ch = out / ROWS;
   for (const [key, colour] of Object.entries(cells)) {
     const [c, r] = key.split(',').map(Number), [tL, tA, tB] = toLab(...hex(colour));
     let mL = 0, mA = 0, mB = 0, n = 0;
