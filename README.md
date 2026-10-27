@@ -14,8 +14,9 @@ model a civ draws for a role in an age, and a Go package that embeds the result.
 - **Styles** (`catalog/styles.yaml`): every kit paints its models through one 8×4 atlas of gradient swatches.
   A style repaints a kit's atlas: an OKLab treatment of every pixel plus cells given a colour, each keeping its own
   gradient and detail. Clay, mountain's town, is the treatment fitted to its `clay.png`. A model never changes with
-  the style; the game swaps the texture. A style is painted for its civ's kit and for hexagon (the tiles and the
-  construction props every civ shares).
+  the style; the game swaps the texture. A style is painted for its civ's kit and for the world kit (hexagon:
+  the tiles and the construction props every civ shares; `catalog/civs.yaml` `world` declares it, its tiles and its
+  ground and team cells, so the build names no kit).
 - **Recipes** (`catalog/recipes.yaml`): kitbashing, several parts of one kit as one model. Most of Halloween's,
   Dungeon's and Prototype's buildings are recipes: those packs have few buildings that stand alone.
 - **Civs** (`catalog/civs.yaml`): **one kit per civ.** Per role (a building's function: houses, utility, barracks,
@@ -63,7 +64,9 @@ Validation fails on: a catalog reference that isn't a model, a civ drawing anoth
 product, a civ missing an age, a building that overhangs its hex by more than 10% (the town centre may take more; a
 building on a plot stays inside the plot, and the plot inside its hex), a model over 8000 triangles or a building
 over 4500, a style cell outside the 8×4 grid or off a kit's swatches, a civ style without the tiles' ground and team
-cells. Characters fail on a rig that is not the clip file's (by joint name and order), on more than one draw, or on
+cells, or a `world` that is not a model kit with its tiles and two cells. The checks are ordered lists in `build.mjs`
+(each civ's, then the town's), and a kit's source is chosen by its kind (`tools/sources.mjs`: fetched, made, or the
+town's people). Characters fail on a rig that is not the clip file's (by joint name and order), on more than one draw, or on
 more than 5500 triangles.
 
 ### Using a model

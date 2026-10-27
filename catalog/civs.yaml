@@ -83,6 +83,17 @@ code: # ours (kits/ukubi/models.mjs, docs/procedural.md): gabled workshops, then
     product: [ukubi/workshop_A, ukubi/factory_A]
   plot: { model: ukubi/plot_yard }
   dress: { count: 4, parts: [ukubi/crates, ukubi/logs, ukubi/spool, ukubi/shrub, ukubi/drum] }
+# The world kit: the hex tiles every district stands on and the construction states every civ shares, painted in each
+# civ's style. build.mjs names no kit: it reads this. `tiles` are its models that are tiles (each lies at its own
+# origin, never grounded); `ground` is the cell a style colours for a district's ground, `team` the cell the shared
+# construction props show a civ's colour in ("col,row" on the atlas grid; quoted, since in flow style a bare 0,2 splits
+# at the comma). `world` and `states` are reserved: neither names a civ.
+world:
+  kit: hexagon
+  tiles: [hex_grass]
+  ground: '0,2'
+  team: '0,3'
+
 # Construction (plan/13 §3): a goal's work in progress puts scaffold up around its standing building (the frame, at the
 # building's hex, then props beside it); a new building rises through the stages. Shared by every civ (a world state,
 # like the hex tiles), painted in the civ's style.

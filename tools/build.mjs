@@ -5,7 +5,8 @@
 //   dist/models/plot/<civ>.glb         the floor under a civ's buildings (catalog/civs.yaml plot), lying on the tile
 //   dist/models/dress/<civ>-<n>.glb    a civ's seeded dressing (catalog/civs.yaml dress)
 //   dist/styles/<style>/<kit>.png      a kit's atlas in a style (style.mjs): the kits the style's civs draw, and
-//                                      hexagon (the tiles and construction states every civ shares)
+//                                      the world kit (catalog/civs.yaml world: the tiles and construction states
+//                                      every civ shares)
 //   dist/manifest.json                 what is where: kits and licences, models (tris, bounds, footprint), styles, civs
 // Then it validates: every catalog reference resolves, a civ draws from its own kit only and has a product, every civ
 // draws each of its roles in every age, buildings, plots and dressing fit a hex, and no model is over its triangle
@@ -18,9 +19,9 @@ import { tmpdir } from 'node:os';
 import { join, relative } from 'node:path';
 import { PNG } from 'pngjs';
 import { parse } from 'yaml';
-import { fetchKit } from './fetch.mjs';
-import { generateKit } from './procgen/kit.mjs';
+import { COLS, ROWS } from './procgen/atlas.mjs';
 import { rng } from './procgen/random.mjs';
+import { kindOf, sources } from './sources.mjs';
 import { build, io } from './model.mjs';
 import { character, clips } from './character.mjs';
 import { paint } from './style.mjs';
@@ -45,26 +46,41 @@ const MAX_CHARACTER_TRIS = 5500;
 async function run(out) {
   const kits = {};
   for (const k of (await readdir(join(ROOT, 'kits'))).sort()) kits[k] = await yaml(`kits/${k}/source.yaml`);
-  const recipes = await yaml('catalog/recipes.yaml'), styles = await yaml('catalog/styles.yaml'), { states, ...civs } = await yaml('catalog/civs.yaml');
+  const recipes = await yaml('catalog/recipes.yaml'), styles = await yaml('catalog/styles.yaml'), { states, world, ...civs } = await yaml('catalog/civs.yaml');
   const SHAPES = Object.keys(await yaml('catalog/shapes.yaml'));
   const errors = [], manifest = { kits: {}, models: {}, styles: {}, civs: {}, states: {}, characters: {}, clips: null };
 
   const files = {}, atlases = {};
-  // a character kit (kits/<kit>/source.yaml characters:) is the town's people: its own path (characters()), never a
-  // civ's model kit: no style paints it, no role draws it
-  const people = Object.fromEntries(Object.entries(kits).filter(([, k]) => k.characters));
+  // a characters kit is the town's people: its own path (characters(), after the styles, so it comes last in the
+  // manifest), never a civ's model kit: no style paints it, no role draws it
+  const people = Object.fromEntries(Object.entries(kits).filter(([, k]) => kindOf(k) === 'characters'));
   for (const name of Object.keys(people)) delete kits[name];
-  for (const [name, kit] of Object.entries(kits)) {
-    const f = kit.generator ? await generateKit(ROOT, kit) : await fetchKit(ROOT, kit, { lock: args.has('--lock') }); // a kit of our own is made (procgen), not fetched
+  for (const [name, kit] of Object.entries(kits)) { // the model kits in their order, fetched or made alike (the manifest's order)
+    const source = sources[kindOf(kit)], f = await source.load(ROOT, kit, { lock: args.has('--lock') });
     files[name] = f.models;
     if (f.palette) { // a made kit: its cells are its palette's, and a style may name them (catalog/styles.yaml)
       kit.palette = f.palette;
       kit.swatches = Object.values(f.palette).map((c) => c.cell);
     }
     atlases[name] = await readFile(f.atlas);
-    manifest.kits[name] = { ...(kit.generator ? { generator: kit.generator } : { repo: kit.repo, commit: kit.commit }), licence: kit.licence, scale: kit.scale, turns: kit.turns };
+    manifest.kits[name] = { ...source.origin(kit), licence: kit.licence, scale: kit.scale, turns: kit.turns };
     if (![2, 4, 6].includes(kit.turns)) errors.push(`kit ${name}: turns ${kit.turns} is not 2, 4 or 6`);
   }
+  // the world kit (catalog/civs.yaml world): a model kit, its tiles a list of its models, its two cells on the grid. A
+  // broken world is reported with the rest of the errors, and what depends on it (the tiles' grounding, the ground-cell
+  // check) is skipped: the build still writes everything else
+  const onGrid = (v) => { const m = /^(\d),(\d)$/.exec(v ?? ''); return !!m && +m[1] < COLS && +m[2] < ROWS; };
+  const tiles = Array.isArray(world?.tiles) ? world.tiles : [];
+  const worldErrors = [
+    !files[world?.kit] && `world: kit ${world?.kit} is not a model kit in kits/`,
+    !Array.isArray(world?.tiles) && `world: tiles ${JSON.stringify(world?.tiles)} is not a list of the kit's models`,
+    ...tiles.filter((t) => files[world?.kit] && !files[world.kit][t]).map((t) => `world: tile ${t} is not a ${world.kit} model`),
+    Array.isArray(world?.tiles) && !tiles.length && 'world: no tiles',
+    ...['ground', 'team'].filter((k) => !onGrid(world?.[k])).map((k) => `world: ${k} ${world?.[k]} is not "col,row" on the ${COLS}×${ROWS} grid`),
+  ].filter(Boolean);
+  errors.push(...worldErrors);
+  const worldOk = !worldErrors.length;
+  const tile = (kit, name) => worldOk && kit === world.kit && tiles.includes(name); // a tile lies at its own origin
   // a style's cells for a kit, "col,row" -> colour; a made kit's may be named by its palette ("team": its cell), which
   // keeps a style right when the palette moves a name to another cell
   const cellsOf = (st, kit) => Object.fromEntries(Object.entries(st.cells?.[kit] || {}).map(([key, colour]) => {
@@ -86,7 +102,7 @@ async function run(out) {
   const part = (ref) => { const [kit, name] = ref.split('/'); return files[kit]?.[name] && { kit, file: files[kit][name] }; };
 
   for (const [kit, models] of Object.entries(files)) {
-    for (const name of Object.keys(models)) await emit(`${kit}/${name}`, kit, [{ file: models[name] }], { ground: !name.startsWith('hex_') });
+    for (const name of Object.keys(models)) await emit(`${kit}/${name}`, kit, [{ file: models[name] }], { ground: !tile(kit, name) });
   }
   for (const [id, r] of Object.entries(recipes)) {
     const parts = r.parts.map((p) => ({ ...p, file: files[r.kit]?.[p.model] }));
@@ -117,9 +133,9 @@ async function run(out) {
     }
   }
 
-  // a style paints the kits its civs draw, and hexagon (tiles, construction); a style no civ uses (pack) paints all
+  // a style paints the kits its civs draw, and the world kit (tiles, construction); a style no civ uses (pack) paints all
   const painted = {};
-  for (const c of Object.values(civs)) for (const st of c.styles || []) (painted[st] ||= new Set(['hexagon'])).add(c.kit);
+  for (const c of Object.values(civs)) for (const st of c.styles || []) (painted[st] ||= new Set(worldOk ? [world.kit] : [])).add(c.kit);
   for (const [id, st] of Object.entries(styles)) {
     manifest.styles[id] = {};
     for (const kit of Object.keys(kits)) {
@@ -132,7 +148,7 @@ async function run(out) {
       if (!kits[kit]) { errors.push(`style ${id}: cells for an unknown kit ${kit}`); continue; }
       for (const [key, colour] of Object.entries(cellsOf(st, kit))) {
         const [c, r] = key.split(',').map(Number);
-        if (!(c >= 0 && c < 8 && r >= 0 && r < 4) || !/^#[0-9a-f]{6}$/i.test(colour)) errors.push(`style ${id}: ${kit} cell ${key}: ${colour} is not "col,row" (8×4) to #rrggbb`);
+        if (!(c >= 0 && c < COLS && r >= 0 && r < ROWS) || !/^#[0-9a-f]{6}$/i.test(colour)) errors.push(`style ${id}: ${kit} cell ${key}: ${colour} is not "col,row" (${COLS}×${ROWS}) to #rrggbb`);
         else if (kits[kit]?.swatches && !kits[kit].swatches.includes(key)) errors.push(`style ${id}: ${kit} cell ${key} is not one of its swatches (recolouring it would cut a seam through its image)`);
       }
     }
@@ -140,60 +156,85 @@ async function run(out) {
 
   await characters(people, write, manifest, errors);
 
-  const model = (ref, where) => {
-    if (!manifest.models[ref]) errors.push(`${where}: ${ref} is not a model`);
-    return ref;
-  };
+  // the checks after the build, as ordered lists (mountain plan/15: a list that grows is a registry): a civ is resolved
+  // first (its roles' model ids), then each check reads it and writes nothing, then its manifest entry is assembled.
+  // The lists' order is the order the errors print in.
+  const isModel = (ref, where) => { if (!manifest.models[ref]) errors.push(`${where}: ${ref} is not a model`); };
   const ages = civs.default.styles.length;
+  // a role's model, in an age: {ref, where, m (its manifest entry), civ, c, role}
+  const refChecks = [
+    function known({ ref, where }) { isModel(ref, where); },
+    function ownKit({ ref, where, m, civ, c }) { if (m && m.kit !== c.kit) errors.push(`${where}: ${ref} is a ${m.kit} model, and ${civ} draws ${c.kit} only`); },
+    function buildingTris({ ref, where, m, role }) { if (m && role !== 'town-centre' && m.tris > MAX_BUILDING_TRIS) errors.push(`${where}: ${ref} has ${m.tris} triangles, over ${MAX_BUILDING_TRIS} for a building`); },
+    function footprint({ ref, where, m, c, role }) {
+      const limit = FOOTPRINT[role === 'town-centre' ? 'town-centre' : c.plot ? 'on-plot' : 'building'];
+      if (m && m.reach > limit) errors.push(`${where}: ${ref} reaches ${m.reach} of its hex, over ${limit}`);
+    },
+  ];
+  // a civ: {civ, c (its catalog entry), roles (resolved)}
+  const civChecks = [
+    function product({ civ, c }) { if (civ !== 'default' && !c.roles.product) errors.push(`${civ}: no product (a role it doesn't list draws its product)`); },
+    function styleAges({ civ, c }) { if (c.styles.length !== ages) errors.push(`${civ}: ${c.styles.length} styles, the default has ${ages} ages`); },
+    function stylesKnown({ civ, c }) { for (const s of c.styles) if (!styles[s]) errors.push(`${civ}: style ${s} is not in styles.yaml`); },
+    function roles({ civ, c, roles }) {
+      for (const [role, perAge] of Object.entries(c.roles)) {
+        if (!ROLES.includes(role)) errors.push(`${civ}: ${role} is not a role (${ROLES.join(', ')})`);
+        if (perAge.length !== ages) errors.push(`${civ}/${role}: ${perAge.length} ages, want ${ages}`);
+        roles[role].forEach((refs, age) => {
+          for (const ref of refs) for (const check of refChecks) check({ ref, where: `${civ}/${role}/${age + 1}`, m: manifest.models[ref], civ, c, role });
+        });
+      }
+    },
+    // shapes: one per variant, from the vocabulary, on a variant this civ draws
+    function shapes({ civ, c, roles }) {
+      const drawn = new Set(Object.values(roles).flat(2));
+      for (const [ref, shape] of Object.entries(c.shapes || {})) {
+        if (!SHAPES.includes(shape)) errors.push(`${civ}: shape ${shape} (${ref}) is not one of ${SHAPES.join(', ')}`);
+        if (!drawn.has(ref)) errors.push(`${civ}: shape on ${ref}, which none of its roles draws`);
+      }
+    },
+    function landReach({ civ, c }) {
+      for (const id of [c.plot && `plot/${civ}`, ...dressOf(civ, c)].filter(Boolean)) {
+        const limit = id.startsWith('plot/') ? FOOTPRINT.plot : FOOTPRINT.building;
+        if (manifest.models[id]?.reach > limit) errors.push(`${id} reaches ${manifest.models[id].reach} of its hex, over ${limit}`);
+      }
+    },
+    // its district's ground is the world's tile in its style: the style must colour the tile's ground cell, and, but
+    // for the town's own, the team cell the shared construction props show
+    function groundCells({ civ, c }) {
+      if (!worldOk) return; // reported above
+      for (const st of c.styles) for (const cell of civ === 'default' ? [world.ground] : [world.ground, world.team]) {
+        if (!styles[st]?.cells?.[world.kit]?.[cell]) errors.push(`${civ}: style ${st} has no ${world.kit} cell ${cell} (its ground and construction colours)`);
+      }
+    },
+  ];
+  const dressOf = (civ, c) => (c.dress ? Array.from({ length: c.dress.count }, (_, n) => `dress/${civ}-${n}`) : []);
   for (const [civ, c] of Object.entries(civs)) {
     if (!kits[c.kit]) continue; // reported above
-    if (civ !== 'default' && !c.roles.product) errors.push(`${civ}: no product (a role it doesn't list draws its product)`);
-    if (c.styles.length !== ages) errors.push(`${civ}: ${c.styles.length} styles, the default has ${ages} ages`);
-    for (const s of c.styles) if (!styles[s]) errors.push(`${civ}: style ${s} is not in styles.yaml`);
-    const roles = {};
-    for (const [role, perAge] of Object.entries(c.roles)) {
-      if (!ROLES.includes(role)) errors.push(`${civ}: ${role} is not a role (${ROLES.join(', ')})`);
-      if (perAge.length !== ages) errors.push(`${civ}/${role}: ${perAge.length} ages, want ${ages}`);
-      roles[role] = perAge.map((v, age) => [v].flat().map((ref) => {
-        const id = model(ref, `${civ}/${role}/${age + 1}`), m = manifest.models[id];
-        if (m && m.kit !== c.kit) errors.push(`${civ}/${role}/${age + 1}: ${ref} is a ${m.kit} model, and ${civ} draws ${c.kit} only`);
-        if (m && role !== 'town-centre' && m.tris > MAX_BUILDING_TRIS) errors.push(`${civ}/${role}/${age + 1}: ${ref} has ${m.tris} triangles, over ${MAX_BUILDING_TRIS} for a building`);
-        const limit = FOOTPRINT[role === 'town-centre' ? 'town-centre' : c.plot ? 'on-plot' : 'building'];
-        if (m && m.reach > limit) errors.push(`${civ}/${role}/${age + 1}: ${ref} reaches ${m.reach} of its hex, over ${limit}`);
-        return id;
-      }));
-    }
-    // shapes: one per variant, from the vocabulary, on a variant this civ draws
-    const drawn = new Set(Object.values(roles).flat(2)), shapes = {};
-    for (const [ref, shape] of Object.entries(c.shapes || {})) {
-      if (!SHAPES.includes(shape)) errors.push(`${civ}: shape ${shape} (${ref}) is not one of ${SHAPES.join(', ')}`);
-      if (!drawn.has(ref)) errors.push(`${civ}: shape on ${ref}, which none of its roles draws`);
-      shapes[ref] = shape;
-    }
+    const roles = Object.fromEntries(Object.entries(c.roles || {}).map(([role, perAge]) => [role, perAge.map((v) => [v].flat())]));
+    for (const check of civChecks) check({ civ, c, roles });
+    const shapes = Object.fromEntries(Object.entries(c.shapes || {}));
     manifest.civs[civ] = { kit: c.kit, styles: c.styles, roles, ...(Object.keys(shapes).length && { shapes }), ...(c.plot && { plot: `plot/${civ}` }),
-      dress: c.dress ? Array.from({ length: c.dress.count }, (_, n) => `dress/${civ}-${n}`) : [] };
-    for (const id of [manifest.civs[civ].plot, ...manifest.civs[civ].dress].filter(Boolean)) {
-      const limit = id.startsWith('plot/') ? FOOTPRINT.plot : FOOTPRINT.building;
-      if (manifest.models[id]?.reach > limit) errors.push(`${id} reaches ${manifest.models[id].reach} of its hex, over ${limit}`);
-    }
-    // its district's ground is the hex tile in its style: the style must colour the tile's grass (0,2), and, but for
-    // the town's own, the team cell (0,3) the shared construction props show
-    for (const st of c.styles) for (const cell of civ === 'default' ? ['0,2'] : ['0,2', '0,3']) {
-      if (!styles[st]?.cells?.hexagon?.[cell]) errors.push(`${civ}: style ${st} has no hexagon cell ${cell} (its ground and construction colours)`);
-    }
-  }
-  for (const [civ, c] of Object.entries(manifest.civs)) {
-    if (civ !== 'default') continue;
-    for (const role of ROLES) {
-      if (!c.roles[role]) errors.push(`default: no ${role}`);
-    }
+      dress: dressOf(civ, c) };
   }
   for (const [state, refs] of Object.entries(states)) {
-    manifest.states[state] = refs.map((r) => model(r, `states/${state}`));
-    for (const r of refs) if (manifest.models[r]?.reach > FOOTPRINT.building) errors.push(`states/${state}: ${r} reaches ${manifest.models[r].reach} of its hex`);
-    // a wonder stands on the town centre's ring like a building: the building's triangle budget
-    for (const r of state === 'wonder' ? refs : []) if (manifest.models[r]?.tris > MAX_BUILDING_TRIS) errors.push(`states/wonder: ${r} has ${manifest.models[r].tris} triangles, over ${MAX_BUILDING_TRIS}`);
+    if (Array.isArray(refs)) manifest.states[state] = [...refs];
+    else errors.push(`states/${state}: ${JSON.stringify(refs)} is not a list of models`);
   }
+  // the town's own
+  const checks = [
+    function defaultRoles() { for (const role of manifest.civs.default ? ROLES : []) if (!manifest.civs.default.roles[role]) errors.push(`default: no ${role}`); },
+    function stateModels() {
+      for (const [state, refs] of Object.entries(states)) {
+        if (!Array.isArray(refs)) continue; // reported above
+        for (const r of refs) isModel(r, `states/${state}`);
+        for (const r of refs) if (manifest.models[r]?.reach > FOOTPRINT.building) errors.push(`states/${state}: ${r} reaches ${manifest.models[r].reach} of its hex`);
+        // a wonder stands on the town centre's ring like a building: the building's triangle budget
+        for (const r of state === 'wonder' ? refs : []) if (manifest.models[r]?.tris > MAX_BUILDING_TRIS) errors.push(`states/wonder: ${r} has ${manifest.models[r].tris} triangles, over ${MAX_BUILDING_TRIS}`);
+      }
+    },
+  ];
+  for (const check of checks) check();
   manifest.roles = ROLES;
   manifest.shapes = SHAPES;
 
@@ -206,8 +247,8 @@ async function run(out) {
 // joint name and order, and within its triangle budget.
 async function characters(people, write, manifest, errors) {
   for (const [kitName, kit] of Object.entries(people)) {
-    const f = await fetchKit(ROOT, { ...kit, models: Object.values(kit.characters).map((c) => c.model) }, { lock: args.has('--lock') });
-    manifest.kits[kitName] = { repo: kit.repo, commit: kit.commit, licence: kit.licence, characters: true };
+    const source = sources.characters, f = await source.load(ROOT, kit, { lock: args.has('--lock') });
+    manifest.kits[kitName] = { ...source.origin(kit), licence: kit.licence, characters: true };
     const fileOf = (model) => f.models[model.split('/').pop().replace(/\.glb$/, '')];
     const rig = await clips(fileOf(kit.characters[kit.clips.from].model), kit.clips.names);
     const cbytes = Buffer.from(await io.writeBinary(rig.doc));
