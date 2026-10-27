@@ -69,3 +69,21 @@ test('canonicalWeights refuses what it does not transcribe', () => {
   p.setAttribute('WEIGHTS_1', doc.createAccessor().setType('VEC4').setArray(new Uint8Array(4)).setNormalized(true).setBuffer(buf));
   assert.throws(() => canonicalWeights(p), /one set of four only/);
 });
+
+// under Node only: the tie order written down is V8's own, read off gltf-transform's sortPrimitiveWeights on weights
+// full of ties (under Bun its order is JavaScriptCore's, which is why weights.mjs exists; CI runs this in its Node job)
+test('with ties, under Node: the same as gltf-transform\'s own sortPrimitiveWeights', { skip: !!process.versions.bun }, () => {
+  const r = rng(13), n = 4000, W = new Uint8Array(n * 4), J = new Uint8Array(n * 4), vals = [0, 0, 1, 2, 32, 63, 64, 85, 125, 127, 128, 170, 255];
+  for (let o = 0; o < n * 4; o++) { W[o] = vals[Math.floor(r() * vals.length)]; J[o] = Math.floor(r() * 20); }
+  const prim = () => {
+    const doc = new Document(), buf = doc.createBuffer();
+    return doc.createPrimitive()
+      .setAttribute('POSITION', doc.createAccessor().setType('VEC3').setArray(new Float32Array(n * 3)).setBuffer(buf))
+      .setAttribute('JOINTS_0', doc.createAccessor().setType('VEC4').setArray(J.slice()).setBuffer(buf))
+      .setAttribute('WEIGHTS_0', doc.createAccessor().setType('VEC4').setArray(W.slice()).setNormalized(true).setBuffer(buf));
+  };
+  const theirs = prim(), ours = prim();
+  sortPrimitiveWeights(theirs, Infinity);
+  canonicalWeights(ours);
+  for (const s of ['WEIGHTS_0', 'JOINTS_0']) assert.deepEqual([...ours.getAttribute(s).getArray()], [...theirs.getAttribute(s).getArray()], s);
+});
