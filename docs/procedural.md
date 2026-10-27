@@ -21,7 +21,7 @@ lock.
 | `tools/procgen/atlas.mjs` | `palette()` (named cells, checked), `atlas()` (the PNG), `uv()` |
 | `tools/procgen/random.mjs` | `rng(seed)`, `hash32()`: seeded randomness, never `Math.random()` |
 | `tools/procgen/kit.mjs` | `generateKit()`: runs a kit's module into `cache/`, versioned; `toDoc()` |
-| `tools/procgen/procgen.test.mjs` | the library's tests (`npm test`): see "What the tests hold" below |
+| `tools/procgen/procgen.test.mjs` | the library's tests (`bun run test`): see "What the tests hold" below |
 | `kits/<name>/source.yaml` | `generator: models.mjs`, the scale, the turns, and the models the build takes |
 | `kits/<name>/models.mjs` | the kit itself: its `palette` and its `models` |
 
@@ -119,7 +119,7 @@ build looks the name up in the palette. (A fetched pack's cells are named by pos
    ```
    A model is a function returning a `Mesh`. The build calls it once per build, so keep it pure: for variety, use
    `rng('<model>/<n>')`, never `Math.random()`.
-3. **Look at it:** `npm run build && node sheet/shoot.mjs /tmp/out kit=<name>`. That is every model of the kit on a
+3. **Look at it:** `bun run build && node sheet/shoot.mjs /tmp/out kit=<name>`. That is every model of the kit on a
    tile, with its triangle count. The shot needs Playwright with a Chromium (a dev tool, not a dependency: set
    `NODE_PATH` to where it is installed, or `PLAYWRIGHT_CHROMIUM` to a browser); or serve the repo and open
    `sheet/index.html?kit=<name>`. Once a civ draws the kit (step 4), `'kit=<name>&age=2'` shows it in that civ's age-2
@@ -129,9 +129,9 @@ build looks the name up in the palette. (A fetched pack's cells are named by pos
    - `catalog/styles.yaml`: the civ's two styles, with their cells for the new kit, plus the hexagon tiles' `0,2`
      (ground) and `0,3` (team). Name the kit's cells by its palette.
 5. **Check it:**
-   - `npm test`;
-   - `npm run build`: it fails on reach, triangles, a foreign kit, or a missing product or cell;
-   - `npm run check`;
+   - `bun run test`;
+   - `bun run build`: it fails on reach, triangles, a foreign kit, or a missing product or cell;
+   - `bun run check`;
    - `go test ./...`;
    - the game's town gate (`dev/town-gate.mjs` in the ukubi-game repo) against the town, which is the budget for the
      whole town.

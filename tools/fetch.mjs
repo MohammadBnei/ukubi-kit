@@ -36,7 +36,7 @@ export async function fetchKit(root, kit, { lock = false } = {}) {
       await rename(`${file}.part`, file);
     }
     const h = sha256(b);
-    if (!lock && want[rel] !== h) throw new Error(`${kit.name}: ${rel}: sha256 ${h} is not the lock's ${want[rel] || '(none: run npm run lock and review it)'}`);
+    if (!lock && want[rel] !== h) throw new Error(`${kit.name}: ${rel}: sha256 ${h} is not the lock's ${want[rel] || '(none: run bun run lock and review it)'}`);
     got[rel] = h;
     return { file, bytes: b };
   };

@@ -3,7 +3,7 @@
 # row 0 at the top; the cell keeps its own gradient and detail around it). tools/style.mjs paints them; the game swaps
 # the texture, never the geometry. Colours come from the Ukubi wires (office values) where a civ has one.
 #
-# What the cells hold, from the models' UVs (node tools/cells.mjs <kit> [model…] counts the cells models use):
+# What the cells hold, from the models' UVs (bun tools/cells.mjs <kit> [model…] counts the cells models use):
 #   hexagon  0,3 team (roofs, banners)  2,0 stone  6,0 timber  0,2 grass  6,1 grey stone  3,0 dark stone
 #   city     1,0 trim  2,0 light grey  5,0 brick  2,1 blue-grey facade  3,1 ochre facade  6,2 red facade  3,2 green
 #   space    2,0 hull  1,0 white  3,1 band  3,0 dark panel  4,1 red  2,2 green cargo

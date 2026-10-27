@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 // build: kits (kits/*/source.yaml) and the catalog (catalog/*.yaml) into dist/, the files the game embeds:
 //   dist/models/<kit>/<name>.glb      a kit's model, imported (model.mjs)
 //   dist/models/recipe/<id>.glb        a kitbash (catalog/recipes.yaml)
@@ -232,7 +232,7 @@ async function characters(people, write, manifest, errors) {
 }
 
 // tree: every file under dir by its content hash; a PNG by its decoded pixels, since zlib's deflate output may differ
-// between Node builds while the image does not
+// between engines and platforms while the image does not
 async function tree(dir) {
   const out = {};
   const hash = async (p) => { const b = await readFile(p); return sha256(p.endsWith('.png') ? PNG.sync.read(b).data : b); };
@@ -246,7 +246,7 @@ if (args.has('--check')) {
   const tmp = await mkdtemp(join(tmpdir(), 'ukubi-kit-'));
   const errors = await run(tmp);
   const [a, b] = [await tree(dist), await tree(tmp)];
-  for (const f of new Set([...Object.keys(a), ...Object.keys(b)])) if (a[f] !== b[f]) errors.push(`dist/${f} is ${a[f] ? (b[f] ? 'stale' : 'extra') : 'missing'}: run npm run build`);
+  for (const f of new Set([...Object.keys(a), ...Object.keys(b)])) if (a[f] !== b[f]) errors.push(`dist/${f} is ${a[f] ? (b[f] ? 'stale' : 'extra') : 'missing'}: run bun run build`);
   await rm(tmp, { recursive: true, force: true });
   if (errors.length) { console.error(errors.join('\n')); process.exit(1); }
   console.log(`check: dist/ is current (${Object.keys(a).length} files)`);
