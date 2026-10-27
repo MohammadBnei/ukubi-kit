@@ -21,3 +21,10 @@ The game's public 3D kit (orientation only; the design is mountain `plan/13-game
 - GitHub-hosted runners only (public repo). Conventional Commits, feature branch + PR.
 - Commit trailers: `Co-Authored-By: ukubi-claude-cloud <noreply@bnei.dev>` (cloud) or `ukubi-claude-<host>`, plus
   `Agent-Session: <id>`. Never model names, URLs or a "Generated with" footer.
+
+## Code design (the ukubi standard; mountain `plan/15-architecture.md`, private)
+- **A list that grows is data or a registry, never a name in code.** Sources are keyed by kind (fetch, generator,
+  characters), the world kit is declared as data, and the build's checks are an ordered list.
+- **Bun is the toolchain,** pinned to an exact version. When a change of toolchain or engine changes dist (GLBs are
+  hashed byte for byte), the new models are reviewed in that PR, and the game's budget gate runs again.
+- **A refactor never changes dist.** `check` proves it.
