@@ -1,4 +1,4 @@
-// The procgen library's tests (npm test): every primitive faces out, under any placement; cells and UVs stay in
+// The procgen library's tests (bun run test): every primitive faces out, under any placement; cells and UVs stay in
 // their cell; the palette refuses mistakes; a kit generates the same bytes twice; the ukubi kit's models are sound.
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';

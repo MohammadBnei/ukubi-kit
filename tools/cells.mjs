@@ -1,6 +1,6 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 // cells: which cells of a kit's 8×4 atlas grid its models' UVs land in ("col,row", row 0 at the top), with vertex
-// counts, so a style knows which cell to recolour.   node tools/cells.mjs <kit> [model …]
+// counts, so a style knows which cell to recolour.   bun tools/cells.mjs <kit> [model …]
 import { readFile } from 'node:fs/promises';
 import { parse } from 'yaml';
 import { readGLTF } from './model.mjs';

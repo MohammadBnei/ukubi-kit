@@ -4,12 +4,12 @@
   "type": "module",
   "description": "The game's 3D kit: CC0 models repainted into civ styles, a catalog and a Go package that embeds them.",
   "license": "CC0-1.0",
-  "engines": { "node": ">=22" },
+  "packageManager": "bun@1.4.2",
   "scripts": {
-    "build": "node tools/build.mjs",
-    "check": "node tools/build.mjs --check",
-    "lock": "node tools/build.mjs --lock",
-    "test": "node --test 'tools/**/*.test.mjs'"
+    "build": "bun tools/build.mjs",
+    "check": "bun tools/build.mjs --check",
+    "lock": "bun tools/build.mjs --lock",
+    "test": "bun test ./tools"
   },
   "devDependencies": {
     "@gltf-transform/core": "4.5.1",

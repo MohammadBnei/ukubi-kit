@@ -47,13 +47,18 @@ model a civ draws for a role in an age, and a Go package that embeds the result.
 
 ## Build
 ```sh
-npm ci
-npm run build          # kits + catalog -> dist/ (models/, styles/, manifest.json), then validates
-npm run check          # rebuild into a temp dir; fail unless dist/ is current (CI runs this)
-npm run lock           # after changing a pin or a model list: refetch and rewrite kits/*/lock.json, then review it
-npm test               # the procgen library's tests
-node tools/cells.mjs city building_A_withoutBase   # which atlas cells a model's UVs use
+bun install --frozen-lockfile   # Bun 1.4.2 (package.json's packageManager)
+bun run build          # kits + catalog -> dist/ (models/, styles/, manifest.json), then validates
+bun run check          # rebuild into a temp dir; fail unless dist/ is current (CI runs this)
+bun run lock           # after changing a pin or a model list: refetch and rewrite kits/*/lock.json, then review it
+bun run test           # the procgen library's tests and the skin weights'
+bun tools/cells.mjs city building_A_withoutBase   # which atlas cells a model's UVs use
 ```
+The build is Bun's, and dist must not depend on the engine or the platform: CI checks it under Bun on Linux and on
+macOS (Bun's Math functions come from the platform's libm), and under Node 22. One step depended on the engine:
+gltf-transform's quantize sorts tied skin weights in the order the engine's sort leaves them, so `tools/weights.mjs`
+does that sort and its normalisation with the order written down. A PNG is compared by its pixels, so a platform's
+zlib may still write other bytes for the same image.
 Validation fails on: a catalog reference that isn't a model, a civ drawing another kit's model, a civ without a
 product, a civ missing an age, a building that overhangs its hex by more than 10% (the town centre may take more; a
 building on a plot stays inside the plot, and the plot inside its hex), a model over 8000 triangles or a building
@@ -81,7 +86,7 @@ There is no root motion: the game moves a walking character itself. `height` is 
 - Every kit's models are built, used or not (the sheet shows the parts too).
 
 ## Contact sheet
-`sheet/` shows every civ, age, role, construction state and dressing, painted. `node sheet/shoot.mjs [outdir]`
+`sheet/` shows every civ, age, role, construction state and dressing, painted. `node sheet/shoot.mjs [outdir]` (Node: Playwright)
 serves it and screenshots it with Playwright (a dev tool, not a dependency). `?civ=apps&view=close`,
 `?style=pack` (the packs' own colours) work in the URL.
 
