@@ -66,6 +66,20 @@ RULES = [
 ]
 
 
+# An author or committer that is Claude or Anthropic: "claude" as a whole word (not ukubi-claude-<host>, the identity
+# agents commit as) or "anthropic" anywhere. A message can be clean while the commit still names the model as author.
+AI_IDENTITY = re.compile(r"(?<![\w-])claude(?![\w-])|anthropic", re.IGNORECASE)
+
+
+def check_identity(sha, idents):
+    """Offences for an author or committer naming Claude or Anthropic."""
+    found = []
+    for role, ident in zip(("author", "committer"), idents.splitlines()):
+        if AI_IDENTITY.search(ident):
+            found.append(f"{sha}: {role}: names Claude or Anthropic: {ident} (commit as ukubi-claude-<host> <noreply@bnei.dev>)")
+    return found
+
+
 def check_line(line):
     """The names of the rules this one line breaks, in a fixed order."""
     broken = []
@@ -109,6 +123,7 @@ def main():
         commits = git("rev-list", "--reverse", f"{base}..{head}", "--").split()
         found = []
         for sha in commits:
+            found += check_identity(sha, git("log", "-1", "--format=%an <%ae>%n%cn <%ce>", sha, "--"))
             found += check_text(sha, git("log", "-1", "--format=%B", sha, "--"))
     except RuntimeError as err:
         print(f"check_trailers: {err}", file=sys.stderr)

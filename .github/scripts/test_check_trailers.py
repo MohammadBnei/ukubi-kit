@@ -100,12 +100,15 @@ class Repo:
         return subprocess.run(["git", "-c", "commit.gpgsign=false", *args], cwd=self.path, env=env, check=True,
                               capture_output=True, text=True, **kw).stdout.strip()
 
-    def commit(self, message):
+    def commit(self, message, author=("t", "t@example.org"), committer=("t", "t@example.org")):
         self.n += 1
         with open(os.path.join(self.path, "f.txt"), "w") as f:
             f.write(f"{self.n}\n")
         self.git("add", "f.txt")
-        self.git("commit", "-q", "-F", "-", input=message)
+        ident = {"GIT_AUTHOR_NAME": author[0], "GIT_AUTHOR_EMAIL": author[1],
+                 "GIT_COMMITTER_NAME": committer[0], "GIT_COMMITTER_EMAIL": committer[1]}
+        subprocess.run(["git", "-c", "commit.gpgsign=false", "commit", "-q", "-F", "-"], cwd=self.path,
+                       env=dict(os.environ, **ident), check=True, capture_output=True, text=True, input=message)
         return self.git("rev-parse", "HEAD")
 
 
@@ -202,6 +205,25 @@ class CheckTrailers(unittest.TestCase):
         code, out = run(self.repo, self.base, bad)
         self.assertEqual(code, 1, out)
         self.assertEqual(out.count(bad), 3, out)
+
+    def test_a_claude_identity_fails_even_with_a_clean_message(self):
+        for name, role, author, committer in (
+            ("author", "author", ("Claude", "noreply@anthropic.com"), ("t", "t@example.org")),
+            ("committer", "committer", ("t", "t@example.org"), ("Claude", "noreply@anthropic.com")),
+            ("anthropic email", "author", ("t", "someone@anthropic.com"), ("t", "t@example.org")),
+        ):
+            with self.subTest(name):
+                bad = self.repo.commit("fix: clean message", author=author, committer=committer)
+                code, out = run(self.repo, self.base, bad)
+                self.assertEqual(code, 1, out)
+                self.assertIn(f"{bad}: {role}: names Claude or Anthropic", out)
+                self.repo.git("reset", "-q", "--hard", self.base)
+
+    def test_the_agents_identity_passes(self):
+        head = self.repo.commit("fix: clean message", author=("ukubi-claude-cloud", "noreply@bnei.dev"),
+                                committer=("ukubi-claude-cloud", "noreply@bnei.dev"))
+        code, out = run(self.repo, self.base, head)
+        self.assertEqual(code, 0, out)
 
     def test_history_before_base_is_not_scanned(self):
         old = self.repo.commit("feat: old\n\nCo-Authored-By: Claude <noreply@anthropic.com>")
