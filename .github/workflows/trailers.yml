@@ -1,0 +1,25 @@
+name: trailers
+on:
+  pull_request:
+    # edited: a changed title or body is checked again
+    types: [opened, synchronize, reopened, edited]
+permissions:
+  contents: read
+jobs:
+  trailers:
+    # GitHub-hosted only: this repo is public. No AI-attribution text in a commit message, the PR title or the PR body
+    # (CLAUDE.md, "Rules"): an agent's commit carries only the allowed Co-Authored-By and Agent-Session trailers
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      # the checker's own self-test: a scratch repository with every refused form and every allowed one
+      - run: python3 .github/scripts/test_check_trailers.py
+      # the title, the body and the shas reach the script through the environment only, never through the shell text
+      - run: python3 .github/scripts/check_trailers.py
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
