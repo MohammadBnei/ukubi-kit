@@ -9,12 +9,13 @@ An agent's commit may carry exactly these trailers (CLAUDE.md, "Rules"):
 Refused, on any line of any commit message in BASE_SHA..HEAD_SHA, of the PR title or of the PR body:
 
   * a Co-Authored-By line that names Claude or Anthropic and is not exactly the allowed form above
-  * a "Generated with" footer
+  * a "Generated with" footer: a line that starts with those words (after any emoji or punctuation)
   * a claude.ai or claude.com address
   * a Claude-Session trailer
   * a model name: a claude-<model> id, "Claude Opus", "Opus 5", "Sonnet 4", and so on
 
-A message with no trailers at all passes. "claude" inside "ukubi-claude-<host>" or in an environment name such as
+A message with no trailers at all passes, and so does prose that merely says "generated with" mid-line
+("dist/ is generated with bun run build"). "claude" inside "ukubi-claude-<host>" or in an environment name such as
 CLAUDE_MODEL is not a model name and passes.
 
 Input is the environment, never the command line or a shell string, so a title or body cannot reach a shell:
@@ -39,20 +40,26 @@ AI_NAME = re.compile(r"claude|anthropic", re.IGNORECASE)
 
 # Each rule is (name, pattern). The Co-Authored-By rule is not here: it needs the allowed form (see check_line).
 #
-# A model id starts at a boundary that is not a word character, "_" or "-", so "ukubi-claude-cloud" (preceded by "-")
-# and CLAUDE_MODEL (an underscore, no dash) never match. The family names are bare words, so "Opus 5" and "Sonnet 4"
-# match only with a version number after them.
+# A model id starts at a boundary that is not a letter, a digit or a dash, so "ukubi-claude-cloud" (preceded by "-")
+# never matches; CLAUDE_MODEL has no dash after "claude" and never matches either. The family names are bare words, so
+# "Opus 5", "Opus4" and "opus-4-1" match only with a version number after them. DASH takes the Unicode hyphens too,
+# and \s the no-break space, so neither hides a name.
+#
+# Known gaps, left on purpose: the host in "ukubi-claude-<host>" is free text (hosts are named by whoever sets one up),
+# so a model id inside it passes; and a name split by other characters ("O p u s 5") passes.
+DASH = r"[-\u2010-\u2015\u2212]"
 MODELS = r"opus|sonnet|haiku|fable"
 RULES = [
-    ("generated-with footer", re.compile(r"generated\s+with", re.IGNORECASE)),
+    # a footer, not prose: "dist/ is generated with bun run build" is a human sentence and passes
+    ("generated-with footer", re.compile(r"^\W*generated\s+with\b", re.IGNORECASE)),
     ("claude.ai or claude.com address", re.compile(r"(?<![A-Za-z0-9-])claude\.(?:ai|com)(?![A-Za-z0-9-])", re.IGNORECASE)),
-    ("Claude-Session trailer", re.compile(r"(?<![A-Za-z0-9_-])claude-session\b", re.IGNORECASE)),
+    ("Claude-Session trailer", re.compile(r"(?<![A-Za-z0-9-])claude" + DASH + r"session\b", re.IGNORECASE)),
     (
         "model name",
         re.compile(
-            r"(?<![A-Za-z0-9_-])claude-(?:" + MODELS + r"|instant|\d)"  # an id: claude-opus-4-1, claude-3-5-sonnet
-            r"|(?<![A-Za-z0-9_-])claude[ \t]+(?:code[ \t]+)?(?:v?\d[\d.]*[ \t]+)?(?:" + MODELS + r")\b"  # "Claude Opus"
-            r"|\b(?:" + MODELS + r")[ \t]+v?\d",  # "Opus 5", "Sonnet 4.5"
+            r"(?<![A-Za-z0-9-])claude" + DASH + r"(?:" + MODELS + r"|instant|\d)"  # an id: claude-opus-4-1, claude-3-5-sonnet
+            r"|(?<![A-Za-z0-9-])claude\s+(?:code\s+)?(?:v?\d[\d.]*\s+)?(?:" + MODELS + r")\b"  # "Claude Opus"
+            r"|\b(?:" + MODELS + r")(?:\s|" + DASH + r")*v?\d",  # "Opus 5", "Sonnet 4.5", "Opus4", "opus-4-1"
             re.IGNORECASE,
         ),
     ),

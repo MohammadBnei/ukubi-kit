@@ -29,6 +29,10 @@ ALLOWED = [
     ("env names", "fix: read CLAUDE_MODEL and CLAUDE_CODE_OAUTH_TOKEN\n\nthe ukubi-claude-cloud host sets them"),
     ("word claude alone", "docs: claude is named in a sentence"),
     ("word opus without a number", "docs: an opus of tiles"),
+    ("prose that says generated with", "docs: dist/ is generated with bun run build\n\nthe lock is generated with bun run lock"),
+    ("host that spells a trailer word", "fix: x\n\nCo-Authored-By: ukubi-claude-session-host <noreply@bnei.dev>"),
+    ("word that starts like the trailer", "docs: the claude-sessionizer tool"),
+    ("allowed co-author, trailing space", "fix: a bug\n\nCo-Authored-By: ukubi-claude-cloud <noreply@bnei.dev>  "),
     ("lookalike domain", "docs: see notclaude.ai and claude.company"),
     ("empty message part", "chore: x\n\n\n"),
 ]
@@ -44,7 +48,12 @@ FORBIDDEN = [
     ("claude name, agent name in brackets", "fix: x\n\nCo-Authored-By: Claude (ukubi-claude-cloud) <noreply@bnei.dev>", "Co-Authored-By"),
     ("agent name, text after", "fix: x\n\nCo-Authored-By: ukubi-claude-cloud <noreply@bnei.dev> too", "Co-Authored-By"),
     ("indented co-author", "fix: x\n\n   Co-authored-by: Claude <noreply@anthropic.com>", "Co-Authored-By"),
+    ("anthropic address, agent name", "fix: x\n\nCo-Authored-By: ukubi-agent <noreply@anthropic.com>", "Co-Authored-By"),
+    ("anthropic co-author", "fix: x\n\nCo-Authored-By: Anthropic <x@example.org>", "Co-Authored-By"),
+    ("space before the colon", "fix: x\n\nCo-Authored-By : Claude <x@example.org>", "Co-Authored-By"),
     ("generated with", "fix: x\n\nGenerated with a tool", "generated-with"),
+    ("generated with, two spaces", "fix: x\n\nGenerated  with a tool", "generated-with"),
+    ("generated with, quoted", "fix: x\n\n> Generated with a tool", "generated-with"),
     ("generated with, emoji", "fix: x\n\n\U0001F916 Generated with [Claude Code](https://example.org)", "generated-with"),
     ("claude.ai url", "fix: x\n\nsee https://claude.ai/code/session_1", "claude.ai or claude.com"),
     ("claude.com url", "fix: x\n\nsee https://www.claude.com/x", "claude.ai or claude.com"),
@@ -57,10 +66,21 @@ FORBIDDEN = [
     ("id fable", "fix: x\n\nmade by claude-fable-1", "model name"),
     ("id numbered", "fix: x\n\nmade by claude-3-5-sonnet-20241022", "model name"),
     ("claude opus", "fix: x\n\nwritten with Claude Opus", "model name"),
+    ("id instant", "fix: x\n\nmade by claude-instant-1", "model name"),
+    ("id of a number only", "fix: x\n\nmade by claude-3-5", "model name"),
+    ("id after an underscore", "fix: x\n\nmade by x_claude-3", "model name"),
+    ("id with a no-break hyphen", "fix: x\n\nmade by claude\u2011instant", "model name"),
+    ("claude, no-break space, opus", "fix: x\n\nwritten with Claude\u00a0Opus", "model name"),
+    ("claude v4 opus", "fix: x\n\nwritten with Claude v4.5 Opus", "model name"),
+    ("claude code opus", "fix: x\n\nwritten with Claude Code Opus", "model name"),
     ("claude 4 opus", "fix: x\n\nwritten with Claude 4 Opus", "model name"),
     ("opus 5", "fix: x\n\nwritten by Opus 5", "model name"),
     ("sonnet 4", "fix: x\n\nwritten by Sonnet 4", "model name"),
     ("haiku 4.5", "fix: x\n\nwritten by haiku 4.5", "model name"),
+    ("opus v5", "fix: x\n\nwritten by Opus v5", "model name"),
+    ("opus glued to its number", "fix: x\n\nwritten by Opus4", "model name"),
+    ("opus dashed", "fix: x\n\nwritten by opus-4-1", "model name"),
+    ("opus, no-break space", "fix: x\n\nwritten by Opus\u00a05", "model name"),
     ("fable 1", "fix: x\n\nwritten by Fable 1", "model name"),
     ("in the subject", "feat: claude-opus-4-1 support", "model name"),
 ]
@@ -156,6 +176,20 @@ class CheckTrailers(unittest.TestCase):
         self.assertNotIn(first, out)
         self.assertNotIn(tip, out)
 
+    def test_offences_are_reported_oldest_commit_first(self):
+        one = self.repo.commit("feat: one\n\nsee claude.ai")
+        two = self.repo.commit("feat: two\n\nsee claude.ai")
+        code, out = run(self.repo, self.base, two)
+        self.assertEqual(code, 1, out)
+        self.assertLess(out.index(one), out.index(two), out)
+
+    def test_a_long_offending_line_is_cut_in_the_report(self):
+        bad = self.repo.commit("feat: x\n\nsee claude.ai " + "z" * 300)
+        code, out = run(self.repo, self.base, bad)
+        self.assertEqual(code, 1, out)
+        self.assertIn("...", out)
+        self.assertNotIn("z" * 250, out)
+
     def test_one_line_breaking_two_rules_reports_both(self):
         bad = self.repo.commit("fix: x\n\nCo-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>")
         code, out = run(self.repo, self.base, bad)
@@ -178,7 +212,7 @@ class CheckTrailers(unittest.TestCase):
         self.assertNotIn(old, out)
 
     def test_a_line_starting_with_workflow_command_marker_is_prefixed(self):
-        bad = self.repo.commit("feat: x\n\n::error::Generated with a tool")
+        bad = self.repo.commit("feat: x\n\n::error::see claude.ai")
         code, out = run(self.repo, self.base, bad)
         self.assertEqual(code, 1, out)
         for line in out.splitlines():

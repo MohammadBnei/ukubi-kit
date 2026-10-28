@@ -5,6 +5,10 @@ on:
     types: [opened, synchronize, reopened, edited]
 permissions:
   contents: read
+# a quick second edit of the title or body replaces the run still going, so the last run is the one that decides
+concurrency:
+  group: trailers-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 jobs:
   trailers:
     # GitHub-hosted only: this repo is public. No AI-attribution text in a commit message, the PR title or the PR body
