@@ -9,9 +9,12 @@
     "build": "bun tools/build.mjs",
     "check": "bun tools/build.mjs --check",
     "lock": "bun tools/build.mjs --lock",
-    "test": "bun test ./tools"
+    "test": "bun test ./tools",
+    "lint": "biome ci .",
+    "format": "biome format --write ."
   },
   "devDependencies": {
+    "@biomejs/biome": "2.6.4",
     "@gltf-transform/core": "4.5.1",
     "@gltf-transform/extensions": "4.5.1",
     "@gltf-transform/functions": "4.5.1",

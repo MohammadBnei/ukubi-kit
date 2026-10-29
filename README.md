@@ -53,6 +53,8 @@ bun run build          # kits + catalog -> dist/ (models/, styles/, manifest.jso
 bun run check          # rebuild into a temp dir; fail unless dist/ is current (CI runs this)
 bun run lock           # after changing a pin or a model list: refetch and rewrite kits/*/lock.json, then review it
 bun run test           # the procgen library's tests and the skin weights'
+bun run lint           # biome ci: lint + format check of tools/, kits/*.mjs and sheet/ (CI runs this)
+bun run format         # biome format --write
 bun tools/cells.mjs city building_A_withoutBase   # which atlas cells a model's UVs use
 ```
 The build is Bun's, and dist must not depend on the engine or the platform: CI checks it under Bun on Linux and on
