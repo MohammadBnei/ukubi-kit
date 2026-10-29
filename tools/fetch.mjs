@@ -5,7 +5,7 @@ import { createHash } from 'node:crypto';
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import { dirname, join, posix } from 'node:path';
 
-const sha256 = (b) => createHash('sha256').update(b).digest('hex');
+const sha256 = b => createHash('sha256').update(b).digest('hex');
 
 // download with a timeout and 3 retries, backing off (raw.githubusercontent.com rate-limits shared runner addresses)
 async function download(url, kit) {
@@ -13,12 +13,13 @@ async function download(url, kit) {
     try {
       const res = await fetch(url, { signal: AbortSignal.timeout(30000) });
       if (res.ok) return Buffer.from(await res.arrayBuffer());
-      if (res.status !== 429 && res.status < 500) throw Object.assign(new Error(`${kit}: ${url}: ${res.status}`), { final: true });
+      if (res.status !== 429 && res.status < 500)
+        throw Object.assign(new Error(`${kit}: ${url}: ${res.status}`), { final: true });
       if (i >= 3) throw new Error(`${kit}: ${url}: ${res.status}`);
     } catch (e) {
       if (e.final || i >= 3) throw e;
     }
-    await new Promise((r) => setTimeout(r, 2000 * 2 ** i));
+    await new Promise(r => setTimeout(r, 2000 * 2 ** i));
   }
 }
 
@@ -26,7 +27,7 @@ export async function fetchKit(root, kit, { lock = false } = {}) {
   const lockPath = join(root, 'kits', kit.name, 'lock.json');
   const want = lock ? {} : JSON.parse(await readFile(lockPath, 'utf8').catch(() => '{}'));
   const got = {};
-  const get = async (rel) => {
+  const get = async rel => {
     const file = join(root, 'cache', kit.name, kit.commit, rel);
     let b = lock ? null : await readFile(file).catch(() => null); // --lock always refetches: never lock a cached copy
     if (!b) {
@@ -36,19 +37,24 @@ export async function fetchKit(root, kit, { lock = false } = {}) {
       await rename(`${file}.part`, file);
     }
     const h = sha256(b);
-    if (!lock && want[rel] !== h) throw new Error(`${kit.name}: ${rel}: sha256 ${h} is not the lock's ${want[rel] || '(none: run bun run lock and review it)'}`);
+    if (!lock && want[rel] !== h)
+      throw new Error(
+        `${kit.name}: ${rel}: sha256 ${h} is not the lock's ${want[rel] || '(none: run bun run lock and review it)'}`
+      );
     got[rel] = h;
     return { file, bytes: b };
   };
   const models = {};
   for (const m of kit.models) {
     // an entry naming a .glb is that one file (binary glTF holds its own buffer); any other is a .gltf and its buffers
-    const glb = m.endsWith('.glb'), name = posix.basename(m).replace(/(\.gltf)?\.glb$/, '');
+    const glb = m.endsWith('.glb'),
+      name = posix.basename(m).replace(/(\.gltf)?\.glb$/, '');
     const { file, bytes } = await get(glb ? m : `${m}.gltf`);
     if (!glb) {
       const gltf = JSON.parse(bytes.toString('utf8'));
       for (const buf of gltf.buffers || []) {
-        if (!buf.uri || buf.uri.includes(':') || buf.uri.includes('..')) throw new Error(`${kit.name}: ${m}: a buffer uri atlas will not follow (${buf.uri})`);
+        if (!buf.uri || buf.uri.includes(':') || buf.uri.includes('..'))
+          throw new Error(`${kit.name}: ${m}: a buffer uri atlas will not follow (${buf.uri})`);
         await get(posix.join(posix.dirname(m), buf.uri));
       }
     }

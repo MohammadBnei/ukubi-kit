@@ -10,24 +10,29 @@ import { generateKit } from './procgen/kit.mjs';
 
 // kindOf: a kit's kind; a kit that is two kinds (characters made by a generator) is refused before anything loads
 export function kindOf(kit) {
-  if (kit.characters && kit.generator) throw new Error(`kit ${kit.name}: characters come from a pinned pack, not a generator`);
+  if (kit.characters && kit.generator)
+    throw new Error(`kit ${kit.name}: characters come from a pinned pack, not a generator`);
   return kit.characters ? 'characters' : kit.generator ? 'generator' : 'fetch';
 }
 
 export const sources = Object.freeze({
   fetch: {
     load: (root, kit, opts) => fetchKit(root, kit, opts),
-    origin: (kit) => ({ repo: kit.repo, commit: kit.commit }),
+    origin: kit => ({ repo: kit.repo, commit: kit.commit }),
     // a model's file in the cache, before it is built (cells.mjs)
-    file: async (root, kit) => (m) => join(root, 'cache', kit.name, kit.commit, m.endsWith('.glb') ? m : `${m}.gltf`),
+    file: async (root, kit) => m => join(root, 'cache', kit.name, kit.commit, m.endsWith('.glb') ? m : `${m}.gltf`)
   },
   generator: {
     load: (root, kit) => generateKit(root, kit),
-    origin: (kit) => ({ generator: kit.generator }),
-    file: async (root, kit) => { const { models } = await generateKit(root, kit); return (m) => models[m]; },
+    origin: kit => ({ generator: kit.generator }),
+    file: async (root, kit) => {
+      const { models } = await generateKit(root, kit);
+      return m => models[m];
+    }
   },
   characters: {
-    load: (root, kit, opts) => fetchKit(root, { ...kit, models: Object.values(kit.characters).map((c) => c.model) }, opts),
-    origin: (kit) => ({ repo: kit.repo, commit: kit.commit }),
-  },
+    load: (root, kit, opts) =>
+      fetchKit(root, { ...kit, models: Object.values(kit.characters).map(c => c.model) }, opts),
+    origin: kit => ({ repo: kit.repo, commit: kit.commit })
+  }
 });
