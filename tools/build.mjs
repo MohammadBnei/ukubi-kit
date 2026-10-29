@@ -187,7 +187,10 @@ async function run(out) {
   // a style paints the kits its civs draw, and the world kit (tiles, construction); a style no civ uses (pack) paints all
   const painted = {};
   for (const c of Object.values(civs))
-    for (const st of c.styles || []) (painted[st] ||= new Set(worldOk ? [world.kit] : [])).add(c.kit);
+    for (const st of c.styles || []) {
+      if (!painted[st]) painted[st] = new Set(worldOk ? [world.kit] : []);
+      painted[st].add(c.kit);
+    }
   for (const [id, st] of Object.entries(styles)) {
     manifest.styles[id] = {};
     for (const kit of Object.keys(kits)) {
@@ -251,6 +254,7 @@ async function run(out) {
     function stylesKnown({ civ, c }) {
       for (const s of c.styles) if (!styles[s]) errors.push(`${civ}: style ${s} is not in styles.yaml`);
     },
+    // biome-ignore lint/suspicious/noRedeclare: the check is named by its function; the parameter is the data it reads
     function roles({ civ, c, roles }) {
       for (const [role, perAge] of Object.entries(c.roles)) {
         if (!ROLES.includes(role)) errors.push(`${civ}: ${role} is not a role (${ROLES.join(', ')})`);
