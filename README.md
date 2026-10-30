@@ -9,7 +9,7 @@ model a civ draws for a role in an age, and a Go package that embeds the result.
   Halloween, Dungeon Remastered, Prototype), the models taken from it, a normalising scale so every building fits a
   hex 2 flat-to-flat, and the turns its models take (6 on a hex, 4 on a square). `lock.json` holds each fetched
   file's sha256. `unground` lists path prefixes whose models keep their own origin, never grounded (hexagon's
-  `tiles/`: a tile's top at y = 0, its column down to −1). One kit is ours: `ukubi`, low-poly workshops and
+  `tiles/`: a tile's top at y = 0 or below (water at −0.2), its column down to −1). One kit is ours: `ukubi`, low-poly workshops and
   factories made on every build, deterministically,
   with its own atlas, by the **procgen** library (`tools/procgen/`): a kit's generator is a module of primitives and
   a palette. To make another kit, read [`docs/procedural.md`](docs/procedural.md).

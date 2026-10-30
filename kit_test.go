@@ -265,7 +265,8 @@ func TestNoEmbeddedImages(t *testing.T) {
 	}
 }
 
-// TestTilesAtOrigin: every hex tile keeps its own origin (source.yaml unground), its top at y = 0 and its column
+// TestTilesAtOrigin: every hex tile keeps its own origin (source.yaml unground), its top at y = 0 or below (water at
+// -0.2) and its column
 // below, so a tile drops onto the land at its level; a building stands on y = 0 (grounded), its top above it.
 func TestTilesAtOrigin(t *testing.T) {
 	m, err := Load()
