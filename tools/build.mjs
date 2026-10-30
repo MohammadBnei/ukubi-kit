@@ -81,6 +81,8 @@ async function run(out) {
     atlases[name] = await readFile(f.atlas);
     manifest.kits[name] = { ...source.origin(kit), licence: kit.licence, scale: kit.scale, turns: kit.turns };
     if (![2, 4, 6].includes(kit.turns)) errors.push(`kit ${name}: turns ${kit.turns} is not 2, 4 or 6`);
+    if (kit.unground !== undefined && !(Array.isArray(kit.unground) && kit.unground.every(p => typeof p === 'string')))
+      errors.push(`kit ${name}: unground ${JSON.stringify(kit.unground)} is not a list of path prefixes`);
   }
   // the world kit (catalog/civs.yaml world): a model kit, its tiles a list of its models, its two cells on the grid. A
   // broken world is reported with the rest of the errors, and what depends on it (the tiles' grounding, the ground-cell
@@ -103,7 +105,16 @@ async function run(out) {
   ].filter(Boolean);
   errors.push(...worldErrors);
   const worldOk = !worldErrors.length;
-  const tile = (kit, name) => worldOk && kit === world.kit && tiles.includes(name); // a tile lies at its own origin
+  // a tile lies at its own origin: the world's tiles, and a kit's models under a path prefix in its unground list
+  // (a malformed list is reported with the kit's checks above, and ungrounds nothing)
+  const unground = (kit, name) => {
+    const { unground: u, models: ms } = kits[kit];
+    if (!Array.isArray(u) || !Array.isArray(ms)) return false;
+    return ms.some(
+      m => typeof m === 'string' && m.slice(m.lastIndexOf('/') + 1) === name && u.some(p => m.startsWith(p))
+    );
+  };
+  const tile = (kit, name) => (worldOk && kit === world.kit && tiles.includes(name)) || unground(kit, name);
   // a style's cells for a kit, "col,row" -> colour; a made kit's may be named by its palette ("team": its cell), which
   // keeps a style right when the palette moves a name to another cell
   const cellsOf = (st, kit) =>
