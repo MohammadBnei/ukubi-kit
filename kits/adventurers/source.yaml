@@ -13,8 +13,12 @@ characters:
   mage:
     model: Characters/gltf/Mage.glb
     keep: [Mage_Body, Mage_Head, Mage_ArmLeft, Mage_ArmRight, Mage_LegLeft, Mage_LegRight, Mage_Hat, Mage_Cape]
+  # the player's avatar (the game's world view)
+  knight:
+    model: Characters/gltf/Knight.glb
+    keep: [Knight_Body, Knight_Head, Knight_ArmLeft, Knight_ArmRight, Knight_LegLeft, Knight_LegRight, Knight_Helmet, Knight_Cape]
 # one clip file for every character (they share one 41-joint rig): standing, walking, at work (no "work" clip in the
-# pack: Interact stands in)
+# pack: Interact stands in), running and seated (the avatar's)
 clips:
   from: barbarian
-  names: [Idle, Walking_A, Interact]
+  names: [Idle, Walking_A, Interact, Running_A, Sit_Chair_Idle]

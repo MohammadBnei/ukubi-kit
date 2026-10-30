@@ -1265,6 +1265,188 @@
    ],
    "reach": 0.76
   },
+  "hexagon/trees_A_medium": {
+   "kit": "hexagon",
+   "file": "models/hexagon/trees_A_medium.glb",
+   "bytes": 22168,
+   "sha256": "c436d168828d0a1dd56db59252353ab209d1290aa17c741e42aa20cdc7d40267",
+   "tris": 480,
+   "size": [
+    1.751,
+    1.295,
+    1.814
+   ],
+   "reach": 0.89
+  },
+  "hexagon/trees_B_small": {
+   "kit": "hexagon",
+   "file": "models/hexagon/trees_B_small.glb",
+   "bytes": 16628,
+   "sha256": "246f8765c4438e423e7dfeb9a10e53824f0abd5b01f7f24a8ea9ec5f58c894aa",
+   "tris": 660,
+   "size": [
+    1.328,
+    0.922,
+    1.138
+   ],
+   "reach": 0.693
+  },
+  "hexagon/trees_B_medium": {
+   "kit": "hexagon",
+   "file": "models/hexagon/trees_B_medium.glb",
+   "bytes": 26952,
+   "sha256": "84ae96ef52e90b81b269accbc3aa8ea2ce70ca6cd4a8a07dcc1e56c12104c8b7",
+   "tris": 1100,
+   "size": [
+    1.864,
+    1.174,
+    1.833
+   ],
+   "reach": 0.972
+  },
+  "hexagon/rock_single_B": {
+   "kit": "hexagon",
+   "file": "models/hexagon/rock_single_B.glb",
+   "bytes": 2360,
+   "sha256": "4bffd587f718c9d0ebfa1997e3d94bb6404a505a9e80cd20450dab18881ac3ac",
+   "tris": 26,
+   "size": [
+    0.287,
+    0.135,
+    0.25
+   ],
+   "reach": 0.155
+  },
+  "hexagon/rock_single_D": {
+   "kit": "hexagon",
+   "file": "models/hexagon/rock_single_D.glb",
+   "bytes": 2172,
+   "sha256": "8c261f4923b021cb5a3b00dbfdb7ad7f63bb704d24b4201012323ab234a1b626",
+   "tris": 22,
+   "size": [
+    0.287,
+    0.163,
+    0.25
+   ],
+   "reach": 0.153
+  },
+  "hexagon/rock_single_E": {
+   "kit": "hexagon",
+   "file": "models/hexagon/rock_single_E.glb",
+   "bytes": 4136,
+   "sha256": "e04893b68dc8313e0cca3ed6e9606e867b454a12a49edb76edf55d10caa2c83c",
+   "tris": 71,
+   "size": [
+    0.488,
+    0.195,
+    0.348
+   ],
+   "reach": 0.255
+  },
+  "hexagon/hills_A_trees": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hills_A_trees.glb",
+   "bytes": 21856,
+   "sha256": "bc6771ffdfeb4aa1c49a3b884ca3e53a3319742c04f31c103d355de181dd1d20",
+   "tris": 518,
+   "size": [
+    1.755,
+    1.332,
+    1.737
+   ],
+   "reach": 0.934
+  },
+  "hexagon/hills_B_trees": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hills_B_trees.glb",
+   "bytes": 17964,
+   "sha256": "00492883a23de599fef600b8a94dfa2d84daf740c5bebbc4aa0b44d9ffd0fd9f",
+   "tris": 406,
+   "size": [
+    1.474,
+    1.369,
+    1.624
+   ],
+   "reach": 0.902
+  },
+  "hexagon/hills_C_trees": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hills_C_trees.glb",
+   "bytes": 27288,
+   "sha256": "f9e85fc00ecb0500f89a0206221f52c2e4437ef7d810058334f321202d83e439",
+   "tris": 616,
+   "size": [
+    1.696,
+    1.295,
+    1.899
+   ],
+   "reach": 1.006
+  },
+  "hexagon/waterlily_A": {
+   "kit": "hexagon",
+   "file": "models/hexagon/waterlily_A.glb",
+   "bytes": 3052,
+   "sha256": "4a82182e7eec19b662540b5725d1d8054f31587ac5069b87a251b650c4d3f826",
+   "tris": 68,
+   "size": [
+    0.145,
+    0.017,
+    0.145
+   ],
+   "reach": 0.073
+  },
+  "hexagon/waterlily_B": {
+   "kit": "hexagon",
+   "file": "models/hexagon/waterlily_B.glb",
+   "bytes": 3212,
+   "sha256": "22eabc7f4f0f363541692c0763715fe6cf13989b3a8aad1b1ce33d9a40e35519",
+   "tris": 68,
+   "size": [
+    0.211,
+    0.017,
+    0.211
+   ],
+   "reach": 0.106
+  },
+  "hexagon/waterplant_A": {
+   "kit": "hexagon",
+   "file": "models/hexagon/waterplant_A.glb",
+   "bytes": 3300,
+   "sha256": "b6a36536059b20f512fce1920a16b584f172faf78c1f986440fad8f28b7f1f0b",
+   "tris": 66,
+   "size": [
+    0.198,
+    0.132,
+    0.216
+   ],
+   "reach": 0.142
+  },
+  "hexagon/waterplant_B": {
+   "kit": "hexagon",
+   "file": "models/hexagon/waterplant_B.glb",
+   "bytes": 5280,
+   "sha256": "2f1ccbfadb652808752f6052e3d1b5dea3c64176266cd31bb111b28f9db6602c",
+   "tris": 162,
+   "size": [
+    0.158,
+    0.254,
+    0.103
+   ],
+   "reach": 0.098
+  },
+  "hexagon/waterplant_C": {
+   "kit": "hexagon",
+   "file": "models/hexagon/waterplant_C.glb",
+   "bytes": 9460,
+   "sha256": "1e1481c7807d34df891a9c04911f7487f6ca02464f3f81828ad22173bd437660",
+   "tris": 338,
+   "size": [
+    0.198,
+    0.247,
+    0.216
+   ],
+   "reach": 0.142
+  },
   "hexagon/barrel": {
    "kit": "hexagon",
    "file": "models/hexagon/barrel.glb",
@@ -3410,17 +3592,28 @@
    "sha256": "94c572cfaf44afbadbd659efc36e8b72eb6cdde3cba9c1da6e8a282ee54226e2",
    "tris": 4509,
    "height": 2.716
+  },
+  "knight": {
+   "kit": "adventurers",
+   "file": "characters/knight.glb",
+   "texture": "characters/knight.png",
+   "bytes": 160624,
+   "sha256": "30ed3186c919bb5ac4014ef0af508d39ab58d927850cb78a8732f1d0e9a7df3c",
+   "tris": 4712,
+   "height": 2.467
   }
  },
  "clips": {
   "kit": "adventurers",
   "file": "characters/clips.glb",
-  "bytes": 122192,
-  "sha256": "8a1a1d986203130fcd727b9823eb80780091cf53ec4c53d97f6639193be80309",
+  "bytes": 198636,
+  "sha256": "6470387489c00207c1639597515ffa1c15141847e04d00eea21ed5d521c6b36f",
   "names": [
    "Idle",
    "Walking_A",
-   "Interact"
+   "Interact",
+   "Running_A",
+   "Sit_Chair_Idle"
   ],
   "joints": 41
  },

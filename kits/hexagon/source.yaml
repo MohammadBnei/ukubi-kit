@@ -39,6 +39,21 @@ models:
   - decoration/nature/tree_single_A
   - decoration/nature/tree_single_B
   - decoration/nature/trees_A_small
+  # the world's terrain decor (no civ draws these; the *_large trees are left out for their triangles)
+  - decoration/nature/trees_A_medium
+  - decoration/nature/trees_B_small
+  - decoration/nature/trees_B_medium
+  - decoration/nature/rock_single_B
+  - decoration/nature/rock_single_D
+  - decoration/nature/rock_single_E
+  - decoration/nature/hills_A_trees
+  - decoration/nature/hills_B_trees
+  - decoration/nature/hills_C_trees
+  - decoration/nature/waterlily_A
+  - decoration/nature/waterlily_B
+  - decoration/nature/waterplant_A
+  - decoration/nature/waterplant_B
+  - decoration/nature/waterplant_C
   - decoration/props/barrel
   - decoration/props/crate_A_small
   - decoration/props/flag_blue
