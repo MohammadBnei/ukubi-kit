@@ -203,6 +203,85 @@ export class Mesh {
     return this.poly(inner, name);
   }
 
+  /** a loft: a cross-section swept through rings [{at: [x, y, z] (from `at`), r: [a, b] or a number, name}], each
+   *  ring square to the path there (its tangent from its neighbours, its frame carried along the path so it never
+   *  twists). The section is `profile` (unit [s, u] points, convex, counter-clockwise from s toward u) or a regular
+   *  n-gon with a flat bottom; a is its half-size across the path (s), b up (u, from `up` at the first ring). A ring
+   *  of r 0 at either end is a point (a cone, a beak); any other end is capped with `ends`. A band takes its far
+   *  ring's name, or `cells[i]` for the i-th side of the section (a stripe along the path). Hulls, shells, trunks,
+   *  limbs: build it at the origin and add() it where it goes. */
+  loft(at, rings, name, { n = 8, profile, cells, ends = name, up = [0, 1, 0], rot = 0 } = {}) {
+    need(Array.isArray(rings) && rings.length >= 2, 'loft: fewer than two rings');
+    const sec =
+      profile ||
+      Array.from({ length: n }, (_, i) => {
+        const a = ((i + 0.5) / n) * Math.PI * 2 - Math.PI / 2; // a flat bottom: the first side lies under the path
+        return [Math.cos(a), Math.sin(a)];
+      });
+    need(sec.length >= 3, `loft: a section of ${sec.length} points`);
+    // convex and counter-clockwise: every turn of the section bends left (its caps are fanned, its sides face out)
+    sec.forEach((p, i) => {
+      const q = sec[(i + 1) % sec.length],
+        o = sec[(i + 2) % sec.length];
+      need(
+        (q[0] - p[0]) * (o[1] - q[1]) - (q[1] - p[1]) * (o[0] - q[0]) > 0,
+        `loft: the section turns right at point ${(i + 1) % sec.length} (it must be convex, counter-clockwise)`
+      );
+    });
+    need(!cells || cells.length === sec.length, `loft: ${cells?.length} cells for ${sec.length} sides`);
+    const r = rings.map(g => (typeof g.r === 'number' ? [g.r, g.r] : g.r));
+    r.forEach(([a, b], i) => {
+      const end = i === 0 || i === r.length - 1;
+      need((a === 0 && b === 0 && end) || (a > 0 && b > 0), `loft: ring ${i} has size ${a}, ${b}`);
+    });
+    const P = place(at, rot),
+      c = rings.map(g => g.at);
+    const sub = (p, q) => [p[0] - q[0], p[1] - q[1], p[2] - q[2]],
+      dot = (p, q) => p[0] * q[0] + p[1] * q[1] + p[2] * q[2],
+      cross = (p, q) => [p[1] * q[2] - p[2] * q[1], p[2] * q[0] - p[0] * q[2], p[0] * q[1] - p[1] * q[0]],
+      unit = p => {
+        const l = Math.sqrt(dot(p, p));
+        need(l > 1e-9, 'loft: two rings at one place');
+        return p.map(v => v / l);
+      };
+    let u = up;
+    const pts = c.map((ci, i) => {
+      const t = unit(sub(c[Math.min(i + 1, c.length - 1)], c[Math.max(i - 1, 0)]));
+      // carry the frame: the last up, made square to this tangent (the first from `up`, or z if up runs along it)
+      let v = sub(
+        u,
+        t.map(x => x * dot(u, t))
+      );
+      if (dot(v, v) < 1e-6)
+        v = sub(
+          [0, 0, 1],
+          t.map(x => x * t[2])
+        );
+      u = unit(v);
+      const s = cross(u, t); // s × u = t: the section runs counter-clockwise about the path
+      return sec.map(([ps, pu]) => {
+        const q = [0, 1, 2].map(k => ci[k] + r[i][0] * ps * s[k] + r[i][1] * pu * u[k]);
+        return P(q[0], q[1], q[2]);
+      });
+    });
+    const m = sec.length;
+    for (let i = 0; i + 1 < pts.length; i++) {
+      const lo = pts[i],
+        hi = pts[i + 1],
+        band = rings[i + 1].name || name;
+      for (let k = 0; k < m; k++) {
+        const j = (k + 1) % m,
+          cell = cells?.[k] || band;
+        if (i === 0 && r[0][0] === 0) this.poly([lo[k], hi[j], hi[k]], cell);
+        else if (i + 2 === pts.length && r[i + 1][0] === 0) this.poly([lo[k], lo[j], hi[k]], cell);
+        else this.quad(lo[k], lo[j], hi[j], hi[k], cell);
+      }
+    }
+    if (r[0][0] > 0) this.poly([...pts[0]].reverse(), ends);
+    if (r[r.length - 1][0] > 0) this.poly(pts[pts.length - 1], ends);
+    return this;
+  }
+
   /** a thin panel seen from both sides (a sail, a sign on a post, a flag): a planar convex polygon given once, drawn
    *  with both windings. */
   panel(pts, name) {
