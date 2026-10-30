@@ -185,7 +185,7 @@ Not yet in it (add them when a kit needs them, with their tests): a gambrel roof
 
 ## A props kit
 
-Some models are no civ's: the world's rides (`bike`, `ship_hull`) and the carriers under the disc (`turtle`,
+Some models are no civ's: the world's rides (`bike`, `ship`) and the carriers under the disc (`turtle`,
 `elephant`, `beam`), in `kits/world/`. A props kit is a made kit with `props: true` in its `source.yaml` and a
 triangle cap per model (`caps:`, which the tests hold; the build holds every prop to `MAX_PROP_TRIS`, 4000). The
 build gives it its own path, like the characters':
@@ -194,9 +194,10 @@ build gives it its own path, like the characters':
 - the manifest lists it in `props[name] = {kit, file, texture, bytes, sha256, tris, size}`;
 - every prop is sealed, wound out, under its cap and free of coplanar overlaps (`procgen.test.mjs`).
 
-A prop is built at its true proportions and may then be scaled whole to its size (the elephant to 1 tall, the hull to
+A prop is built at its true proportions and may then be scaled whole to its size (the elephant to 1 tall, the ship to
 1 long). Look at one with `node sheet/shoot.mjs /tmp/out 'props=world'` (`&only=turtle`, `&cam=low` from near the
-ground), `'carrier=4'` (the turtle with four elephants under a disc) or `'character=knight'`.
+ground), `'carrier=4'` (the turtle at five times an elephant's scale, four elephants on its shell all facing its heading, a
+disc on their backs) or `'character=knight'`; `&cam=chase` looks from behind and above.
 
 ## How a build makes it
 

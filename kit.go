@@ -37,7 +37,7 @@ type Manifest struct {
 	// Which character plays which unit is the game's, never the kit's.
 	Characters map[string]Character `json:"characters"`
 	Clips      *Clips               `json:"clips"`
-	// Props are the world's (kits/world): the rides (bike, ship_hull) and the carriers under the disc (turtle,
+	// Props are the world's (kits/world): the rides (bike, ship) and the carriers under the disc (turtle,
 	// elephant, beam). Each is one mesh, painted by its kit's own texture; no style paints a prop.
 	Props map[string]Prop `json:"props"`
 }

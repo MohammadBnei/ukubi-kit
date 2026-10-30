@@ -1,4 +1,4 @@
-// The world kit (ours): the player's rides (a bike, a ship's hull) and the carriers under the disc (the great turtle,
+// The world kit (ours): the player's rides (a bike, a spaceship) and the carriers under the disc (the great turtle,
 // the elephants on its shell, the beams they hold up), made by the procgen library (docs/procedural.md). Every model
 // is sealed (raised parts have their bottoms) and stands on y = 0 about its own origin (the shell's centre, the
 // body's), its front +z.
@@ -21,11 +21,12 @@ export const palette = define({
   gold: { cell: '2,1', top: '#f2cb63', bottom: '#a5781f' },
   timber: { cell: '3,1', top: '#b98a58', bottom: '#7a5432' },
   grain: { cell: '4,1', top: '#dcbb8a', bottom: '#a5804f' }, // end grain
-  paint: { cell: '5,1', top: '#c8442f', bottom: '#80241a' }, // the bike's frame, the hull's strake
+  paint: { cell: '5,1', top: '#c8442f', bottom: '#80241a' }, // the bike's frame, the ship's trim
   metal: { cell: '6,1', top: '#c3c9cf', bottom: '#6f767d' },
   leather: { cell: '7,1', top: '#6a442c', bottom: '#3c2618' },
-  hull: { cell: '0,2', top: '#9a6a42', bottom: '#5e3d24' },
-  deck: { cell: '1,2', top: '#d6ae78', bottom: '#9e7a4a' },
+  plate: { cell: '0,2', top: '#eef1f3', bottom: '#9aa4ad' }, // the ship's plating
+  glass: { cell: '1,2', top: '#a6e1ff', bottom: '#2c6c9c' }, // its canopy
+  glow: { cell: '5,2', top: '#f2ffff', bottom: '#a8f6ff' }, // its engines' mouths: bright at any height, to read as lit
   nail: { cell: '4,2', top: '#c2b8a6', bottom: '#81786a' }, // toenails
   lamp: { cell: '3,2', top: '#fff2b8', bottom: '#e0b84e' }
 });
@@ -86,7 +87,8 @@ const ring = (y, a, b, n, spin = 0) =>
   });
 
 /** the great turtle: a domed carapace of raised plates (its oldest crusted with stone), a pale plastron, a heavy old
- *  head with a horn beak and hooded eyes, long swept front flippers and paddle hind ones. Shell radius 1 (1.12 long). */
+ *  head with a horn beak and hooded eyes, long swept front flippers and paddle hind ones. Shell radius 1 across, 1.18 from
+ *  its centre to its front rim (E). */
 function turtle() {
   const m = mesh(),
     N = 12,
@@ -490,60 +492,101 @@ function bike() {
   return m.box([0, 0.57, -0.42], [0.06, 0.04, 0.03], 'paint', { bottom: true });
 }
 
-/** a ship's hull: a lofted wooden hull, a painted strake under its deck, a raised bow and a square stern, a hatch, two
- *  benches, a rudder and a bowsprit. 1 long, front +z. */
-function ship_hull() {
+/** the ship: a sleek low-poly spaceship, white plating with red trim, a glass canopy, short swept wings with an engine
+ *  nacelle on each, and glowing nozzles at the back (it is seen from behind and above). 1 long, front +z. */
+function ship() {
   const m = mesh();
-  // the section: keel, bilge, side, the painted strake, the deck, then down the other side
-  const profile = [
+  // the fuselage: a flattened hexagon, wide and low, from a pointed nose back to a square tail; the trim along its
+  // flanks
+  const flat = [
     [0, -1],
-    [0.62, -0.78],
-    [0.94, -0.3],
-    [1, 0.18],
-    [0.95, 0.55],
-    [-0.95, 0.55],
-    [-1, 0.18],
-    [-0.94, -0.3],
-    [-0.62, -0.78]
+    [1, -0.4],
+    [1, 0.4],
+    [0, 1],
+    [-1, 0.4],
+    [-1, -0.4]
   ];
-  const cells = ['hull', 'hull', 'hull', 'paint', 'deck', 'paint', 'hull', 'hull', 'hull'];
-  const rings = [
-    [-0.5, 0.14, 0.17, 0.11],
-    [-0.4, 0.13, 0.205, 0.13],
-    [-0.2, 0.13, 0.225, 0.14],
-    [0.05, 0.135, 0.22, 0.145],
-    [0.25, 0.15, 0.18, 0.15],
-    [0.38, 0.17, 0.12, 0.155],
-    [0.46, 0.2, 0.06, 0.16],
-    [0.5, 0.23, 0.02, 0.15]
-  ];
-  m.loft(
-    [0, 0, 0],
-    rings.map(([z, y, a, b]) => ({ at: [0, y, z], r: [a, b] })),
-    'hull',
-    { profile, cells }
-  );
-  // the gunwale: a rail along each edge of the deck, bow to stern
-  for (const s of [1, -1])
-    for (let i = 0; i + 2 < rings.length; i++) {
-      const edge = ([z, y, a, b]) => [s * a * 0.9, y + b * 0.58, z];
-      tube(m, edge(rings[i]), edge(rings[i + 1]), 0.02, 'timber', 5);
-    }
-  // a hatch and two benches on the deck, their feet in it
-  m.box([0, 0.19, -0.05], [0.16, 0.05, 0.14], 'timber', { top: 'deck', bottom: true });
-  for (const z of [0.18, -0.3]) m.box([0, 0.2, z], [0.34, 0.03, 0.06], 'timber', { bottom: true });
-  // the rudder at the stern, and a short bowsprit
-  m.box([0, 0.0, -0.52], [0.025, 0.2, 0.08], 'hull', { bottom: true });
   m.loft(
     [0, 0, 0],
     [
-      { at: [0, 0.28, 0.44], r: 0.022 },
-      { at: [0, 0.34, 0.62], r: 0.014 }
+      { at: [0, 0.16, -0.42], r: [0.12, 0.08] },
+      { at: [0, 0.16, -0.3], r: [0.15, 0.1] },
+      { at: [0, 0.16, -0.05], r: [0.15, 0.1] },
+      { at: [0, 0.15, 0.2], r: [0.11, 0.08] },
+      { at: [0, 0.14, 0.38], r: [0.05, 0.045] },
+      { at: [0, 0.13, 0.5], r: 0 }
     ],
-    'timber',
-    { n: 5 }
+    'plate',
+    { profile: flat, cells: ['plate', 'paint', 'plate', 'plate', 'paint', 'plate'] }
   );
-  // exactly 1 long, rudder to bowsprit
+  // the canopy, a glass teardrop on its back
+  m.loft(
+    [0, 0, 0],
+    [
+      { at: [0, 0.22, -0.12], r: [0.05, 0.03] },
+      { at: [0, 0.23, -0.04], r: [0.075, 0.055] },
+      { at: [0, 0.22, 0.08], r: [0.06, 0.045] },
+      { at: [0, 0.2, 0.2], r: 0 }
+    ],
+    'glass',
+    { n: 8 }
+  );
+  // the main engine: a nozzle out of the tail, its mouth glowing
+  m.loft(
+    [0, 0, 0],
+    [
+      { at: [0, 0.16, -0.47], r: [0.085, 0.055] },
+      { at: [0, 0.16, -0.4], r: [0.075, 0.05] }
+    ],
+    'metal',
+    { n: 10, ends: 'glow' }
+  );
+  for (const s of [1, -1]) {
+    // a wing, swept back, thin, from the flank out to the nacelle; its tip trimmed
+    m.loft(
+      [0, 0, 0],
+      [
+        { at: [0.1 * s, 0.13, -0.16], r: [0.2, 0.022] },
+        { at: [0.22 * s, 0.12, -0.22], r: [0.14, 0.018] },
+        { at: [0.3 * s, 0.115, -0.26], r: [0.1, 0.015], name: 'paint' }
+      ],
+      'plate',
+      { n: 6, up: [0, 1, 0] }
+    );
+    // the nacelle at its tip, and its glowing nozzle
+    const x = 0.32 * s;
+    m.loft(
+      [0, 0, 0],
+      [
+        { at: [x, 0.12, -0.4], r: 0.055 },
+        { at: [x, 0.12, -0.3], r: 0.06 },
+        { at: [x, 0.12, -0.1], r: 0.05 },
+        { at: [x, 0.12, 0.0], r: 0.025, name: 'paint' }
+      ],
+      'plate',
+      { n: 8 }
+    ).loft(
+      [0, 0, 0],
+      [
+        { at: [x, 0.12, -0.45], r: 0.05 },
+        { at: [x, 0.12, -0.38], r: 0.045 }
+      ],
+      'metal',
+      { n: 8, ends: 'glow' }
+    );
+  }
+  // a fin on its back, behind the canopy
+  m.loft(
+    [0, 0, 0],
+    [
+      { at: [0, 0.24, -0.38], r: [0.012, 0.06] },
+      { at: [0, 0.27, -0.28], r: [0.01, 0.04] },
+      { at: [0, 0.29, -0.2], r: 0, name: 'paint' }
+    ],
+    'paint',
+    { n: 4 }
+  );
+  // exactly 1 long, nozzles to nose
   const [lo, hi] = m.bounds();
   return mesh().add(m, { scale: 1 / (hi[2] - lo[2]) });
 }
@@ -551,7 +594,7 @@ function ship_hull() {
 export const models = {
   turtle,
   bike,
-  ship_hull,
+  ship,
   elephant,
   // a beam: a unit box of timber, its end grain at top and bottom (the world scales it to the load it bears)
   beam: () => mesh().box([0, 0, 0], [1, 1, 1], 'timber', { top: 'grain', bottom: 'grain' })

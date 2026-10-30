@@ -64,7 +64,7 @@ func TestManifest(t *testing.T) {
 		}
 	}
 	// the world's props: each its file, by hash, its texture, its kit a props kit, within its cap
-	caps := map[string]int{"bike": 800, "ship_hull": 1500, "turtle": 3000, "elephant": 1500, "beam": 24}
+	caps := map[string]int{"bike": 800, "ship": 1500, "turtle": 3000, "elephant": 1500, "beam": 24}
 	for name, limit := range caps {
 		p, ok := m.Props[name]
 		if !ok {

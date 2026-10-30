@@ -97,7 +97,8 @@ if (only) {
 }
 // ?props=<kit> shows a props kit's models side by side in its own atlas (&only=<name> one of them), and
 // ?carrier=<n> the great turtle with n elephants on its shell, holding up a disc; ?character=<name> one of the town's
-// people. &cam=low looks up at them from near the ground, the way the world sees the carriers
+// people. &cam=low looks at them from near the ground, the way the world sees the carriers; &cam=chase from behind
+// and above, the way a rider sees a ride
 const propsKit = q.get('props'),
   carrier = q.get('carrier'),
   person = q.get('character');
@@ -126,7 +127,8 @@ async function prop(name, at = [0, 0, 0], { rot = 0, scale = 1, tint } = {}) {
   g.scale.setScalar(scale);
   scene.add(g);
   models++;
-  return p.tris;
+  g.userData.tris = p.tris;
+  return g;
 }
 if (propsKit) {
   const names = Object.keys(manifest.props).filter(
@@ -136,27 +138,37 @@ if (propsKit) {
   for (const n of names) {
     const w = manifest.props[n].size[0];
     x += w / 2;
-    tris += await prop(n, [x, 0, 0]);
+    tris += (await prop(n, [x, 0, 0])).userData.tris;
     text(`${n} · ${manifest.props[n].tris}`, x, 0, manifest.props[n].size[2] / 2 + 0.3);
     x += w / 2 + 0.6;
   }
 }
 if (carrier) {
-  // the shell's top is about 0.86 of the turtle's height; the elephants stand around it, facing out, their backs level
-  const t = manifest.props.turtle,
-    n = Number(carrier) || 4,
-    k = 0.42, // an elephant's height on a shell of radius 1
-    top = t.size[1] * 0.78;
-  tris += await prop('turtle');
+  // the books' carriers: the turtle huge, its shell some seven elephants long, and the elephants standing on it in a
+  // ring, all facing the turtle's heading (+z), the disc on their backs. Each elephant stands where a ray down meets
+  // the shell
+  const n = Number(carrier) || 4,
+    T = 5; // the turtle's scale, the elephant's 1
+  const turtle = await prop('turtle', [0, 0, 0], { scale: T });
+  tris += turtle.userData.tris;
+  scene.updateMatrixWorld(true);
+  const ray = new THREE.Raycaster(),
+    R = 0.4 * T; // the ring, on the shell's crown
+  let back = 0;
   for (let i = 0; i < n; i++) {
-    const a = (i / n) * Math.PI * 2 + Math.PI / 4;
-    tris += await prop('elephant', [Math.sin(a) * 0.4, top - 0.06, Math.cos(a) * 0.4 + 0.05], { rot: a, scale: k });
+    const a = (i / n) * Math.PI * 2 + Math.PI / n,
+      x = Math.sin(a) * R,
+      z = Math.cos(a) * R;
+    ray.set(new THREE.Vector3(x, 100, z), new THREE.Vector3(0, -1, 0));
+    const y = ray.intersectObject(turtle, true)[0]?.point.y ?? 0;
+    tris += (await prop('elephant', [x, y - 0.02, z])).userData.tris;
+    back = Math.max(back, y - 0.02 + manifest.props.elephant.size[1]);
   }
   const disc = new THREE.Mesh(
-    new THREE.CylinderGeometry(1.6, 1.6, 0.08, 48),
-    new THREE.MeshStandardMaterial({ color: '#5f8f4a', roughness: 1 })
-  );
-  disc.position.y = top - 0.06 + k + 0.04;
+    new THREE.CylinderGeometry(1.6 * T, 1.6 * T, 0.3, 64),
+    new THREE.MeshStandardMaterial({ color: '#5f8f4a', roughness: 1, transparent: true, opacity: 0.45 })
+  ); // seen through, so the elephants show from above
+  disc.position.y = back + 0.15;
   disc.castShadow = disc.receiveShadow = true;
   scene.add(disc);
 }
@@ -236,10 +248,15 @@ scene.traverse(o => {
 const centre = box.getCenter(new THREE.Vector3()),
   size = box.getSize(new THREE.Vector3());
 const half = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)),
-  low = q.get('cam') === 'low',
-  dir = (low ? new THREE.Vector3(0.8, 0.14, 1) : new THREE.Vector3(0, 1.25, 1.05)).normalize();
+  cam = q.get('cam'),
+  // low: from near the ground, ahead and aside; chase: from behind and above, as a rider follows
+  dir = (
+    { low: new THREE.Vector3(0.8, 0.14, 1), chase: new THREE.Vector3(0.3, 0.7, -1) }[cam] ||
+    new THREE.Vector3(0, 1.25, 1.05)
+  ).normalize();
 const dist =
-  Math.max(size.x / 2 / (half * camera.aspect), (size.z * dir.y + size.y * dir.z) / 2 / half) * (low ? 1.5 : 1.08);
+  Math.max(size.x / 2 / (half * camera.aspect), (size.z * Math.abs(dir.y) + size.y * Math.abs(dir.z)) / 2 / half) *
+  (cam ? 1.5 : 1.08);
 controls.target.copy(centre);
 camera.position.copy(centre).addScaledVector(dir, dist);
 controls.update();

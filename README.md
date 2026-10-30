@@ -32,7 +32,7 @@ model a civ draws for a role in an age, and a Go package that embeds the result.
   file for all of them (`dist/characters/clips.glb`: the 41-joint rig and the named clips, played by bone name).
   Which character plays which unit is the game's, never this repo's.
 - **Props** (`kits/world/`): the world's own models, made by procgen, that no civ draws: the player's rides (a bike,
-  a ship's hull) and the carriers under the disc (the great turtle, the elephants on its shell, the beams they hold).
+  a spaceship) and the carriers under the disc (the great turtle, the elephants on its shell, the beams they hold).
   Each is built apart from the models (`dist/props/<name>.glb`), painted by its kit's own atlas (`dist/props/world.png`),
   never by a style. See [`docs/procedural.md`](docs/procedural.md#a-props-kit).
 - **Shapes** (`catalog/shapes.yaml`): what a model looks like (tower, gate, yard, vault, mill, bay, rig, pit, wide),
@@ -105,8 +105,8 @@ The knight (`manifest.characters.knight`) is the player's avatar: it plays the s
 `sheet/` shows every civ, age, role, construction state and dressing, painted. `node sheet/shoot.mjs [outdir]` (Node: Playwright)
 serves it and screenshots it with Playwright (a dev tool, not a dependency). `?civ=apps&view=close`,
 `?style=pack` (the packs' own colours) work in the URL; so do `?props=world` (the props; `&only=<name>`),
-`?carrier=4` (the turtle with four elephants under a disc), `?character=knight`, and `&cam=low` (from near the
-ground).
+`?carrier=4` (the turtle with four elephants on its shell, all facing its heading, under a disc), `?character=knight`,
+`&cam=low` (from near the ground) and `&cam=chase` (from behind and above).
 
 ## Go
 ```go

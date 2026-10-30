@@ -3637,16 +3637,16 @@
     1.207
    ]
   },
-  "ship_hull": {
+  "ship": {
    "kit": "world",
-   "file": "props/ship_hull.glb",
+   "file": "props/ship.glb",
    "texture": "props/world.png",
-   "bytes": 27372,
-   "sha256": "40847db1b11eb188cc1fe0d1ced64d6964668c0ff5b0af89450316b005809dd1",
-   "tris": 396,
+   "bytes": 27228,
+   "sha256": "afc2fdc97fb7e2e4c781023ba2930f0922c946e0525b64c7a03ff6f2933718f5",
+   "tris": 394,
    "size": [
-    0.38,
-    0.307,
+    0.774,
+    0.245,
     1
    ]
   },

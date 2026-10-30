@@ -9,14 +9,14 @@ licence: CC0-1.0
 scale: 1
 models:
   - bike
-  - ship_hull
+  - ship
   - turtle
   - elephant
   - beam
 # each model's triangle budget (the procgen tests hold it; the build holds every prop to MAX_PROP_TRIS)
 caps:
   bike: 800
-  ship_hull: 1500
+  ship: 1500
   turtle: 3000
   elephant: 1500
   beam: 24
