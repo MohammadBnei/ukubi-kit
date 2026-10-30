@@ -357,3 +357,170 @@ test("a style names a made kit's cells by its palette, and every name it uses is
       assert.ok(mod.palette[key], `style ${id} names ukubi cell ${key}, not in its palette (name it, not "col,row")`);
     }
 });
+
+// sealed: a shape of any form (not only convex) is wound and closed. Every edge is walked once each way by the faces
+// beside it (so none is missing and none faces in against its neighbour), but for an open bottom's edges on the foot
+// plane; and each connected piece encloses a positive volume, measured from a point on the foot plane (where the
+// open bottom adds none), so its faces point out, not in.
+function sealed(m, what, { openBottom = false } = {}) {
+  assert.deepEqual(m.problems(), [], what);
+  const key = p => p.map(v => v.toFixed(6)).join(),
+    foot = m.bounds()[0][1],
+    walks = new Map(),
+    parent = new Map();
+  const find = k => {
+    while (parent.get(k) !== k) k = parent.get(k);
+    return k;
+  };
+  for (const t of m.tris) {
+    const ks = t.p.map(key);
+    for (const k of ks) if (!parent.has(k)) parent.set(k, k);
+    parent.set(find(ks[1]), find(ks[0]));
+    parent.set(find(ks[2]), find(ks[0]));
+    for (let i = 0; i < 3; i++) {
+      const e = `${ks[i]}|${ks[(i + 1) % 3]}`;
+      walks.set(e, (walks.get(e) || 0) + 1);
+    }
+  }
+  for (const [e, n] of walks) {
+    const [a, b] = e.split('|'),
+      back = walks.get(`${b}|${a}`) || 0,
+      onFoot = [a, b].every(k => Math.abs(Number(k.split(',')[1]) - foot) < 1e-5);
+    if (n !== back && !(openBottom && onFoot && back === 0 && n === 1))
+      assert.fail(`${what}: edge ${e} is walked ${n} times one way and ${back} the other`);
+  }
+  const vol = new Map();
+  for (const t of m.tris) {
+    const [a, b, c] = t.p.map(p => [p[0], p[1] - foot, p[2]]),
+      v =
+        (a[0] * (b[1] * c[2] - b[2] * c[1]) - a[1] * (b[0] * c[2] - b[2] * c[0]) + a[2] * (b[0] * c[1] - b[1] * c[0])) /
+        6,
+      k = find(key(t.p[0]));
+    vol.set(k, (vol.get(k) || 0) + v);
+  }
+  for (const [k, v] of vol) assert.ok(v > 0, `${what}: the piece at ${k} faces in (volume ${v})`);
+}
+
+test('a loft is sealed and faces out: straight, tapered to a point, curved, with a profile and its cells', () => {
+  const straight = new Mesh(pal).loft(
+    [0, 0, 0],
+    [
+      { at: [0, 0, 0], r: 0.3 },
+      { at: [0, 0, 1], r: [0.2, 0.1] }
+    ],
+    'a'
+  );
+  facesOut(straight, 'a straight loft');
+  sealed(straight, 'a straight loft');
+  const egg = new Mesh(pal).loft(
+    [0, 0.5, 0],
+    [0, 0.4, 0.7, 0.4, 0].map((r, i) => ({ at: [0, 0, i * 0.25], r })),
+    'a',
+    { n: 6 }
+  );
+  facesOut(egg, 'a loft pointed at both ends');
+  sealed(egg, 'a loft pointed at both ends');
+  // a trunk: forward, then down, then curling forward again; along y too (its up falls back to z)
+  const trunk = new Mesh(pal).loft(
+    [0, 0, 0],
+    [
+      [0, 1, 0],
+      [0, 1, 0.3],
+      [0, 0.7, 0.45],
+      [0, 0.3, 0.4],
+      [0, 0.1, 0.55]
+    ].map((at, i) => ({ at, r: 0.12 - i * 0.02, name: i % 2 ? 'b' : 'a' })),
+    'a',
+    { n: 5 }
+  );
+  sealed(trunk, 'a curved loft');
+  sealed(
+    new Mesh(pal).loft(
+      [0, 0, 0],
+      [
+        { at: [0, 0, 0], r: 0.4 },
+        { at: [0, 1, 0], r: 0.2 }
+      ],
+      'a'
+    ),
+    'an upright loft'
+  );
+  const hull = [
+    [0, -1],
+    [1, -0.4],
+    [0.9, 0.3],
+    [-0.9, 0.3],
+    [-1, -0.4]
+  ];
+  const boat = new Mesh(pal).loft(
+    [0, 0, 0],
+    [
+      { at: [0, 0, 0], r: 0.3 },
+      { at: [0, 0, 1], r: 0.2 }
+    ],
+    'a',
+    {
+      profile: hull,
+      cells: ['a', 'a', 'b', 'a', 'a']
+    }
+  );
+  facesOut(boat, 'a loft with a profile');
+  assert.equal(boat.tris.filter(t => t.cell === '7,3').length, 2, 'its deck side takes its own cell');
+  for (const o of [{ mirror: true }, { tilt: 1, rot: 2 }, { scale: [1, 2, 0.5] }])
+    sealed(new Mesh(pal).add(trunk, o), `a curved loft added with ${JSON.stringify(o)}`);
+  assert.throws(() => new Mesh(pal).loft([0, 0, 0], [{ at: [0, 0, 0], r: 1 }], 'a'), /two rings/);
+  assert.throws(
+    () =>
+      new Mesh(pal).loft(
+        [0, 0, 0],
+        [0.3, 0, 0.3].map((r, i) => ({ at: [0, 0, i], r })),
+        'a'
+      ),
+    /ring 1/
+  );
+});
+
+test('sealed() finds a missing face, a face turned in and a shape turned inside out', () => {
+  const box = () => new Mesh(pal).box([0, 0.2, 0], [1, 1, 1], 'a', { bottom: true });
+  sealed(box(), 'a closed box');
+  sealed(new Mesh(pal).box([0, 0, 0], [1, 1, 1], 'a'), 'a box open at its foot', { openBottom: true });
+  const missing = box();
+  missing.tris.pop();
+  assert.throws(() => sealed(missing, 'a missing face'), /walked/);
+  const turned = box();
+  turned.tris[0].p.reverse();
+  assert.throws(() => sealed(turned, 'a face turned in'), /walked/);
+  const inside = box();
+  for (const t of inside.tris) t.p.reverse();
+  assert.throws(() => sealed(inside, 'inside out'), /faces in/);
+  assert.throws(() => sealed(new Mesh(pal).box([0, 0.2, 0], [1, 1, 1], 'a'), 'raised, open'), /walked/);
+});
+
+test("the world's props: each is made, sealed, under its cap, its size, and the same bytes made twice", async () => {
+  const kit = parse(await readFile(`${ROOT}kits/world/source.yaml`, 'utf8'));
+  const { mod } = await load(ROOT, kit),
+    io = new NodeIO();
+  assert.ok(kit.props, 'world is a props kit');
+  assert.deepEqual(Object.keys(kit.caps).sort(), [...kit.models].sort(), 'every prop has a triangle cap');
+  const size = {};
+  for (const name of kit.models) {
+    const m = mod.models[name]();
+    sealed(m, name);
+    assert.ok(m.tris.length <= kit.caps[name], `${name}: ${m.tris.length} triangles, over its cap ${kit.caps[name]}`);
+    assert.deepEqual(coplanarOverlaps(m).slice(0, 3), [], `${name}: faces overlap in one plane`);
+    const [lo, hi] = m.bounds();
+    size[name] = hi.map((v, i) => v - lo[i]);
+    const bytes = async () => {
+      const { json, resources } = await io.writeJSON(toDoc(mod.models[name](), name));
+      return JSON.stringify(json) + Buffer.from(Object.values(resources)[0]).toString('hex');
+    };
+    assert.equal(await bytes(), await bytes(), `${name} is not deterministic`);
+  }
+  const near = (v, want, tol, what) => assert.ok(Math.abs(v - want) <= tol, `${what}: ${v}, want ${want} ± ${tol}`);
+  near(size.bike[2], 1.2, 0.1, 'the bike is about 1.2 long');
+  near(size.ship_hull[2], 1, 1e-9, 'the hull is 1 long');
+  near(size.elephant[1], 1, 1e-9, 'the elephant is 1 tall');
+  assert.ok(mod.models.elephant().bounds()[0][1] >= -1e-9, "the elephant's feet are at 0");
+  assert.deepEqual(size.beam, [1, 1, 1], 'the beam is a unit box');
+  assert.ok(size.turtle[0] > 2 && size.turtle[2] > 2, 'the turtle: a shell of radius 1, flippers past it');
+});
