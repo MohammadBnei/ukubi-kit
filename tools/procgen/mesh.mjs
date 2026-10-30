@@ -219,6 +219,15 @@ export class Mesh {
         return [Math.cos(a), Math.sin(a)];
       });
     need(sec.length >= 3, `loft: a section of ${sec.length} points`);
+    // convex and counter-clockwise: every turn of the section bends left (its caps are fanned, its sides face out)
+    sec.forEach((p, i) => {
+      const q = sec[(i + 1) % sec.length],
+        o = sec[(i + 2) % sec.length];
+      need(
+        (q[0] - p[0]) * (o[1] - q[1]) - (q[1] - p[1]) * (o[0] - q[0]) > 0,
+        `loft: the section turns right at point ${(i + 1) % sec.length} (it must be convex, counter-clockwise)`
+      );
+    });
     need(!cells || cells.length === sec.length, `loft: ${cells?.length} cells for ${sec.length} sides`);
     const r = rings.map(g => (typeof g.r === 'number' ? [g.r, g.r] : g.r));
     r.forEach(([a, b], i) => {

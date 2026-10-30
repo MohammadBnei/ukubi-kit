@@ -469,6 +469,18 @@ test('a loft is sealed and faces out: straight, tapered to a point, curved, with
   for (const o of [{ mirror: true }, { tilt: 1, rot: 2 }, { scale: [1, 2, 0.5] }])
     sealed(new Mesh(pal).add(trunk, o), `a curved loft added with ${JSON.stringify(o)}`);
   assert.throws(() => new Mesh(pal).loft([0, 0, 0], [{ at: [0, 0, 0], r: 1 }], 'a'), /two rings/);
+  const two = [
+    { at: [0, 0, 0], r: 0.3 },
+    { at: [0, 0, 1], r: 0.2 }
+  ];
+  assert.throws(() => new Mesh(pal).loft([0, 0, 0], two, 'a', { profile: [...hull].reverse() }), /turns right/);
+  const notch = [
+    [0, -1],
+    [1, 0],
+    [0, -0.2],
+    [-1, 0]
+  ];
+  assert.throws(() => new Mesh(pal).loft([0, 0, 0], two, 'a', { profile: notch }), /turns right/);
   assert.throws(
     () =>
       new Mesh(pal).loft(
@@ -518,7 +530,7 @@ test("the world's props: each is made, sealed, under its cap, its size, and the 
   }
   const near = (v, want, tol, what) => assert.ok(Math.abs(v - want) <= tol, `${what}: ${v}, want ${want} ± ${tol}`);
   near(size.bike[2], 1.2, 0.1, 'the bike is about 1.2 long');
-  near(size.ship_hull[2], 1, 1e-9, 'the hull is 1 long');
+  near(size.ship[2], 1, 1e-9, 'the ship is 1 long');
   near(size.elephant[1], 1, 1e-9, 'the elephant is 1 tall');
   assert.ok(mod.models.elephant().bounds()[0][1] >= -1e-9, "the elephant's feet are at 0");
   assert.deepEqual(size.beam, [1, 1, 1], 'the beam is a unit box');
