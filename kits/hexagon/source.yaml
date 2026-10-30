@@ -10,6 +10,8 @@ licence: CC0-1.0
 scale: 1
 # a hex model turns in sixths; a square kit's in quarters (City's in halves: its blocks face one street)
 turns: 6
+# path prefixes whose models keep their own origin, never grounded: a tile's top at y = 0, its column down to -1
+unground: [tiles/]
 models:
   - buildings/blue/building_home_A_blue
   - buildings/blue/building_home_B_blue
@@ -59,4 +61,44 @@ models:
   - decoration/props/flag_blue
   - decoration/props/ladder
   - decoration/props/wheelbarrow
+  # the hex land: mountains and hills (decor, grounded), then the tiles: grass, its column, water, coast, rivers, roads
+  - decoration/nature/mountain_A
+  - decoration/nature/mountain_B
+  - decoration/nature/mountain_C
+  - decoration/nature/hills_A
+  - decoration/nature/hills_B
+  - decoration/nature/hills_C
   - tiles/base/hex_grass
+  - tiles/base/hex_grass_bottom
+  - tiles/base/hex_water
+  - tiles/coast/hex_coast_A
+  - tiles/coast/hex_coast_B
+  - tiles/coast/hex_coast_C
+  - tiles/coast/hex_coast_D
+  - tiles/rivers/hex_river_A
+  - tiles/rivers/hex_river_B
+  - tiles/rivers/hex_river_C
+  - tiles/rivers/hex_river_D
+  - tiles/rivers/hex_river_E
+  - tiles/rivers/hex_river_F
+  - tiles/rivers/hex_river_G
+  - tiles/rivers/hex_river_H
+  - tiles/rivers/hex_river_I
+  - tiles/rivers/hex_river_J
+  - tiles/rivers/hex_river_K
+  - tiles/rivers/hex_river_L
+  - tiles/rivers/hex_river_crossing_A
+  - tiles/rivers/hex_river_crossing_B
+  - tiles/roads/hex_road_A
+  - tiles/roads/hex_road_B
+  - tiles/roads/hex_road_C
+  - tiles/roads/hex_road_D
+  - tiles/roads/hex_road_E
+  - tiles/roads/hex_road_F
+  - tiles/roads/hex_road_G
+  - tiles/roads/hex_road_H
+  - tiles/roads/hex_road_I
+  - tiles/roads/hex_road_J
+  - tiles/roads/hex_road_K
+  - tiles/roads/hex_road_L
+  - tiles/roads/hex_road_M

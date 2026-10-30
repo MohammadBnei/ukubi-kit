@@ -264,3 +264,74 @@ func TestNoEmbeddedImages(t *testing.T) {
 		t.Fatal("no model read")
 	}
 }
+
+// TestTilesAtOrigin: every hex tile keeps its own origin (source.yaml unground), its top at y = 0 or below (water at
+// -0.2) and its column
+// below, so a tile drops onto the land at its level; a building stands on y = 0 (grounded), its top above it.
+func TestTilesAtOrigin(t *testing.T) {
+	m, err := Load()
+	if err != nil {
+		t.Fatal(err)
+	}
+	n := 0
+	for id, md := range m.Models {
+		if !strings.HasPrefix(id, "hexagon/hex_") {
+			continue
+		}
+		n++
+		if y := maxY(t, md.File); y > 0.001 {
+			t.Errorf("%s: top at y = %.3f, not 0 (a tile is never grounded)", id, y)
+		}
+	}
+	if n < 34 {
+		t.Errorf("%d hex tiles, want at least 34", n)
+	}
+	if y := maxY(t, m.Models["hexagon/building_home_A_blue"].File); y <= 0 {
+		t.Errorf("building_home_A_blue: top at y = %.3f, not above the ground", y)
+	}
+}
+
+// maxY: a GLB's highest vertex, from its POSITION accessor's max through its one node's scale and translation (the
+// build's quantization keeps its dequantization there)
+func maxY(t *testing.T, file string) float64 {
+	t.Helper()
+	b, err := fs.ReadFile(FS(), file)
+	if err != nil || len(b) < 20 {
+		t.Fatalf("%s: %v", file, err)
+	}
+	var doc struct {
+		Nodes []struct {
+			Mesh        int
+			Translation []float64
+			Scale       []float64
+			Rotation    []float64
+			Matrix      []float64
+		}
+		Meshes []struct {
+			Primitives []struct{ Attributes map[string]int }
+		}
+		Accessors []struct {
+			ComponentType int
+			Normalized    bool
+			Max           []float64
+		}
+	}
+	if err := json.Unmarshal(b[20:20+int(binary.LittleEndian.Uint32(b[12:16]))], &doc); err != nil {
+		t.Fatalf("%s: %v", file, err)
+	}
+	if len(doc.Nodes) != 1 || doc.Nodes[0].Rotation != nil || doc.Nodes[0].Matrix != nil {
+		t.Fatalf("%s: not one node with only a scale and a translation", file)
+	}
+	a := doc.Accessors[doc.Meshes[doc.Nodes[0].Mesh].Primitives[0].Attributes["POSITION"]]
+	y := a.Max[1]
+	if a.Normalized {
+		y /= map[int]float64{5120: 127, 5121: 255, 5122: 32767, 5123: 65535}[a.ComponentType]
+	}
+	if s := doc.Nodes[0].Scale; s != nil {
+		y *= s[1]
+	}
+	if tr := doc.Nodes[0].Translation; tr != nil {
+		y += tr[1]
+	}
+	return y
+}

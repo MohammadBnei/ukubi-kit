@@ -1518,12 +1518,519 @@
    ],
    "reach": 0.264
   },
+  "hexagon/mountain_A": {
+   "kit": "hexagon",
+   "file": "models/hexagon/mountain_A.glb",
+   "bytes": 6320,
+   "sha256": "9eee87406419af528320f6c6fdcbaf0f4a3a3e5dba4b48cd5ec44a519b757eba",
+   "tris": 120,
+   "size": [
+    1.801,
+    1.425,
+    1.876
+   ],
+   "reach": 0.907
+  },
+  "hexagon/mountain_B": {
+   "kit": "hexagon",
+   "file": "models/hexagon/mountain_B.glb",
+   "bytes": 6320,
+   "sha256": "3b2742179c4c79609dfe66afa98e4885fba841feba7443efe6d178ffa152627d",
+   "tris": 120,
+   "size": [
+    1.801,
+    1.77,
+    1.876
+   ],
+   "reach": 0.913
+  },
+  "hexagon/mountain_C": {
+   "kit": "hexagon",
+   "file": "models/hexagon/mountain_C.glb",
+   "bytes": 9680,
+   "sha256": "1ef3cd91326c4cbd499edbe2f50210468ab08d5b81ddd3fbcc59b09d6fa425fe",
+   "tris": 200,
+   "size": [
+    1.759,
+    1.508,
+    2.023
+   ],
+   "reach": 0.907
+  },
+  "hexagon/hills_A": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hills_A.glb",
+   "bytes": 15936,
+   "sha256": "5ea340ed9babdfe05af52afffb2999cde1e5bdd24cda790b8d590e64086133a0",
+   "tris": 383,
+   "size": [
+    1.755,
+    0.794,
+    1.737
+   ],
+   "reach": 0.934
+  },
+  "hexagon/hills_B": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hills_B.glb",
+   "bytes": 10068,
+   "sha256": "694bfba9e634abbe94a1d92e2d828af07c6e710e94afba40adeb9b0dfbbe284b",
+   "tris": 226,
+   "size": [
+    1.474,
+    0.366,
+    1.624
+   ],
+   "reach": 0.902
+  },
+  "hexagon/hills_C": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hills_C.glb",
+   "bytes": 10800,
+   "sha256": "cd8bf31c11cacb8b2c0a95f943f5b18c2007cced10b0224077341e38dec0261b",
+   "tris": 238,
+   "size": [
+    1.527,
+    0.555,
+    1.474
+   ],
+   "reach": 0.891
+  },
   "hexagon/hex_grass": {
    "kit": "hexagon",
    "file": "models/hexagon/hex_grass.glb",
    "bytes": 2836,
    "sha256": "251835b16f341d5bb6de8a7bef638d003a48634b6d46d045c81d87383d561a06",
    "tris": 36,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_grass_bottom": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_grass_bottom.glb",
+   "bytes": 2088,
+   "sha256": "e645f755821d047e0df26a6517ab610e85c7713bfa600dba5ec25adc0797732c",
+   "tris": 20,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_water": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_water.glb",
+   "bytes": 2216,
+   "sha256": "6b60f7ac69431ddeb3cc4802d131adbe502b5dec56ec3be5e9595dc25e7feb29",
+   "tris": 24,
+   "size": [
+    2,
+    0.8,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_coast_A": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_coast_A.glb",
+   "bytes": 5068,
+   "sha256": "cffa17d47545cbe58f28b59ec4b00699382ac4118caabc9ef00cbb18afb9a582",
+   "tris": 100,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_coast_B": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_coast_B.glb",
+   "bytes": 4836,
+   "sha256": "2d0fed4a54745dbd655a7f3b3d122ed78613e21e3894600bfe3a2ffdf87cc795",
+   "tris": 98,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_coast_C": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_coast_C.glb",
+   "bytes": 4944,
+   "sha256": "43138040535e0f556ec7f9d6c28afc6a8a8408ec847bb9fe50eda407df104f68",
+   "tris": 106,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_coast_D": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_coast_D.glb",
+   "bytes": 4448,
+   "sha256": "90f6e05229fe56d736aa8cd1b3dd60ad6f962e4abb338ecb75afbf76a4b55ad1",
+   "tris": 80,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_river_A": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_river_A.glb",
+   "bytes": 4396,
+   "sha256": "a4a88ce08729aa3d497771caa81cd08ac0d9731f3e34da5dc90c843a775b7588",
+   "tris": 82,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_river_B": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_river_B.glb",
+   "bytes": 6960,
+   "sha256": "9bb0cf7e52e1ee77321709dcd7c47c4a42f39aabd2ff4087a46750135eb217cc",
+   "tris": 186,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_river_C": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_river_C.glb",
+   "bytes": 6980,
+   "sha256": "edff8659d31c9626512b786c44c8d960c70a03d80e57bae65763ecdf9062900d",
+   "tris": 192,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_river_D": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_river_D.glb",
+   "bytes": 8080,
+   "sha256": "6d4b3756569b6a47886856a05f611df5d60bbe4c9c556b67c0696b09f060a505",
+   "tris": 226,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_river_E": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_river_E.glb",
+   "bytes": 7212,
+   "sha256": "75b484c6845d018a4a69a39a95b1f804de5d4761a22e81d227b67406f34125f2",
+   "tris": 188,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_river_F": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_river_F.glb",
+   "bytes": 7212,
+   "sha256": "04645d0118ace5fc8b4107b00b716f077802ffa33d1abda1d303b944e0b31078",
+   "tris": 188,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_river_G": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_river_G.glb",
+   "bytes": 8556,
+   "sha256": "443600c30cbb6cc563c5a62c999c3f25603194351a6c436299309baa30e4a8b1",
+   "tris": 242,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_river_H": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_river_H.glb",
+   "bytes": 9588,
+   "sha256": "56d745e7ae5294f898f80a321dab8e9e84f8e3460bbc4d66c9bde1e6fdb7e5f2",
+   "tris": 274,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_river_I": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_river_I.glb",
+   "bytes": 9612,
+   "sha256": "183790abdee0bbc021fc1db2850d2fcf19fa46cb1b9fff3b23535ee571789540",
+   "tris": 274,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_river_J": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_river_J.glb",
+   "bytes": 8688,
+   "sha256": "3de610f7325f67d191ec54da61d286b6d3998ab04b87effcee3fb5d7ca709522",
+   "tris": 234,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_river_K": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_river_K.glb",
+   "bytes": 11096,
+   "sha256": "cda767c0008b7f49d84a4d01f79d6252a4cfd6e354d757d6dba8cdce5181d7e9",
+   "tris": 322,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_river_L": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_river_L.glb",
+   "bytes": 12832,
+   "sha256": "9f3eeb974c55f92e6c261c608a85d9b90d15c32935a67fc0894bb046209ab618",
+   "tris": 384,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_river_crossing_A": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_river_crossing_A.glb",
+   "bytes": 6564,
+   "sha256": "944756a22fce4ebe661a921447b51089d7ea06d837464b9dcf21aa90233e284d",
+   "tris": 134,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_river_crossing_B": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_river_crossing_B.glb",
+   "bytes": 6564,
+   "sha256": "528a5e7f72e41a094cd6db1ff7ef4af63bc35e9827dab590a8e6bed2cee08833",
+   "tris": 134,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_road_A": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_road_A.glb",
+   "bytes": 3688,
+   "sha256": "3d4cba99be306d22d2ac72f311f826f06a0e95eac83e4d064259e7f56739a9b2",
+   "tris": 58,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_road_B": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_road_B.glb",
+   "bytes": 5448,
+   "sha256": "4eab11fc43fc76645689c9cc2eb5a00a56966394984a0e9ee3d375d83d9a5030",
+   "tris": 118,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_road_C": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_road_C.glb",
+   "bytes": 5644,
+   "sha256": "7c5f94e5c6698fe4320783dcf610a5c65b713d631339fa3152615c84a4d0305d",
+   "tris": 124,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_road_D": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_road_D.glb",
+   "bytes": 6740,
+   "sha256": "b683059055e4d919d2be8427c0f8ebfd85ab94f6f98215d77ce304e22f395399",
+   "tris": 160,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_road_E": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_road_E.glb",
+   "bytes": 6116,
+   "sha256": "40c2a98077a6160af7dff912ff240850bc7729426946f3e3e445022af1887bad",
+   "tris": 136,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_road_F": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_road_F.glb",
+   "bytes": 6116,
+   "sha256": "e83777292e71873e14bc637e21d13a5e4faca86252e0c06737a4603274280882",
+   "tris": 136,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_road_G": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_road_G.glb",
+   "bytes": 6508,
+   "sha256": "0b53a327a5102ba300a22a110e7334971fe921566b7b0ffcc3f37e9d76ae8d80",
+   "tris": 148,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_road_H": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_road_H.glb",
+   "bytes": 7944,
+   "sha256": "409409fbd883a1ce46f55a90dd54e872c8d29176950ea0ec8b42a67f1bf0e281",
+   "tris": 190,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_road_I": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_road_I.glb",
+   "bytes": 7884,
+   "sha256": "af1f4c09e300543307e66d0f8c9a073d3354eb9ac8e77a3a5a60531c8444650d",
+   "tris": 190,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_road_J": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_road_J.glb",
+   "bytes": 7076,
+   "sha256": "b4696eae8bb261313357613f39c84d09bc0a8e9c7526b9d40d7fcba7009e702a",
+   "tris": 166,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_road_K": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_road_K.glb",
+   "bytes": 8864,
+   "sha256": "f4c646b33d8814dbf65b1e5487f61f4febd2510958a58d1e42082c3cffcb6bc9",
+   "tris": 220,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_road_L": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_road_L.glb",
+   "bytes": 10268,
+   "sha256": "875ffd849c8e5e8a7fa8b9d4f184566945080a34cc399a3805c8a1e34e89fe64",
+   "tris": 264,
+   "size": [
+    2,
+    1,
+    2.309
+   ],
+   "reach": 1
+  },
+  "hexagon/hex_road_M": {
+   "kit": "hexagon",
+   "file": "models/hexagon/hex_road_M.glb",
+   "bytes": 4444,
+   "sha256": "ff437daf261b30c65c1a322f0e492ecfe4c0ca0d98b1dac0e304a63d48147b60",
+   "tris": 94,
    "size": [
     2,
     1,

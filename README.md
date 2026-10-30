@@ -8,7 +8,9 @@ model a civ draws for a role in an age, and a Go package that embeds the result.
 - **Kits** (`kits/<kit>/source.yaml`): a KayKit pack pinned by commit (Medieval Hexagon, City Builder, Space Base,
   Halloween, Dungeon Remastered, Prototype), the models taken from it, a normalising scale so every building fits a
   hex 2 flat-to-flat, and the turns its models take (6 on a hex, 4 on a square). `lock.json` holds each fetched
-  file's sha256. One kit is ours: `ukubi`, low-poly workshops and factories made on every build, deterministically,
+  file's sha256. `unground` lists path prefixes whose models keep their own origin, never grounded (hexagon's
+  `tiles/`: a tile's top at y = 0 or below (water at −0.2), its column down to −1). One kit is ours: `ukubi`, low-poly workshops and
+  factories made on every build, deterministically,
   with its own atlas, by the **procgen** library (`tools/procgen/`): a kit's generator is a module of primitives and
   a palette. To make another kit, read [`docs/procedural.md`](docs/procedural.md).
 - **Styles** (`catalog/styles.yaml`): every kit paints its models through one 8×4 atlas of gradient swatches.
@@ -69,7 +71,8 @@ zlib may still write other bytes for the same image.
 Validation fails on: a catalog reference that isn't a model, a civ drawing another kit's model, a civ without a
 product, a civ missing an age, a building that overhangs its hex by more than 10% (the town centre may take more; a
 building on a plot stays inside the plot, and the plot inside its hex), a model over 8000 triangles or a building
-over 4500, a style cell outside the 8×4 grid or off a kit's swatches, a civ style without the tiles' ground and team
+over 4500, a kit's `unground` that is not a list of path prefixes, a style cell outside the 8×4 grid or off a kit's
+swatches, a civ style without the tiles' ground and team
 cells, or a `world` that is not a model kit with its tiles and two cells. The checks are ordered lists in `build.mjs`
 (each civ's, then the town's), and a kit's source is chosen by its kind (`tools/sources.mjs`: fetched, made, or the
 town's people). Characters fail on a rig that is not the clip file's (by joint name and order), on more than one draw, or on
@@ -104,7 +107,8 @@ The knight (`manifest.characters.knight`) is the player's avatar: it plays the s
 ## Contact sheet
 `sheet/` shows every civ, age, role, construction state and dressing, painted. `node sheet/shoot.mjs [outdir]` (Node: Playwright)
 serves it and screenshots it with Playwright (a dev tool, not a dependency). `?civ=apps&view=close`,
-`?style=pack` (the packs' own colours) work in the URL; so do `?props=world` (the props; `&only=<name>`),
+`?style=pack` (the packs' own colours), `?kit=hexagon&only=hex_` (a kit's models whose name starts with it; a hex
+tile stands on no grass tile) work in the URL; so do `?props=world` (the props; `&only=<name>`),
 `?carrier=4` (the turtle with four elephants on its shell, all facing its heading, under a disc), `?character=knight`,
 `&cam=low` (from near the ground) and `&cam=chase` (from behind and above).
 

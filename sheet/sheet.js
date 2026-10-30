@@ -67,7 +67,8 @@ const text = (s, x, y, z, cls = 'l') => {
 const ROLES = manifest.roles;
 const DX = 2.6,
   DZ = 3.2;
-// ?kit=<name> is the authoring view: every model of one kit, in the style of the civ that draws it (or ?style=)
+// ?kit=<name> is the authoring view: every model of one kit, in the style of the civ that draws it (or ?style=);
+// &only=<prefix> the models whose name starts with it
 const only = q.get('kit');
 const civs =
   only || q.get('props') || q.get('carrier') || q.get('character')
@@ -79,7 +80,7 @@ let row = 0,
 const tile = 'hexagon/hex_grass';
 if (only) {
   const ids = Object.keys(manifest.models)
-    .filter(id => manifest.models[id].kit === only)
+    .filter(id => manifest.models[id].kit === only && (!q.get('only') || id.startsWith(`${only}/${q.get('only')}`)))
     .sort();
   const owner = Object.values(manifest.civs).find(c => c.kit === only);
   const style = q.get('style') || owner?.styles[Number(q.get('age') || 1) - 1] || 'pack';
@@ -88,7 +89,8 @@ if (only) {
   for (let i = 0; i < ids.length; i++) {
     const x = (i % per) * DX,
       z = Math.floor(i / per) * DZ;
-    tris += await place(tile, style, x, z);
+    // a hex tile is the ground itself: no grass tile under it (it would cover a water or river tile's lower top)
+    if (!ids[i].startsWith('hexagon/hex_')) tris += await place(tile, style, x, z);
     tris += await place(ids[i], style, x, z);
     text(`${ids[i].split('/').pop()} · ${manifest.models[ids[i]].tris}`, x, 0, z + 1.2);
     models++;
