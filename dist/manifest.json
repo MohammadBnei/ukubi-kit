@@ -53,6 +53,12 @@
    "commit": "672074b73ba276876a19e8816ecdc5241817ab47",
    "licence": "CC0-1.0",
    "characters": true
+  },
+  "world": {
+   "generator": "models.mjs",
+   "licence": "CC0-1.0",
+   "scale": 1,
+   "props": true
   }
  },
  "models": {
@@ -3616,6 +3622,73 @@
    "Sit_Chair_Idle"
   ],
   "joints": 41
+ },
+ "props": {
+  "bike": {
+   "kit": "world",
+   "file": "props/bike.glb",
+   "texture": "props/world.png",
+   "bytes": 50836,
+   "sha256": "cb71ac3349c0ebc9b200ad3d02dc252295dff77ef0d591cbeed35a325f810080",
+   "tris": 752,
+   "size": [
+    0.5,
+    0.756,
+    1.207
+   ]
+  },
+  "ship_hull": {
+   "kit": "world",
+   "file": "props/ship_hull.glb",
+   "texture": "props/world.png",
+   "bytes": 27372,
+   "sha256": "40847db1b11eb188cc1fe0d1ced64d6964668c0ff5b0af89450316b005809dd1",
+   "tris": 396,
+   "size": [
+    0.38,
+    0.307,
+    1
+   ]
+  },
+  "turtle": {
+   "kit": "world",
+   "file": "props/turtle.glb",
+   "texture": "props/world.png",
+   "bytes": 116856,
+   "sha256": "237fd3f24d484ad8f5a0cb7b67993679258b71e2b6149c75db3dbeb6af56994b",
+   "tris": 1752,
+   "size": [
+    4.24,
+    0.844,
+    3.394
+   ]
+  },
+  "elephant": {
+   "kit": "world",
+   "file": "props/elephant.glb",
+   "texture": "props/world.png",
+   "bytes": 56128,
+   "sha256": "a315b60cc7f8ea0ffb1ccae874bb59079bcab9c8b91a7970bcd1f7b77d00a9cc",
+   "tris": 832,
+   "size": [
+    0.722,
+    1,
+    1.723
+   ]
+  },
+  "beam": {
+   "kit": "world",
+   "file": "props/beam.glb",
+   "texture": "props/world.png",
+   "bytes": 1920,
+   "sha256": "cd16c63d6f9b22a6dca119e11efdbd9c3cbaf0c915960b184ab96c64f09af436",
+   "tris": 12,
+   "size": [
+    1,
+    1,
+    1
+   ]
+  }
  },
  "roles": [
   "town-centre",

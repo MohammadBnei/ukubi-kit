@@ -158,6 +158,7 @@ What it has today:
 | `sawtooth(at, [sx, sz], h, n, name, glass, { rot })` | n glazed teeth, rising toward +x |
 | `prism(at, r, h, name, { n, r1, top, bottom, rot })` | chimneys, silos, tanks, logs (tilted); tapers to `r1`, a cone at 0 |
 | `slab(at, r, t, name, { n, rim, w, rot })` | a plot or pad; n = 6 lies like the tiles |
+| `loft(at, rings, name, { n, profile, cells, ends, up, rot })` | a section swept through rings along a path: a hull, a shell, a trunk, a limb, a tube; a ring of r 0 at an end is a point |
 | `panel(pts, name)` | a thin face seen from both sides: a sail, a flag |
 | `poly(pts, name)` / `quad(a, b, c, d, name)` | anything else, wound by hand |
 | `add(mesh, { at, rot, tilt, scale, mirror })` | composition: scale (a number or [x, y, z]), mirror x, tilt about x (+y toward +z), turn, place |
@@ -168,18 +169,34 @@ What it has today:
 | `frontage(mesh, sx, { door, windows, wy, pane, d, size })` | a door and a row of windows, straddling a wall's face at z = 0 |
 | `house(mesh, [sx, sy, sz], h, { walls, roof, ends, o, …frontage })` | walls under a gable roof, its frontage on the front |
 
-Not yet in it (add them when a kit needs them, with their tests): a gambrel roof (a barn), a lofted hull (a boat),
-arches, stairs.
+Not yet in it (add them when a kit needs them, with their tests): a gambrel roof (a barn), arches, stairs.
 
 ### What the tests hold
 - every primitive faces out, at four turns, moved, mirrored, tilted and scaled;
 - every primitive is closed but for its open bottom (closed entirely with `bottom`), so a missing face shows;
+- a loft, and every world prop, is sealed: each edge walked once each way, each piece enclosing a positive volume
+  (so a shape that is not convex is checked whole, not piece by piece);
 - a gable's ends reach the roof's underside;
 - a primitive refuses a size or shape it cannot make;
 - every vertex samples inside its face's cell, and the atlas is drawn from the palette;
 - no two faces of a kit's model overlap in one plane;
 - a style names only cells the palette has;
 - a kit's models are made the same twice; and this guide's example runs and passes the same checks.
+
+## A props kit
+
+Some models are no civ's: the world's rides (`bike`, `ship_hull`) and the carriers under the disc (`turtle`,
+`elephant`, `beam`), in `kits/world/`. A props kit is a made kit with `props: true` in its `source.yaml` and a
+triangle cap per model (`caps:`, which the tests hold; the build holds every prop to `MAX_PROP_TRIS`, 4000). The
+build gives it its own path, like the characters':
+- each model is `dist/props/<name>.glb` (one mesh, one primitive, quantized, standing on y = 0), and the kit's atlas,
+  as made, is `dist/props/<kit>.png`: no style paints a prop, and no civ or role draws one;
+- the manifest lists it in `props[name] = {kit, file, texture, bytes, sha256, tris, size}`;
+- every prop is sealed, wound out, under its cap and free of coplanar overlaps (`procgen.test.mjs`).
+
+A prop is built at its true proportions and may then be scaled whole to its size (the elephant to 1 tall, the hull to
+1 long). Look at one with `node sheet/shoot.mjs /tmp/out 'props=world'` (`&only=turtle`, `&cam=low` from near the
+ground), `'carrier=4'` (the turtle with four elephants under a disc) or `'character=knight'`.
 
 ## How a build makes it
 

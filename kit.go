@@ -15,7 +15,7 @@ import (
 //go:embed dist
 var dist embed.FS
 
-// FS is dist/ as a file system: manifest.json, models/…, styles/….
+// FS is dist/ as a file system: manifest.json, models/…, styles/…, characters/…, props/….
 func FS() fs.FS {
 	sub, err := fs.Sub(dist, "dist")
 	if err != nil {
@@ -37,6 +37,20 @@ type Manifest struct {
 	// Which character plays which unit is the game's, never the kit's.
 	Characters map[string]Character `json:"characters"`
 	Clips      *Clips               `json:"clips"`
+	// Props are the world's (kits/world): the rides (bike, ship_hull) and the carriers under the disc (turtle,
+	// elephant, beam). Each is one mesh, painted by its kit's own texture; no style paints a prop.
+	Props map[string]Prop `json:"props"`
+}
+
+// Prop is one of the world's models: one mesh, one primitive, standing on y = 0 about its own origin, front +z.
+type Prop struct {
+	Kit     string     `json:"kit"`
+	File    string     `json:"file"`
+	Texture string     `json:"texture"` // its kit's atlas, as made (load it with flipY false, sRGB)
+	Bytes   int        `json:"bytes"`
+	SHA256  string     `json:"sha256"`
+	Tris    int        `json:"tris"`
+	Size    [3]float64 `json:"size"` // its bounds' extent, x y z
 }
 
 // Character is one skinned model: its body, its hat and cape baked into the skin, nothing held.
@@ -66,6 +80,7 @@ type Kit struct {
 	Generator string  `json:"generator,omitempty"` // or a kit of our own, made by the build
 	Licence   string  `json:"licence"`
 	People    bool    `json:"characters,omitempty"` // a character kit: no civ draws it, no style paints it
+	IsProps   bool    `json:"props,omitempty"`      // a props kit (the world's): no civ draws it, no style paints it
 	Scale     float64 `json:"scale"`
 	Turns     int     `json:"turns"` // the turns its models take about +y: 6 (a hex), 4 (a square), 2 (one front)
 }

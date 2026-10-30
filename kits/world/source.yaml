@@ -1,0 +1,22 @@
+# The world's props (ours): the player's rides and the carriers under the disc, made by the generator (models.mjs,
+# with the procgen library: docs/procedural.md) on every build, deterministically, so it has no pin and no lock. A
+# props kit is no civ's: no style paints it and no role draws it; each model is dist/props/<name>.glb, painted by the
+# kit's own atlas (dist/props/world.png).
+name: world
+generator: models.mjs
+props: true
+licence: CC0-1.0
+scale: 1
+models:
+  - bike
+  - ship_hull
+  - turtle
+  - elephant
+  - beam
+# each model's triangle budget (the procgen tests hold it; the build holds every prop to MAX_PROP_TRIS)
+caps:
+  bike: 800
+  ship_hull: 1500
+  turtle: 3000
+  elephant: 1500
+  beam: 24

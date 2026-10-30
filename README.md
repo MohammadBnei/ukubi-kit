@@ -31,6 +31,10 @@ model a civ draws for a role in an age, and a Go package that embeds the result.
   the skin, nothing held, so it is one skinned draw; its own texture as a file (no style paints people); and one clip
   file for all of them (`dist/characters/clips.glb`: the 41-joint rig and the named clips, played by bone name).
   Which character plays which unit is the game's, never this repo's.
+- **Props** (`kits/world/`): the world's own models, made by procgen, that no civ draws: the player's rides (a bike,
+  a ship's hull) and the carriers under the disc (the great turtle, the elephants on its shell, the beams they hold).
+  Each is built apart from the models (`dist/props/<name>.glb`), painted by its kit's own atlas (`dist/props/world.png`),
+  never by a style. See [`docs/procedural.md`](docs/procedural.md#a-props-kit).
 - **Shapes** (`catalog/shapes.yaml`): what a model looks like (tower, gate, yard, vault, mill, bay, rig, pit, wide),
   never what it stands for. A civ tags some variants with one shape each; the game's `PickFor` draws a building among
   the variants with a shape it asks for, else the untagged ones, else all (it is always drawn). Which shapes fit
@@ -49,7 +53,7 @@ model a civ draws for a role in an age, and a Go package that embeds the result.
 ## Build
 ```sh
 bun install --frozen-lockfile   # Bun 1.4.2 (package.json's packageManager)
-bun run build          # kits + catalog -> dist/ (models/, styles/, manifest.json), then validates
+bun run build          # kits + catalog -> dist/ (models/, styles/, characters/, props/, manifest.json), then validates
 bun run check          # rebuild into a temp dir; fail unless dist/ is current (CI runs this)
 bun run lock           # after changing a pin or a model list: refetch and rewrite kits/*/lock.json, then review it
 bun run test           # the procgen library's tests and the skin weights'
@@ -69,7 +73,7 @@ over 4500, a style cell outside the 8×4 grid or off a kit's swatches, a civ sty
 cells, or a `world` that is not a model kit with its tiles and two cells. The checks are ordered lists in `build.mjs`
 (each civ's, then the town's), and a kit's source is chosen by its kind (`tools/sources.mjs`: fetched, made, or the
 town's people). Characters fail on a rig that is not the clip file's (by joint name and order), on more than one draw, or on
-more than 5500 triangles.
+more than 5500 triangles. A prop fails on more than one mesh or primitive, or more than 4000 triangles.
 
 ### Using a model
 `manifest.models[id]` gives its `kit` and `file` (a GLB: one mesh, one primitive, KHR_mesh_quantization, no texture,
@@ -84,6 +88,13 @@ it. A quantized GLB keeps its dequantization on its node: apply the node's matri
 `SkeletonUtils.clone` and play the clip file's clips on it with an `AnimationMixer` (the tracks bind by bone name).
 There is no root motion: the game moves a walking character itself. `height` is its standing height, unscaled.
 
+### Using a prop
+`manifest.props[name]` gives its `file` (a GLB: one mesh, one primitive, quantized, standing on y = 0 about its own
+origin, front +z), its `texture` (`flipY = false`, sRGB; one per props kit, so one material draws them all) and its
+`size` (x, y, z).
+The knight (`manifest.characters.knight`) is the player's avatar: it plays the same clip file (`Running_A` on foot,
+`Sit_Chair_Idle` on the bike).
+
 ### Not yet as designed
 - Styles are cell maps per kit, not shared named slots (wall, roof, …) mapped once per kit. With one kit per civ a
   style colours its own kit and the tiles, so little repeats.
@@ -93,7 +104,9 @@ There is no root motion: the game moves a walking character itself. `height` is 
 ## Contact sheet
 `sheet/` shows every civ, age, role, construction state and dressing, painted. `node sheet/shoot.mjs [outdir]` (Node: Playwright)
 serves it and screenshots it with Playwright (a dev tool, not a dependency). `?civ=apps&view=close`,
-`?style=pack` (the packs' own colours) work in the URL.
+`?style=pack` (the packs' own colours) work in the URL; so do `?props=world` (the props; `&only=<name>`),
+`?carrier=4` (the turtle with four elephants under a disc), `?character=knight`, and `&cam=low` (from near the
+ground).
 
 ## Go
 ```go

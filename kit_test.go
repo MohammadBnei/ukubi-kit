@@ -53,6 +53,42 @@ func TestManifest(t *testing.T) {
 	if b, err := fs.ReadFile(FS(), m.Clips.File); err != nil || len(b) != m.Clips.Bytes || !slices.Contains(m.Clips.Names, "Interact") {
 		t.Errorf("clips %+v: %v", m.Clips, err)
 	}
+	// the world's avatar and what it plays: the knight, on the clips' rig (the build refuses a character off it), and
+	// the clips the game names
+	if k, ok := m.Characters["knight"]; !ok || k.Kit != m.Clips.Kit || m.Clips.Joints != 41 {
+		t.Errorf("knight %+v on clips %+v", k, m.Clips)
+	}
+	for _, c := range []string{"Idle", "Walking_A", "Interact", "Running_A", "Sit_Chair_Idle"} {
+		if !slices.Contains(m.Clips.Names, c) {
+			t.Errorf("clips: no %s in %v", c, m.Clips.Names)
+		}
+	}
+	// the world's props: each its file, by hash, its texture, its kit a props kit, within its cap
+	caps := map[string]int{"bike": 800, "ship_hull": 1500, "turtle": 3000, "elephant": 1500, "beam": 24}
+	for name, limit := range caps {
+		p, ok := m.Props[name]
+		if !ok {
+			t.Errorf("no prop %s", name)
+			continue
+		}
+		b, err := fs.ReadFile(FS(), p.File)
+		if err != nil {
+			t.Errorf("prop %s: %v", name, err)
+			continue
+		}
+		if sum := sha256.Sum256(b); hex.EncodeToString(sum[:]) != p.SHA256 || len(b) != p.Bytes {
+			t.Errorf("prop %s: %s is not the manifest's", name, p.File)
+		}
+		if _, err := fs.Stat(FS(), p.Texture); err != nil || !m.Kits[p.Kit].IsProps {
+			t.Errorf("prop %s: texture %v, kit %+v", name, err, m.Kits[p.Kit])
+		}
+		if p.Tris <= 0 || p.Tris > limit || p.Size[0] <= 0 || p.Size[1] <= 0 || p.Size[2] <= 0 {
+			t.Errorf("prop %s: %d triangles (cap %d), size %v", name, p.Tris, limit, p.Size)
+		}
+	}
+	if len(m.Props) != len(caps) {
+		t.Errorf("%d props, want %d", len(m.Props), len(caps))
+	}
 	for style, kits := range m.Styles {
 		for kit, file := range kits {
 			if _, err := fs.Stat(FS(), file); err != nil {

@@ -69,7 +69,10 @@ const DX = 2.6,
   DZ = 3.2;
 // ?kit=<name> is the authoring view: every model of one kit, in the style of the civ that draws it (or ?style=)
 const only = q.get('kit');
-const civs = only ? [] : Object.keys(manifest.civs).filter(c => !q.get('civ') || c === q.get('civ'));
+const civs =
+  only || q.get('props') || q.get('carrier') || q.get('character')
+    ? []
+    : Object.keys(manifest.civs).filter(c => !q.get('civ') || c === q.get('civ'));
 let row = 0,
   tris = 0,
   models = 0;
@@ -91,6 +94,90 @@ if (only) {
     models++;
   }
   row = Math.ceil(ids.length / per);
+}
+// ?props=<kit> shows a props kit's models side by side in its own atlas (&only=<name> one of them), and
+// ?carrier=<n> the great turtle with n elephants on its shell, holding up a disc; ?character=<name> one of the town's
+// people. &cam=low looks up at them from near the ground, the way the world sees the carriers
+const propsKit = q.get('props'),
+  carrier = q.get('carrier'),
+  person = q.get('character');
+const propMats = new Map();
+async function prop(name, at = [0, 0, 0], { rot = 0, scale = 1, tint } = {}) {
+  const p = manifest.props[name],
+    g = (await glb(p.file)).scene.clone(true);
+  const key = `${p.texture}/${tint || ''}`;
+  if (!propMats.has(key)) {
+    const t = tex.load(`../dist/${p.texture}`);
+    t.flipY = false;
+    t.colorSpace = THREE.SRGBColorSpace;
+    propMats.set(
+      key,
+      new THREE.MeshStandardMaterial({ map: t, roughness: 0.9, metalness: 0, color: tint || 0xffffff })
+    );
+  }
+  g.traverse(o => {
+    if (o.isMesh) {
+      o.material = propMats.get(key);
+      o.castShadow = o.receiveShadow = true;
+    }
+  });
+  g.position.set(...at);
+  g.rotation.y = rot;
+  g.scale.setScalar(scale);
+  scene.add(g);
+  models++;
+  return p.tris;
+}
+if (propsKit) {
+  const names = Object.keys(manifest.props).filter(
+    n => manifest.props[n].kit === propsKit && (!q.get('only') || n === q.get('only'))
+  );
+  let x = 0;
+  for (const n of names) {
+    const w = manifest.props[n].size[0];
+    x += w / 2;
+    tris += await prop(n, [x, 0, 0]);
+    text(`${n} · ${manifest.props[n].tris}`, x, 0, manifest.props[n].size[2] / 2 + 0.3);
+    x += w / 2 + 0.6;
+  }
+}
+if (carrier) {
+  // the shell's top is about 0.86 of the turtle's height; the elephants stand around it, facing out, their backs level
+  const t = manifest.props.turtle,
+    n = Number(carrier) || 4,
+    k = 0.42, // an elephant's height on a shell of radius 1
+    top = t.size[1] * 0.78;
+  tris += await prop('turtle');
+  for (let i = 0; i < n; i++) {
+    const a = (i / n) * Math.PI * 2 + Math.PI / 4;
+    tris += await prop('elephant', [Math.sin(a) * 0.4, top - 0.06, Math.cos(a) * 0.4 + 0.05], { rot: a, scale: k });
+  }
+  const disc = new THREE.Mesh(
+    new THREE.CylinderGeometry(1.6, 1.6, 0.08, 48),
+    new THREE.MeshStandardMaterial({ color: '#5f8f4a', roughness: 1 })
+  );
+  disc.position.y = top - 0.06 + k + 0.04;
+  disc.castShadow = disc.receiveShadow = true;
+  scene.add(disc);
+}
+if (person) {
+  const c = manifest.characters[person],
+    g = (await glb(c.file)).scene.clone(true),
+    t = tex.load(`../dist/${c.texture}`);
+  t.flipY = false;
+  t.colorSpace = THREE.SRGBColorSpace;
+  const mat = new THREE.MeshStandardMaterial({ map: t, roughness: 0.9, metalness: 0 });
+  g.traverse(o => {
+    if (o.isMesh) {
+      o.material = mat;
+      o.castShadow = true;
+      o.frustumCulled = false;
+    }
+  });
+  scene.add(g);
+  text(`${person} · ${c.tris}`, 0, 0, 0.8);
+  tris += c.tris;
+  models++;
 }
 for (const civ of civs) {
   const c = manifest.civs[civ];
@@ -149,8 +236,10 @@ scene.traverse(o => {
 const centre = box.getCenter(new THREE.Vector3()),
   size = box.getSize(new THREE.Vector3());
 const half = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)),
-  dir = new THREE.Vector3(0, 1.25, 1.05).normalize();
-const dist = Math.max(size.x / 2 / (half * camera.aspect), (size.z * dir.y + size.y * dir.z) / 2 / half) * 1.08;
+  low = q.get('cam') === 'low',
+  dir = (low ? new THREE.Vector3(0.8, 0.14, 1) : new THREE.Vector3(0, 1.25, 1.05)).normalize();
+const dist =
+  Math.max(size.x / 2 / (half * camera.aspect), (size.z * dir.y + size.y * dir.z) / 2 / half) * (low ? 1.5 : 1.08);
 controls.target.copy(centre);
 camera.position.copy(centre).addScaledVector(dir, dist);
 controls.update();
