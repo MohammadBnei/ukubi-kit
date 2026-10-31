@@ -42,15 +42,20 @@ model a civ draws for a role in an age, and a Go package that embeds the result.
   the variants with a shape it asks for, else the untagged ones, else all (it is always drawn). Which shapes fit
   which building is the private side's, never this repo's.
 
-| Civ | Kit | Age 1 → age 2 |
+Every civ is a medieval village (owner, 2026-10-31): the Medieval Hexagon pack's buildings in one of its four team
+colours (one atlas; a colour is the models' UVs on its team cell, which the civ's styles colour). The other kits stay
+built (the `pack` style paints them, and recipes use them) but no civ draws them.
+
+| Civ | Colour | Age 1 → age 2 |
 |---|---|---|
-| platform | hexagon | timber homes, wells, mills → towers with flags |
-| data | dungeon | walled vaults → pillared treasuries, a vault tower |
-| operations | prototype | block sheds, stock yards → two-storey depots |
-| guard | halloween | shrines, gates, watch posts → crypts, a gatehouse |
-| fleet | space | modules → hubs, solar, drills |
-| apps | city | low blocks → towers |
-| code | ukubi (ours) | gabled workshops → factories |
+| default (town centre) | blue | a keep → a castle with flags; every role |
+| platform | blue | well, windmill, tower base, mine, home → towers, windmill, mine |
+| data | yellow | well, church, stone keep, home → church, watermill, stone keep |
+| operations | red | market, lumber mill, mine, watch tower, home → market, lumber mill, watermill, tower, barracks, mine |
+| guard | red | tower base, archery range, tower, a gate → catapult tower, tower, barracks, a gatehouse |
+| fleet | green | barracks, smithy, lumber mill, mine → and a tower base |
+| apps | yellow | market, tavern, homes → market, tavern, home, windmill |
+| code | green | smithy, lumber mill, home → smithy, lumber mill, watermill |
 
 ## Build
 ```sh
