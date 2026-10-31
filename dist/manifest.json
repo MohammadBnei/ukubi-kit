@@ -907,6 +907,71 @@
    ],
    "reach": 0.107
   },
+  "hexagon/building_archeryrange_blue": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_archeryrange_blue.glb",
+   "bytes": 136400,
+   "sha256": "3f7519ce6e6fccafd04d42db799b2cd2bd3990c04ead28246d47eaf56c432c82",
+   "tris": 3819,
+   "size": [
+    1.671,
+    1.792,
+    1.551
+   ],
+   "reach": 1
+  },
+  "hexagon/building_barracks_blue": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_barracks_blue.glb",
+   "bytes": 153876,
+   "sha256": "deecc72fbc105bbbb91fe0175aa251573bdb6c385fc18343615a3c3e171f1591",
+   "tris": 4007,
+   "size": [
+    1.44,
+    1.64,
+    1.566
+   ],
+   "reach": 0.984
+  },
+  "hexagon/building_blacksmith_blue": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_blacksmith_blue.glb",
+   "bytes": 83636,
+   "sha256": "7f58f0628472ee37fd18ced4c4545c3a48805165b25f1f96e285381f4ccc76b4",
+   "tris": 2410,
+   "size": [
+    1.288,
+    0.985,
+    1.245
+   ],
+   "reach": 0.751
+  },
+  "hexagon/building_castle_blue": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_castle_blue.glb",
+   "bytes": 212604,
+   "sha256": "53862153a6932bb431651988412bf19aa7758f879773e334f739642e7c23abb2",
+   "tris": 5659,
+   "size": [
+    1.975,
+    3.979,
+    2.256
+   ],
+   "reach": 0.988
+  },
+  "hexagon/building_church_blue": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_church_blue.glb",
+   "bytes": 60996,
+   "sha256": "c9d7bb8cb2c0ab076624c8db3625fb741ceab9f81210002ea1b9763defe2d844",
+   "tris": 1601,
+   "size": [
+    1.029,
+    1.645,
+    1.155
+   ],
+   "reach": 0.732
+  },
   "hexagon/building_home_A_blue": {
    "kit": "hexagon",
    "file": "models/hexagon/building_home_A_blue.glb",
@@ -933,18 +998,57 @@
    ],
    "reach": 0.625
   },
-  "hexagon/building_tower_base_blue": {
+  "hexagon/building_lumbermill_blue": {
    "kit": "hexagon",
-   "file": "models/hexagon/building_tower_base_blue.glb",
-   "bytes": 55768,
-   "sha256": "f6717acdb2ff8a3d684de55b2a6b1685c3b8cbb00aae73771f68fb59d97de00c",
-   "tris": 1538,
+   "file": "models/hexagon/building_lumbermill_blue.glb",
+   "bytes": 112376,
+   "sha256": "daa66a4242d7d205e199a38317bb3e9febd7eb888dfb0814c27ff4916c8e6853",
+   "tris": 3170,
    "size": [
-    0.93,
-    1.5,
-    1.111
+    1.367,
+    1.708,
+    1.189
    ],
-   "reach": 0.589
+   "reach": 0.761
+  },
+  "hexagon/building_market_blue": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_market_blue.glb",
+   "bytes": 103444,
+   "sha256": "be02bb234c9bb76e0877e3bfb09ff198518c31147aa675f31b0b0dc9d70c7af6",
+   "tris": 3125,
+   "size": [
+    1.799,
+    0.982,
+    1.316
+   ],
+   "reach": 0.932
+  },
+  "hexagon/building_mine_blue": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_mine_blue.glb",
+   "bytes": 45100,
+   "sha256": "a06a269a8852d591f9bf81aedfcd0513f41ad8cffce6625d64d2bc201e82efb9",
+   "tris": 1126,
+   "size": [
+    1.606,
+    1.137,
+    1.92
+   ],
+   "reach": 0.934
+  },
+  "hexagon/building_tavern_blue": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_tavern_blue.glb",
+   "bytes": 114824,
+   "sha256": "74e7f830925e7e0eb19ec02f9bb0142eae94dbba100d9ddf9f95dff0c2bbe618",
+   "tris": 2992,
+   "size": [
+    1.172,
+    1.397,
+    1.332
+   ],
+   "reach": 0.764
   },
   "hexagon/building_tower_A_blue": {
    "kit": "hexagon",
@@ -972,57 +1076,57 @@
    ],
    "reach": 0.599
   },
-  "hexagon/building_castle_blue": {
+  "hexagon/building_tower_base_blue": {
    "kit": "hexagon",
-   "file": "models/hexagon/building_castle_blue.glb",
-   "bytes": 212604,
-   "sha256": "53862153a6932bb431651988412bf19aa7758f879773e334f739642e7c23abb2",
-   "tris": 5659,
+   "file": "models/hexagon/building_tower_base_blue.glb",
+   "bytes": 55768,
+   "sha256": "f6717acdb2ff8a3d684de55b2a6b1685c3b8cbb00aae73771f68fb59d97de00c",
+   "tris": 1538,
    "size": [
-    1.975,
-    3.979,
-    2.256
+    0.93,
+    1.5,
+    1.111
    ],
-   "reach": 0.988
+   "reach": 0.589
   },
-  "hexagon/building_mine_blue": {
+  "hexagon/building_tower_catapult_blue": {
    "kit": "hexagon",
-   "file": "models/hexagon/building_mine_blue.glb",
-   "bytes": 45100,
-   "sha256": "a06a269a8852d591f9bf81aedfcd0513f41ad8cffce6625d64d2bc201e82efb9",
-   "tris": 1126,
+   "file": "models/hexagon/building_tower_catapult_blue.glb",
+   "bytes": 98488,
+   "sha256": "6b4961d90dd71115d042e8cbb8beabf0ebc0091c11fbc1bb8e8d781a8f7e94ec",
+   "tris": 2864,
    "size": [
-    1.606,
-    1.137,
-    1.92
+    0.93,
+    1.964,
+    1.303
    ],
-   "reach": 0.934
+   "reach": 0.649
   },
-  "hexagon/building_market_blue": {
+  "hexagon/building_watermill_blue": {
    "kit": "hexagon",
-   "file": "models/hexagon/building_market_blue.glb",
-   "bytes": 103444,
-   "sha256": "be02bb234c9bb76e0877e3bfb09ff198518c31147aa675f31b0b0dc9d70c7af6",
-   "tris": 3125,
+   "file": "models/hexagon/building_watermill_blue.glb",
+   "bytes": 75224,
+   "sha256": "6a3a8c13f52697cf1850216e012907173fbc975c51c630ae130d251594b5dac5",
+   "tris": 1921,
    "size": [
-    1.799,
-    0.982,
-    1.316
+    1.05,
+    1.568,
+    1.236
    ],
-   "reach": 0.932
+   "reach": 0.995
   },
-  "hexagon/building_blacksmith_blue": {
+  "hexagon/building_well_blue": {
    "kit": "hexagon",
-   "file": "models/hexagon/building_blacksmith_blue.glb",
-   "bytes": 83636,
-   "sha256": "7f58f0628472ee37fd18ced4c4545c3a48805165b25f1f96e285381f4ccc76b4",
-   "tris": 2410,
+   "file": "models/hexagon/building_well_blue.glb",
+   "bytes": 29380,
+   "sha256": "8b1b1c8f7b7af8d0540e5a61c4171010a1859fd2bf4dc01329b3c3dfaec88faa",
+   "tris": 726,
    "size": [
-    1.288,
-    0.985,
-    1.245
+    0.652,
+    0.826,
+    0.751
    ],
-   "reach": 0.751
+   "reach": 0.448
   },
   "hexagon/building_windmill_blue": {
    "kit": "hexagon",
@@ -1037,37 +1141,24 @@
    ],
    "reach": 0.572
   },
-  "hexagon/building_church_blue": {
+  "hexagon/building_archeryrange_green": {
    "kit": "hexagon",
-   "file": "models/hexagon/building_church_blue.glb",
-   "bytes": 60996,
-   "sha256": "c9d7bb8cb2c0ab076624c8db3625fb741ceab9f81210002ea1b9763defe2d844",
-   "tris": 1601,
+   "file": "models/hexagon/building_archeryrange_green.glb",
+   "bytes": 136400,
+   "sha256": "7f4d73f63d1459765c4138f630eaa76523cf060076dfeb333afd8639d186c623",
+   "tris": 3819,
    "size": [
-    1.029,
-    1.645,
-    1.155
+    1.671,
+    1.792,
+    1.551
    ],
-   "reach": 0.732
+   "reach": 1
   },
-  "hexagon/building_tavern_blue": {
+  "hexagon/building_barracks_green": {
    "kit": "hexagon",
-   "file": "models/hexagon/building_tavern_blue.glb",
-   "bytes": 114824,
-   "sha256": "74e7f830925e7e0eb19ec02f9bb0142eae94dbba100d9ddf9f95dff0c2bbe618",
-   "tris": 2992,
-   "size": [
-    1.172,
-    1.397,
-    1.332
-   ],
-   "reach": 0.764
-  },
-  "hexagon/building_barracks_blue": {
-   "kit": "hexagon",
-   "file": "models/hexagon/building_barracks_blue.glb",
+   "file": "models/hexagon/building_barracks_green.glb",
    "bytes": 153876,
-   "sha256": "deecc72fbc105bbbb91fe0175aa251573bdb6c385fc18343615a3c3e171f1591",
+   "sha256": "b51019ce46a0a54a3ee89d63766af5955f7087a9baca32f9a45e6db25e0886c5",
    "tris": 4007,
    "size": [
     1.44,
@@ -1076,11 +1167,193 @@
    ],
    "reach": 0.984
   },
-  "hexagon/building_well_blue": {
+  "hexagon/building_blacksmith_green": {
    "kit": "hexagon",
-   "file": "models/hexagon/building_well_blue.glb",
+   "file": "models/hexagon/building_blacksmith_green.glb",
+   "bytes": 83636,
+   "sha256": "50c956b6c84c717f85210d6b9327a47b9d98b3f08302b06b14f0b45dd65f2408",
+   "tris": 2410,
+   "size": [
+    1.288,
+    0.985,
+    1.245
+   ],
+   "reach": 0.751
+  },
+  "hexagon/building_castle_green": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_castle_green.glb",
+   "bytes": 212604,
+   "sha256": "baf0c4cb5313eaa5b602d0a31da20a59079c6d1f01a24baeaf7524f1a6f0f261",
+   "tris": 5659,
+   "size": [
+    1.975,
+    3.979,
+    2.256
+   ],
+   "reach": 0.988
+  },
+  "hexagon/building_church_green": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_church_green.glb",
+   "bytes": 60996,
+   "sha256": "145707c7a88cdd152aeeb26dc15347b94a255aa6a9a8df070fed635db50e7fe3",
+   "tris": 1601,
+   "size": [
+    1.029,
+    1.645,
+    1.155
+   ],
+   "reach": 0.732
+  },
+  "hexagon/building_home_A_green": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_home_A_green.glb",
+   "bytes": 38184,
+   "sha256": "5f6d449834e384bf2619522a8c4a86e3fbe1c240fc34b255d41e2aae3616eac1",
+   "tris": 1011,
+   "size": [
+    0.792,
+    0.93,
+    0.854
+   ],
+   "reach": 0.531
+  },
+  "hexagon/building_home_B_green": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_home_B_green.glb",
+   "bytes": 55768,
+   "sha256": "4c190cb51abc572c65b9598333e627acea96c0647f9e22f200a391a76408737c",
+   "tris": 1393,
+   "size": [
+    0.875,
+    1.28,
+    1.099
+   ],
+   "reach": 0.625
+  },
+  "hexagon/building_lumbermill_green": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_lumbermill_green.glb",
+   "bytes": 112380,
+   "sha256": "930066ef1657ca41171d5392d54304fa444bcb77bcb9f521668384783cd223b8",
+   "tris": 3170,
+   "size": [
+    1.367,
+    1.708,
+    1.189
+   ],
+   "reach": 0.761
+  },
+  "hexagon/building_market_green": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_market_green.glb",
+   "bytes": 103444,
+   "sha256": "015c4b2e9d0e682322489b08a86f51c9ceea868cc477bf2061805382aeadfbeb",
+   "tris": 3125,
+   "size": [
+    1.799,
+    0.982,
+    1.316
+   ],
+   "reach": 0.932
+  },
+  "hexagon/building_mine_green": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_mine_green.glb",
+   "bytes": 45100,
+   "sha256": "85d421f7c42dbf21ef343be983e59fc6eb593697e08c7b8abf9c1e0e25cb02d3",
+   "tris": 1126,
+   "size": [
+    1.606,
+    1.137,
+    1.92
+   ],
+   "reach": 0.934
+  },
+  "hexagon/building_tavern_green": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_tavern_green.glb",
+   "bytes": 114824,
+   "sha256": "17d3def5155e92f28e59dac70d6faaeddf2c79e691e8bcfc8b586c7ed1fcfae2",
+   "tris": 2992,
+   "size": [
+    1.172,
+    1.397,
+    1.332
+   ],
+   "reach": 0.764
+  },
+  "hexagon/building_tower_A_green": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_tower_A_green.glb",
+   "bytes": 76660,
+   "sha256": "42b794a9efca584551a68a00c15cbae2d875736370d92687eb01bbd234f01e18",
+   "tris": 2138,
+   "size": [
+    0.993,
+    2.192,
+    1.153
+   ],
+   "reach": 0.589
+  },
+  "hexagon/building_tower_B_green": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_tower_B_green.glb",
+   "bytes": 88584,
+   "sha256": "05c772d6277814b8ab0fb3025aaaf18ac3b6e21155d82d1878374dfb90c4aa76",
+   "tris": 2418,
+   "size": [
+    1.197,
+    2.485,
+    1.383
+   ],
+   "reach": 0.599
+  },
+  "hexagon/building_tower_base_green": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_tower_base_green.glb",
+   "bytes": 55768,
+   "sha256": "c126d9abec5b52c6dd060c0a2acac119419332017bdbdf9654c62b914319afda",
+   "tris": 1538,
+   "size": [
+    0.93,
+    1.5,
+    1.111
+   ],
+   "reach": 0.589
+  },
+  "hexagon/building_tower_catapult_green": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_tower_catapult_green.glb",
+   "bytes": 98492,
+   "sha256": "c9d337021377755c089670a383e7c64ee5949b7d3c1a6db9903a4cc93acda5fc",
+   "tris": 2864,
+   "size": [
+    0.93,
+    1.964,
+    1.303
+   ],
+   "reach": 0.649
+  },
+  "hexagon/building_watermill_green": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_watermill_green.glb",
+   "bytes": 75224,
+   "sha256": "6e15e81cbba9ca97b44dbf3ac5fd0eb79167332b15b131787bb85893cd51ed35",
+   "tris": 1921,
+   "size": [
+    1.05,
+    1.568,
+    1.236
+   ],
+   "reach": 0.995
+  },
+  "hexagon/building_well_green": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_well_green.glb",
    "bytes": 29380,
-   "sha256": "8b1b1c8f7b7af8d0540e5a61c4171010a1859fd2bf4dc01329b3c3dfaec88faa",
+   "sha256": "1ee7ae311058c5a975172793b3ebb314c196ad0291e0ff63ee471884a16d7279",
    "tris": 726,
    "size": [
     0.652,
@@ -1088,6 +1361,487 @@
     0.751
    ],
    "reach": 0.448
+  },
+  "hexagon/building_windmill_green": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_windmill_green.glb",
+   "bytes": 95832,
+   "sha256": "74cfb05ddb1e9a8fd214e1e32a193c1fbfd4bfbe9c003ce981d68cef8e3e9d7a",
+   "tris": 2653,
+   "size": [
+    1.126,
+    1.458,
+    0.817
+   ],
+   "reach": 0.572
+  },
+  "hexagon/building_archeryrange_red": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_archeryrange_red.glb",
+   "bytes": 136396,
+   "sha256": "8e0c1e76e9cfc6690da8d3336212cc040976a1cee0acc3f3d47819cf25eccc99",
+   "tris": 3819,
+   "size": [
+    1.671,
+    1.792,
+    1.551
+   ],
+   "reach": 1
+  },
+  "hexagon/building_barracks_red": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_barracks_red.glb",
+   "bytes": 153872,
+   "sha256": "309f9d2de5580777876cfe69169fc61f3806573114af7b915f536fa7297e428a",
+   "tris": 4007,
+   "size": [
+    1.44,
+    1.64,
+    1.566
+   ],
+   "reach": 0.984
+  },
+  "hexagon/building_blacksmith_red": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_blacksmith_red.glb",
+   "bytes": 83632,
+   "sha256": "078ec681ef6ba26c08743120c16e8e8109888522603b27474dc93d37a8889cb8",
+   "tris": 2410,
+   "size": [
+    1.288,
+    0.985,
+    1.245
+   ],
+   "reach": 0.751
+  },
+  "hexagon/building_castle_red": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_castle_red.glb",
+   "bytes": 212600,
+   "sha256": "3ff12b35ca3d75994c93096d35e8e250d54729fad0609178b2daad18d76cb6e7",
+   "tris": 5659,
+   "size": [
+    1.975,
+    3.979,
+    2.256
+   ],
+   "reach": 0.988
+  },
+  "hexagon/building_church_red": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_church_red.glb",
+   "bytes": 60992,
+   "sha256": "6cf24c50990684330c91a8618a3f002cf2842e5d3ff0f52ed27f4e7e9aec599e",
+   "tris": 1601,
+   "size": [
+    1.029,
+    1.645,
+    1.155
+   ],
+   "reach": 0.732
+  },
+  "hexagon/building_home_A_red": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_home_A_red.glb",
+   "bytes": 38180,
+   "sha256": "dfb499045d6ca53723e5fee1478beb1b3c49be0efbe7ea05c5f071aa8c717e20",
+   "tris": 1011,
+   "size": [
+    0.792,
+    0.93,
+    0.854
+   ],
+   "reach": 0.531
+  },
+  "hexagon/building_home_B_red": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_home_B_red.glb",
+   "bytes": 55764,
+   "sha256": "bb3f5a3494708d63ea7707848b9a6eed7b2f807efcf345f3a0ecf86175b32903",
+   "tris": 1393,
+   "size": [
+    0.875,
+    1.28,
+    1.099
+   ],
+   "reach": 0.625
+  },
+  "hexagon/building_lumbermill_red": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_lumbermill_red.glb",
+   "bytes": 112376,
+   "sha256": "059dde770ea450af61312008dc9763c9363fa7b45e7da6375a73b6026b5bc787",
+   "tris": 3170,
+   "size": [
+    1.367,
+    1.708,
+    1.189
+   ],
+   "reach": 0.761
+  },
+  "hexagon/building_market_red": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_market_red.glb",
+   "bytes": 103440,
+   "sha256": "650d5d8df64a29401338df557fa88096112881a24957b60699b4dff5f4a65840",
+   "tris": 3125,
+   "size": [
+    1.799,
+    0.982,
+    1.316
+   ],
+   "reach": 0.932
+  },
+  "hexagon/building_mine_red": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_mine_red.glb",
+   "bytes": 45096,
+   "sha256": "c2a4d1693a8c829546dba360abbd07dbf9308b41edf59de40319e12ff4473958",
+   "tris": 1126,
+   "size": [
+    1.606,
+    1.137,
+    1.92
+   ],
+   "reach": 0.934
+  },
+  "hexagon/building_tavern_red": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_tavern_red.glb",
+   "bytes": 114820,
+   "sha256": "1b9f48aa24b06751e2f315993cb537c65adc0adc74423ebbe8955806635255cf",
+   "tris": 2992,
+   "size": [
+    1.172,
+    1.397,
+    1.332
+   ],
+   "reach": 0.764
+  },
+  "hexagon/building_tower_A_red": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_tower_A_red.glb",
+   "bytes": 76656,
+   "sha256": "5d005c2da7c820a87a56209983658e2d68e001c9a84fcc52ec330879969400aa",
+   "tris": 2138,
+   "size": [
+    0.993,
+    2.192,
+    1.153
+   ],
+   "reach": 0.589
+  },
+  "hexagon/building_tower_B_red": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_tower_B_red.glb",
+   "bytes": 88580,
+   "sha256": "a0e1bd2eb915368b34710906ff84a0d758ca20773c26ebe2276c36cf0adefce1",
+   "tris": 2418,
+   "size": [
+    1.197,
+    2.485,
+    1.383
+   ],
+   "reach": 0.599
+  },
+  "hexagon/building_tower_base_red": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_tower_base_red.glb",
+   "bytes": 55764,
+   "sha256": "01c2618e4cff8b2810b4e2499c54067004a56be7c38087556cbe1bcfb6673178",
+   "tris": 1538,
+   "size": [
+    0.93,
+    1.5,
+    1.111
+   ],
+   "reach": 0.589
+  },
+  "hexagon/building_tower_catapult_red": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_tower_catapult_red.glb",
+   "bytes": 98488,
+   "sha256": "67d794d5d8e06566ed602f4b929dae664f828151f37297e1743a018ebae5653e",
+   "tris": 2864,
+   "size": [
+    0.93,
+    1.964,
+    1.303
+   ],
+   "reach": 0.649
+  },
+  "hexagon/building_watermill_red": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_watermill_red.glb",
+   "bytes": 75220,
+   "sha256": "e570069f53f4e79635f460ee7fb010ee67a52f858d0f135ae241ee551128d563",
+   "tris": 1921,
+   "size": [
+    1.05,
+    1.568,
+    1.236
+   ],
+   "reach": 0.995
+  },
+  "hexagon/building_well_red": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_well_red.glb",
+   "bytes": 29376,
+   "sha256": "8e4e18f590fc348a79e0918948c32e85dbb5ffcb335f84ddb33e763ef8af434f",
+   "tris": 726,
+   "size": [
+    0.652,
+    0.826,
+    0.751
+   ],
+   "reach": 0.448
+  },
+  "hexagon/building_windmill_red": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_windmill_red.glb",
+   "bytes": 95828,
+   "sha256": "b17ca8c9ed7627af78cbd1ae82d08d7894a87b0811596b085cdc52e1a25e515a",
+   "tris": 2653,
+   "size": [
+    1.126,
+    1.458,
+    0.817
+   ],
+   "reach": 0.572
+  },
+  "hexagon/building_archeryrange_yellow": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_archeryrange_yellow.glb",
+   "bytes": 136404,
+   "sha256": "dc476727b2f1d58d7255d6dd7d8629643a4868c629b3877f38966fe3ea2ce6a6",
+   "tris": 3819,
+   "size": [
+    1.671,
+    1.792,
+    1.551
+   ],
+   "reach": 1
+  },
+  "hexagon/building_barracks_yellow": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_barracks_yellow.glb",
+   "bytes": 153880,
+   "sha256": "eab2247ded8e6b1e4937e1cee27949ac351b5c14662df76f6f69038c229a2827",
+   "tris": 4007,
+   "size": [
+    1.44,
+    1.64,
+    1.566
+   ],
+   "reach": 0.984
+  },
+  "hexagon/building_blacksmith_yellow": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_blacksmith_yellow.glb",
+   "bytes": 83640,
+   "sha256": "0da92637c89cf39c55abda3e9e694985396d7baaa9c224b8a6c22ac70ed029fb",
+   "tris": 2410,
+   "size": [
+    1.288,
+    0.985,
+    1.245
+   ],
+   "reach": 0.751
+  },
+  "hexagon/building_castle_yellow": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_castle_yellow.glb",
+   "bytes": 212608,
+   "sha256": "9ffa28f3f0ec756a969b74225234319406cb786c84270da4cc056a3a121daf31",
+   "tris": 5659,
+   "size": [
+    1.975,
+    3.979,
+    2.256
+   ],
+   "reach": 0.988
+  },
+  "hexagon/building_church_yellow": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_church_yellow.glb",
+   "bytes": 61000,
+   "sha256": "fc1bc1e80419346718ffbc98c0c1641cd085d40335b6264b32c2333df68e3918",
+   "tris": 1601,
+   "size": [
+    1.029,
+    1.645,
+    1.155
+   ],
+   "reach": 0.732
+  },
+  "hexagon/building_home_A_yellow": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_home_A_yellow.glb",
+   "bytes": 38184,
+   "sha256": "9c9a4aefdfe85d8caa72223266843cc21c18c6036342511a957042b8b543ac0f",
+   "tris": 1011,
+   "size": [
+    0.792,
+    0.93,
+    0.854
+   ],
+   "reach": 0.531
+  },
+  "hexagon/building_home_B_yellow": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_home_B_yellow.glb",
+   "bytes": 55772,
+   "sha256": "fb4cbf97ec6b501b58fae6b83df7c63d4892f407b20b743e12f0aef1630af62d",
+   "tris": 1393,
+   "size": [
+    0.875,
+    1.28,
+    1.099
+   ],
+   "reach": 0.625
+  },
+  "hexagon/building_lumbermill_yellow": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_lumbermill_yellow.glb",
+   "bytes": 112380,
+   "sha256": "0c91909d1957a7e84dd91b273978c8b643c071ec31abac334762db0c95d17207",
+   "tris": 3170,
+   "size": [
+    1.367,
+    1.708,
+    1.189
+   ],
+   "reach": 0.761
+  },
+  "hexagon/building_market_yellow": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_market_yellow.glb",
+   "bytes": 103448,
+   "sha256": "24448ddd8fe89af9910417a87cc1884d70279c33a6f43ee62beb9a8cd819f1f7",
+   "tris": 3125,
+   "size": [
+    1.799,
+    0.982,
+    1.316
+   ],
+   "reach": 0.932
+  },
+  "hexagon/building_mine_yellow": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_mine_yellow.glb",
+   "bytes": 45104,
+   "sha256": "15dac85c8b8c7ace6808d243fbaaaef3875af10480a1e58b4429ba7d04a05330",
+   "tris": 1126,
+   "size": [
+    1.606,
+    1.137,
+    1.92
+   ],
+   "reach": 0.934
+  },
+  "hexagon/building_tavern_yellow": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_tavern_yellow.glb",
+   "bytes": 114828,
+   "sha256": "31c4b32e1da87a1fc38f42992c5815004dc5e85ec941c4734be18138e30d4365",
+   "tris": 2992,
+   "size": [
+    1.172,
+    1.397,
+    1.332
+   ],
+   "reach": 0.764
+  },
+  "hexagon/building_tower_A_yellow": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_tower_A_yellow.glb",
+   "bytes": 76664,
+   "sha256": "ca5be7e962f418f7825efc5d528c29a8f2e2411ae14e013591bf96eb0c4e8577",
+   "tris": 2138,
+   "size": [
+    0.993,
+    2.192,
+    1.153
+   ],
+   "reach": 0.589
+  },
+  "hexagon/building_tower_B_yellow": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_tower_B_yellow.glb",
+   "bytes": 88584,
+   "sha256": "6dea1056d3d54132789e04aa025c3e2e6efa6673eca124da7a2486acc56e4167",
+   "tris": 2418,
+   "size": [
+    1.197,
+    2.485,
+    1.383
+   ],
+   "reach": 0.599
+  },
+  "hexagon/building_tower_base_yellow": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_tower_base_yellow.glb",
+   "bytes": 55772,
+   "sha256": "1762c57ff8ff61ffaceecdc5249ec960cbcdb2daa1a044b8a7722d21e0e15e6a",
+   "tris": 1538,
+   "size": [
+    0.93,
+    1.5,
+    1.111
+   ],
+   "reach": 0.589
+  },
+  "hexagon/building_tower_catapult_yellow": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_tower_catapult_yellow.glb",
+   "bytes": 98492,
+   "sha256": "f9cf7f9dd0fcf1ba53f46ccaabea895759af7d0fdfc35535a5242075be2ffeb9",
+   "tris": 2864,
+   "size": [
+    0.93,
+    1.964,
+    1.303
+   ],
+   "reach": 0.649
+  },
+  "hexagon/building_watermill_yellow": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_watermill_yellow.glb",
+   "bytes": 75228,
+   "sha256": "1f145ffa173fc9ab58723b12c4053605552ca8c835be8496b756309ae542a5d8",
+   "tris": 1921,
+   "size": [
+    1.05,
+    1.568,
+    1.236
+   ],
+   "reach": 0.995
+  },
+  "hexagon/building_well_yellow": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_well_yellow.glb",
+   "bytes": 29384,
+   "sha256": "8ff4c0ec975ad81788c377e70e0ed2696de90bfbfb8d729973b8ad5e5827f9df",
+   "tris": 726,
+   "size": [
+    0.652,
+    0.826,
+    0.751
+   ],
+   "reach": 0.448
+  },
+  "hexagon/building_windmill_yellow": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_windmill_yellow.glb",
+   "bytes": 95836,
+   "sha256": "d7c233933c645450ecbd877c2ad3022e93a7de066d1211df8543faa0b7c329a6",
+   "tris": 2653,
+   "size": [
+    1.126,
+    1.458,
+    0.817
+   ],
+   "reach": 0.572
   },
   "hexagon/building_dirt": {
    "kit": "hexagon",
@@ -1190,6 +1944,149 @@
     2,
     1.1,
     0.8
+   ],
+   "reach": 1
+  },
+  "hexagon/fence_stone_straight_gate": {
+   "kit": "hexagon",
+   "file": "models/hexagon/fence_stone_straight_gate.glb",
+   "bytes": 12040,
+   "sha256": "6a5db14190aba4f479a6953f7b834bfb43cfb2efb2a517013ea382baa545f5c0",
+   "tris": 296,
+   "size": [
+    0.2,
+    0.296,
+    1.155
+   ],
+   "reach": 1.1
+  },
+  "hexagon/fence_wood_straight_gate": {
+   "kit": "hexagon",
+   "file": "models/hexagon/fence_wood_straight_gate.glb",
+   "bytes": 14116,
+   "sha256": "c0efe35cb99be70a86c85e2acb72c27e5014677bf3651c7a3259f61b52555447",
+   "tris": 308,
+   "size": [
+    0.14,
+    0.65,
+    1.155
+   ],
+   "reach": 1.07
+  },
+  "hexagon/wall_straight_gate": {
+   "kit": "hexagon",
+   "file": "models/hexagon/wall_straight_gate.glb",
+   "bytes": 32616,
+   "sha256": "573d33a3138607fa450174e59311a3380d417991bd70281bb7c54874f21f759e",
+   "tris": 820,
+   "size": [
+    2,
+    1.414,
+    0.896
+   ],
+   "reach": 1
+  },
+  "hexagon/wall_corner_A_gate": {
+   "kit": "hexagon",
+   "file": "models/hexagon/wall_corner_A_gate.glb",
+   "bytes": 31656,
+   "sha256": "7c490a9acaa6447903df108099bf7646d97e85133d1c316e915dc05355c8d88f",
+   "tris": 796,
+   "size": [
+    1.76,
+    1.415,
+    1.533
+   ],
+   "reach": 1
+  },
+  "hexagon/wall_corner_A_inside": {
+   "kit": "hexagon",
+   "file": "models/hexagon/wall_corner_A_inside.glb",
+   "bytes": 15468,
+   "sha256": "25862315779801dd40bf70f92d1c969d0603f80a9b08cfec279ec5f00dce520a",
+   "tris": 364,
+   "size": [
+    1.846,
+    1.1,
+    1.416
+   ],
+   "reach": 1
+  },
+  "hexagon/wall_corner_A_outside": {
+   "kit": "hexagon",
+   "file": "models/hexagon/wall_corner_A_outside.glb",
+   "bytes": 17728,
+   "sha256": "1784c8e8d9fcfd487fee852954815603eefcf2281dd52defe8f877d588737d61",
+   "tris": 414,
+   "size": [
+    1.76,
+    1.1,
+    1.432
+   ],
+   "reach": 1
+  },
+  "hexagon/wall_corner_B_inside": {
+   "kit": "hexagon",
+   "file": "models/hexagon/wall_corner_B_inside.glb",
+   "bytes": 12404,
+   "sha256": "5e6cb1aa34e8c675a839385915db244368b0d5bc18a8741e307e66a967e87e8b",
+   "tris": 304,
+   "size": [
+    0.962,
+    1.1,
+    1.466
+   ],
+   "reach": 1
+  },
+  "hexagon/wall_corner_B_outside": {
+   "kit": "hexagon",
+   "file": "models/hexagon/wall_corner_B_outside.glb",
+   "bytes": 16388,
+   "sha256": "cd44a6dd524834aad067a542660a77b4ed5f434bfaaf00b61059efbdb44e16db",
+   "tris": 384,
+   "size": [
+    0.964,
+    1.1,
+    1.35
+   ],
+   "reach": 1
+  },
+  "hexagon/building_grain": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_grain.glb",
+   "bytes": 10312,
+   "sha256": "b1236b19d5472039a3421db50f802b7a48d968ec26bfe1ac931373bed07d64c5",
+   "tris": 230,
+   "size": [
+    1.874,
+    0.394,
+    2.094
+   ],
+   "reach": 0.937
+  },
+  "hexagon/building_bridge_A": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_bridge_A.glb",
+   "bytes": 18632,
+   "sha256": "e7ce81cfb4e5e09af41ba98a807479b3b8834a4e106c44a807a8a8884edfb456",
+   "tris": 604,
+   "size": [
+    1.333,
+    1.25,
+    1.924
+   ],
+   "reach": 1
+  },
+  "hexagon/building_bridge_B": {
+   "kit": "hexagon",
+   "file": "models/hexagon/building_bridge_B.glb",
+   "bytes": 18636,
+   "sha256": "ac563a13b567f190efb7dba96d55b91e243599753b67d1fbad4960522a4884bf",
+   "tris": 604,
+   "size": [
+    1.333,
+    1.25,
+    1.924
    ],
    "reach": 1
   },
@@ -1491,6 +2388,188 @@
     0.264
    ],
    "reach": 0.21
+  },
+  "hexagon/flag_green": {
+   "kit": "hexagon",
+   "file": "models/hexagon/flag_green.glb",
+   "bytes": 2928,
+   "sha256": "6ada9865c46e22c500c764bf39561a21b66fc24c0abf0873c13724b16c64af55",
+   "tris": 48,
+   "size": [
+    0.055,
+    0.277,
+    0.264
+   ],
+   "reach": 0.21
+  },
+  "hexagon/flag_red": {
+   "kit": "hexagon",
+   "file": "models/hexagon/flag_red.glb",
+   "bytes": 2924,
+   "sha256": "623727e2b65959205eb4cba102fa524f822a52b1da2f3c40821f663269425b0e",
+   "tris": 48,
+   "size": [
+    0.055,
+    0.277,
+    0.264
+   ],
+   "reach": 0.21
+  },
+  "hexagon/flag_yellow": {
+   "kit": "hexagon",
+   "file": "models/hexagon/flag_yellow.glb",
+   "bytes": 2928,
+   "sha256": "f2fdf69c5cd4bc875b8fabe2917346c4bbe20459bd180f32a78648337753698a",
+   "tris": 48,
+   "size": [
+    0.055,
+    0.277,
+    0.264
+   ],
+   "reach": 0.21
+  },
+  "hexagon/crate_B_small": {
+   "kit": "hexagon",
+   "file": "models/hexagon/crate_B_small.glb",
+   "bytes": 5924,
+   "sha256": "c5a124a667e6e621600c4fd5a2630e96d9fcaa16d6c17c3c707220c1c2057229",
+   "tris": 132,
+   "size": [
+    0.14,
+    0.14,
+    0.14
+   ],
+   "reach": 0.096
+  },
+  "hexagon/crate_long_A": {
+   "kit": "hexagon",
+   "file": "models/hexagon/crate_long_A.glb",
+   "bytes": 11304,
+   "sha256": "352477fc5899e9e239e2f6bf24b59690b75d3716e5b404f6c01086b6bd3d2fd1",
+   "tris": 522,
+   "size": [
+    0.4,
+    0.15,
+    0.2
+   ],
+   "reach": 0.2
+  },
+  "hexagon/sack": {
+   "kit": "hexagon",
+   "file": "models/hexagon/sack.glb",
+   "bytes": 3500,
+   "sha256": "6aafe8bbf6448d640c95e41d02aec30a0fabb7c1b164297368ebe9433eed3933",
+   "tris": 92,
+   "size": [
+    0.107,
+    0.065,
+    0.16
+   ],
+   "reach": 0.095
+  },
+  "hexagon/pallet": {
+   "kit": "hexagon",
+   "file": "models/hexagon/pallet.glb",
+   "bytes": 4548,
+   "sha256": "b382feb1a2975e4270596fb810e48ea8c438c7fffe6704d315b7747e5408d7c6",
+   "tris": 72,
+   "size": [
+    0.3,
+    0.08,
+    0.3
+   ],
+   "reach": 0.205
+  },
+  "hexagon/bucket_water": {
+   "kit": "hexagon",
+   "file": "models/hexagon/bucket_water.glb",
+   "bytes": 5916,
+   "sha256": "a19881a61d3a562a36a504c2b7bccefbdedc857dfc6634eab3d1ac24bf6c16a9",
+   "tris": 128,
+   "size": [
+    0.14,
+    0.105,
+    0.14
+   ],
+   "reach": 0.075
+  },
+  "hexagon/bucket_arrows": {
+   "kit": "hexagon",
+   "file": "models/hexagon/bucket_arrows.glb",
+   "bytes": 12012,
+   "sha256": "3e168caf9749a74e5084da0f8b59d45a67101425707ce2178fe0c0abfa7e41c6",
+   "tris": 260,
+   "size": [
+    0.14,
+    0.231,
+    0.142
+   ],
+   "reach": 0.075
+  },
+  "hexagon/resource_lumber": {
+   "kit": "hexagon",
+   "file": "models/hexagon/resource_lumber.glb",
+   "bytes": 9208,
+   "sha256": "5483e3047a0f883834ba1877b8aaae385f20d815a84defcb006201f08354bf86",
+   "tris": 220,
+   "size": [
+    0.686,
+    0.21,
+    0.33
+   ],
+   "reach": 0.345
+  },
+  "hexagon/resource_stone": {
+   "kit": "hexagon",
+   "file": "models/hexagon/resource_stone.glb",
+   "bytes": 9008,
+   "sha256": "a3d4f8f9a11985d4408f1064d077fdcbb6fc251525c63cfed78ddf74c644fa2f",
+   "tris": 220,
+   "size": [
+    0.421,
+    0.28,
+    0.358
+   ],
+   "reach": 0.251
+  },
+  "hexagon/target": {
+   "kit": "hexagon",
+   "file": "models/hexagon/target.glb",
+   "bytes": 6072,
+   "sha256": "03cd7ec8ce8d9b54ee5e360ccd5439c6a7cd001036e86a214be275824e070cf9",
+   "tris": 156,
+   "size": [
+    0.239,
+    0.302,
+    0.142
+   ],
+   "reach": 0.12
+  },
+  "hexagon/tent": {
+   "kit": "hexagon",
+   "file": "models/hexagon/tent.glb",
+   "bytes": 5264,
+   "sha256": "fc00a97eda6697219f17ed3c8f5500e1a79487ad132238d67b787ff75648a400",
+   "tris": 86,
+   "size": [
+    0.516,
+    0.516,
+    0.516
+   ],
+   "reach": 0.352
+  },
+  "hexagon/weaponrack": {
+   "kit": "hexagon",
+   "file": "models/hexagon/weaponrack.glb",
+   "bytes": 3212,
+   "sha256": "a89206ffd67cda209e81544b2463afab2f76c29610d0bcb10d6eefb8c7f13444",
+   "tris": 42,
+   "size": [
+    0.2,
+    0.24,
+    0.13
+   ],
+   "reach": 0.111
   },
   "hexagon/ladder": {
    "kit": "hexagon",
@@ -2896,6 +3975,32 @@
    ],
    "reach": 0.67
   },
+  "recipe/fort-gate": {
+   "kit": "hexagon",
+   "file": "models/recipe/fort-gate.glb",
+   "bytes": 66580,
+   "sha256": "0d0f620939e67760a3853a7df1987a89a9ea61c48f0da174a0a17bdce4f9017d",
+   "tris": 1834,
+   "size": [
+    1.565,
+    1.55,
+    1.157
+   ],
+   "reach": 1.1
+  },
+  "recipe/fort-gatehouse": {
+   "kit": "hexagon",
+   "file": "models/recipe/fort-gatehouse.glb",
+   "bytes": 99308,
+   "sha256": "88f49c529e4fdb5cef7290348ad6d75a84ac25ef0f628065c31f8921c9aa6085",
+   "tris": 2714,
+   "size": [
+    1.699,
+    2.535,
+    1.383
+   ],
+   "reach": 1.1
+  },
   "recipe/home-yard": {
    "kit": "hexagon",
    "file": "models/recipe/home-yard.glb",
@@ -3208,40 +4313,92 @@
    ],
    "reach": 0.766
   },
+  "dress/apps-0": {
+   "kit": "hexagon",
+   "file": "models/dress/apps-0.glb",
+   "bytes": 16840,
+   "sha256": "90d8f6ed0ef2154298bbd2375f20a71591ad52973397862f504238309e06ac6a",
+   "tris": 668,
+   "size": [
+    0.927,
+    0.81,
+    0.976
+   ],
+   "reach": 0.725
+  },
+  "dress/apps-1": {
+   "kit": "hexagon",
+   "file": "models/dress/apps-1.glb",
+   "bytes": 15200,
+   "sha256": "c074d57c0a5914adeb84e66663799fb4c9bdafd290d0e2adaaa5cd039abe194c",
+   "tris": 662,
+   "size": [
+    0.37,
+    0.202,
+    1.3
+   ],
+   "reach": 0.771
+  },
+  "dress/apps-2": {
+   "kit": "hexagon",
+   "file": "models/dress/apps-2.glb",
+   "bytes": 33372,
+   "sha256": "d2cc999579f7e3d1281b41adb01f9d37ed720a6bf80f8364f3aab13b63bf1454",
+   "tris": 836,
+   "size": [
+    0.747,
+    0.193,
+    0.602
+   ],
+   "reach": 0.588
+  },
+  "dress/apps-3": {
+   "kit": "hexagon",
+   "file": "models/dress/apps-3.glb",
+   "bytes": 36504,
+   "sha256": "1e4c47ce291ae63f27b821198b5dc9737e1d5111e6a7c97146f53bca64ad3bd2",
+   "tris": 862,
+   "size": [
+    1.484,
+    1.065,
+    0.874
+   ],
+   "reach": 0.879
+  },
   "dress/platform-0": {
    "kit": "hexagon",
    "file": "models/dress/platform-0.glb",
-   "bytes": 10112,
-   "sha256": "aec3bc859088253f3e8ac561e60811e1b6beb58f42f9402007deeeaa7a66179e",
-   "tris": 318,
+   "bytes": 11144,
+   "sha256": "614124bdf140311c4024b49b8500b15aea926f70ae3942403303f3b712902aee",
+   "tris": 356,
    "size": [
-    1.039,
+    1.021,
     0.923,
-    1.038
+    1.063
    ],
-   "reach": 0.757
+   "reach": 0.73
   },
   "dress/platform-1": {
    "kit": "hexagon",
    "file": "models/dress/platform-1.glb",
-   "bytes": 5752,
-   "sha256": "f2b6934e7dc5bda6356b70f0e886e868e2e154725807f224a2b6317266fe0563",
-   "tris": 108,
+   "bytes": 8836,
+   "sha256": "9877adb5eba118eba1792db37f1d755a6c5a7b343ec16ac4cafe526565294637",
+   "tris": 286,
    "size": [
-    0.366,
-    0.774,
-    0.75
+    0.46,
+    0.784,
+    0.799
    ],
-   "reach": 0.687
+   "reach": 0.743
   },
   "dress/platform-2": {
    "kit": "hexagon",
    "file": "models/dress/platform-2.glb",
-   "bytes": 10924,
-   "sha256": "d16a5473ae2ecb227a7bf91d079c95e775a91e2c4e79d5bc8147cb7f8a7cad49",
-   "tris": 336,
+   "bytes": 11576,
+   "sha256": "61ad651fbdc4f4fb332380f17a86c8e0cbfaade73f2094d17b34758c5a1e8a77",
+   "tris": 358,
    "size": [
-    1.093,
+    1.104,
     0.819,
     1.351
    ],
@@ -3250,379 +4407,275 @@
   "dress/platform-3": {
    "kit": "hexagon",
    "file": "models/dress/platform-3.glb",
-   "bytes": 12296,
-   "sha256": "75fd3ea1d5c0b0a3fddf9fce29ec817051a2282c5e6286adb855e574e4bad262",
-   "tris": 458,
+   "bytes": 12948,
+   "sha256": "9418f2e47fae781f483e2b3489b73b3d42fa4c0cd13fe65f76d82152d8cdb410",
+   "tris": 480,
    "size": [
     0.669,
     1.003,
-    1.355
+    1.347
    ],
    "reach": 0.859
   },
-  "plot/data": {
-   "kit": "dungeon",
-   "file": "models/plot/data.glb",
-   "bytes": 8604,
-   "sha256": "b91b76f945f1e24d96572fedc6b07a83e4da12e9a785a593ab12d0a074299172",
-   "tris": 188,
-   "size": [
-    1.434,
-    0.054,
-    1.434
-   ],
-   "reach": 0.979
-  },
-  "dress/data-0": {
-   "kit": "dungeon",
-   "file": "models/dress/data-0.glb",
-   "bytes": 44880,
-   "sha256": "0bde52f3e517da23a70a4c7b9e86a27c96a1de3b2308c49b7444db57c18dc78c",
-   "tris": 1298,
-   "size": [
-    1.687,
-    0.505,
-    1.239
-   ],
-   "reach": 0.948
-  },
-  "dress/data-1": {
-   "kit": "dungeon",
-   "file": "models/dress/data-1.glb",
-   "bytes": 24132,
-   "sha256": "38a73ac730ab68f172611998ce594597414e761bbaa940d4a8e873b6b7bba087",
-   "tris": 671,
+  "dress/code-0": {
+   "kit": "hexagon",
+   "file": "models/dress/code-0.glb",
+   "bytes": 47352,
+   "sha256": "ad30bc0cae18c4a093fc266ca7e82099d3c829984c9e73329ffb4da1c748be8a",
+   "tris": 1364,
    "size": [
     1.271,
-    0.64,
-    0.849
+    0.171,
+    1.397
    ],
-   "reach": 0.745
+   "reach": 0.731
   },
-  "dress/data-2": {
-   "kit": "dungeon",
-   "file": "models/dress/data-2.glb",
-   "bytes": 26992,
-   "sha256": "bc173d6fcbff0a52a9661c3f2db733a1cd88ed24bc0cd1b5ba7b552bc7adb55c",
-   "tris": 759,
+  "dress/code-1": {
+   "kit": "hexagon",
+   "file": "models/dress/code-1.glb",
+   "bytes": 44772,
+   "sha256": "6f75bcca5e597c3634bb467f29432e0aac2b1ce21caf8e577abf357cd2e6b3ff",
+   "tris": 1316,
    "size": [
-    1.425,
-    0.44,
-    1.763
+    1.424,
+    1.16,
+    1.562
    ],
-   "reach": 0.962
+   "reach": 0.984
   },
-  "dress/data-3": {
-   "kit": "dungeon",
-   "file": "models/dress/data-3.glb",
-   "bytes": 7960,
-   "sha256": "3d67c254b91b69ad62f68ee7a0bfa1c71e0791c7a48085720d7ccdc845c9cf11",
-   "tris": 154,
+  "dress/code-2": {
+   "kit": "hexagon",
+   "file": "models/dress/code-2.glb",
+   "bytes": 24564,
+   "sha256": "94bc7422cb4fa7701f28c185488d684b3b1f7a88c163b8a413aec662d85dd72b",
+   "tris": 680,
    "size": [
-    1.202,
-    0.446,
-    1.42
+    1.287,
+    0.898,
+    0.634
    ],
-   "reach": 0.953
+   "reach": 0.866
   },
-  "plot/operations": {
-   "kit": "prototype",
-   "file": "models/plot/operations.glb",
-   "bytes": 3160,
-   "sha256": "53717f47d512bda21138f4feb989ff596bf508ffded7c9708de3b83a3a685bc3",
-   "tris": 52,
+  "dress/code-3": {
+   "kit": "hexagon",
+   "file": "models/dress/code-3.glb",
+   "bytes": 35004,
+   "sha256": "d07995401627532c62bf06c3ebc5e2ae550a022c2ab90f1f6635874388c18fa1",
+   "tris": 1056,
    "size": [
-    1.434,
-    0.179,
-    1.434
+    1.322,
+    1.146,
+    1.296
    ],
-   "reach": 0.979
+   "reach": 0.918
   },
   "dress/operations-0": {
-   "kit": "prototype",
+   "kit": "hexagon",
    "file": "models/dress/operations-0.glb",
-   "bytes": 13820,
-   "sha256": "a6efa9fb778bef2934cb5e8657552ffd4524a7dad26ef4e1352f50b5d092c8de",
-   "tris": 268,
+   "bytes": 10124,
+   "sha256": "f54fe8f2b744948ec70ad274f101f3d693081c01083ce8f370f29cff8e38875a",
+   "tris": 236,
    "size": [
-    0.852,
-    0.159,
-    0.852
+    0.519,
+    0.066,
+    0.567
    ],
-   "reach": 0.807
+   "reach": 0.611
   },
   "dress/operations-1": {
-   "kit": "prototype",
+   "kit": "hexagon",
    "file": "models/dress/operations-1.glb",
-   "bytes": 20280,
-   "sha256": "7815fe1943a545259555e34d556d7fd1596b4f83906ae1f1bffb7404d230063b",
-   "tris": 404,
+   "bytes": 29376,
+   "sha256": "535812ef3c29ab2ae2135c88e75ab998fc7a9c175473d40f108866aa0cae0d4f",
+   "tris": 1018,
    "size": [
-    1.613,
-    0.185,
-    0.927
+    1.282,
+    0.194,
+    0.62
    ],
-   "reach": 0.973
+   "reach": 0.659
   },
   "dress/operations-2": {
-   "kit": "prototype",
+   "kit": "hexagon",
    "file": "models/dress/operations-2.glb",
-   "bytes": 16056,
-   "sha256": "52603c1e3133e9db02242368facced937be3e827cc735494609ffb115a78613d",
-   "tris": 320,
+   "bytes": 24700,
+   "sha256": "c4a6136fbd6fa71202b5eb38bdc2912900f7dc2ed4d5928e86b4b32135b78a9f",
+   "tris": 1116,
    "size": [
-    1.411,
-    0.19,
-    1.266
+    0.972,
+    0.122,
+    1.045
    ],
-   "reach": 0.833
+   "reach": 0.835
   },
   "dress/operations-3": {
-   "kit": "prototype",
+   "kit": "hexagon",
    "file": "models/dress/operations-3.glb",
-   "bytes": 19048,
-   "sha256": "731f499fa65c94ad21e3109d2ef63f277eab90b1d577534e78ad1240cdf33a03",
-   "tris": 380,
+   "bytes": 30652,
+   "sha256": "e11bb18e68013d5afdfa9b2f39612697b0f5530d7bb16bba868133763e73a4da",
+   "tris": 716,
    "size": [
-    1.398,
-    0.176,
-    1.17
+    1.155,
+    0.143,
+    0.867
    ],
-   "reach": 1.052
-  },
-  "plot/guard": {
-   "kit": "halloween",
-   "file": "models/plot/guard.glb",
-   "bytes": 6768,
-   "sha256": "cfb34355a4675d2fb0c7f4addd7b07704832ada68b1b57fc3947250285ec3525",
-   "tris": 120,
-   "size": [
-    1.434,
-    0.19,
-    1.434
-   ],
-   "reach": 0.979
+   "reach": 0.763
   },
   "dress/guard-0": {
-   "kit": "halloween",
+   "kit": "hexagon",
    "file": "models/dress/guard-0.glb",
-   "bytes": 46552,
-   "sha256": "5299423eb9326a346398ffb3549dfac931e3462616b47e84d18c8f04d799eda3",
-   "tris": 1277,
+   "bytes": 26312,
+   "sha256": "6839b8e0226e197e9bae524632010972ce5343782422a80306ec0056a4bd8d50",
+   "tris": 610,
    "size": [
-    1.011,
-    1.29,
-    1.832
+    0.501,
+    0.212,
+    1.357
    ],
-   "reach": 0.957
+   "reach": 0.71
   },
   "dress/guard-1": {
-   "kit": "halloween",
+   "kit": "hexagon",
    "file": "models/dress/guard-1.glb",
-   "bytes": 36792,
-   "sha256": "454b23c6149dfeadf708def506b258979fb94aaf5f5009564adc0362d12ad168",
-   "tris": 1168,
+   "bytes": 9612,
+   "sha256": "72296f357c9772cb7ad40deff28b5bdeb3b8fb2725d7b88460dd2c25e14e261e",
+   "tris": 234,
    "size": [
-    1.244,
-    1.079,
-    0.832
+    1.081,
+    0.263,
+    0.68
+   ],
+   "reach": 0.714
+  },
+  "dress/guard-2": {
+   "kit": "hexagon",
+   "file": "models/dress/guard-2.glb",
+   "bytes": 14748,
+   "sha256": "8e28e418a6abf1ddf9529f66cc635419e0145c0c397804e328c0db116f4fffa3",
+   "tris": 320,
+   "size": [
+    0.653,
+    0.19,
+    0.683
+   ],
+   "reach": 0.576
+  },
+  "dress/guard-3": {
+   "kit": "hexagon",
+   "file": "models/dress/guard-3.glb",
+   "bytes": 35904,
+   "sha256": "cc4a2249270cdaf0cad67f781871de891fe370e37f136398e3437816d7b5ab61",
+   "tris": 846,
+   "size": [
+    0.942,
+    0.231,
+    1.285
+   ],
+   "reach": 0.721
+  },
+  "dress/data-0": {
+   "kit": "hexagon",
+   "file": "models/dress/data-0.glb",
+   "bytes": 22560,
+   "sha256": "f19a330dfb816717a679905588e16b4287fd1943ce926554b1f49aa9571a330f",
+   "tris": 696,
+   "size": [
+    1.473,
+    0.897,
+    1.011
+   ],
+   "reach": 0.899
+  },
+  "dress/data-1": {
+   "kit": "hexagon",
+   "file": "models/dress/data-1.glb",
+   "bytes": 8944,
+   "sha256": "55b9ade8d71d736afd6b9ed6978b5276863af0cf9ffb5c9cd6609d3c4baabce5",
+   "tris": 196,
+   "size": [
+    1.029,
+    1.073,
+    0.57
+   ],
+   "reach": 0.521
+  },
+  "dress/data-2": {
+   "kit": "hexagon",
+   "file": "models/dress/data-2.glb",
+   "bytes": 14528,
+   "sha256": "fefbb5ff12bf6eca32125f3ff599d1e827d7c414d8ec7a7e4a8c155b74c1bcb9",
+   "tris": 550,
+   "size": [
+    1.258,
+    1.123,
+    1.477
+   ],
+   "reach": 0.912
+  },
+  "dress/data-3": {
+   "kit": "hexagon",
+   "file": "models/dress/data-3.glb",
+   "bytes": 6492,
+   "sha256": "d99d166fdf480d3e7e5c0cf8c8980a425bd3bb378b6a20d1a38390d13b47602f",
+   "tris": 118,
+   "size": [
+    1.42,
+    1.119,
+    1.275
+   ],
+   "reach": 0.95
+  },
+  "dress/fleet-0": {
+   "kit": "hexagon",
+   "file": "models/dress/fleet-0.glb",
+   "bytes": 10896,
+   "sha256": "fcb459e236c665ab729d173381b72468a686717c56cd86fc39cd4d1cabe9ffef",
+   "tris": 276,
+   "size": [
+    1.01,
+    0.239,
+    1.239
+   ],
+   "reach": 0.664
+  },
+  "dress/fleet-1": {
+   "kit": "hexagon",
+   "file": "models/dress/fleet-1.glb",
+   "bytes": 30480,
+   "sha256": "a0d42101971463d00baa3e8668dd18c14c748555dae3076c7be397302c504507",
+   "tris": 834,
+   "size": [
+    1.31,
+    0.488,
+    1.145
    ],
    "reach": 0.727
   },
-  "dress/guard-2": {
-   "kit": "halloween",
-   "file": "models/dress/guard-2.glb",
-   "bytes": 24112,
-   "sha256": "9dcf9eaf9319b898b844cecd9bcf8e63ace1e8637a5c1ad17ada81171e997bff",
-   "tris": 810,
-   "size": [
-    0.804,
-    0.764,
-    0.846
-   ],
-   "reach": 0.681
-  },
-  "dress/guard-3": {
-   "kit": "halloween",
-   "file": "models/dress/guard-3.glb",
-   "bytes": 46100,
-   "sha256": "1cea05a362d8db1c79030ccac9f4c78bf5b0fe6882fe7c40a53b98a6bccf276e",
-   "tris": 1489,
-   "size": [
-    1.253,
-    1.284,
-    1.532
-   ],
-   "reach": 1.058
-  },
-  "dress/fleet-0": {
-   "kit": "space",
-   "file": "models/dress/fleet-0.glb",
-   "bytes": 19012,
-   "sha256": "f9abc76c39fcb45586fce4dbf1135e86f483210fc6b2e40d42de8eba1cd90a13",
-   "tris": 472,
-   "size": [
-    1.484,
-    0.281,
-    1.625
-   ],
-   "reach": 0.939
-  },
-  "dress/fleet-1": {
-   "kit": "space",
-   "file": "models/dress/fleet-1.glb",
-   "bytes": 34528,
-   "sha256": "1787867798f158d297bfeab1ace40e0ec896c5c9c19b7da2faca41ee36f74c88",
-   "tris": 958,
-   "size": [
-    1.519,
-    0.25,
-    1.044
-   ],
-   "reach": 0.823
-  },
   "dress/fleet-2": {
-   "kit": "space",
+   "kit": "hexagon",
    "file": "models/dress/fleet-2.glb",
-   "bytes": 33784,
-   "sha256": "3662387068f99d279314ada6d33e322eb1a7d3c8ea7b383e78718bacb0419d72",
-   "tris": 914,
+   "bytes": 21624,
+   "sha256": "ed8f7142bace89423a84b588b998dc4458f2880275d26a476974bac35b8db146",
+   "tris": 576,
    "size": [
-    1.359,
-    0.28,
-    1.499
+    0.982,
+    0.253,
+    1.266
    ],
-   "reach": 0.867
+   "reach": 0.737
   },
   "dress/fleet-3": {
-   "kit": "space",
+   "kit": "hexagon",
    "file": "models/dress/fleet-3.glb",
-   "bytes": 44132,
-   "sha256": "09fa9534f64b843cad179a4efc00275dd2bd5e64e28774c7e85abe83387a5448",
-   "tris": 1238,
+   "bytes": 38844,
+   "sha256": "4d87d9d2dbc0305ee900147eb453c98f21de98ff45151c640e627a43cdd800d7",
+   "tris": 1100,
    "size": [
-    1.335,
-    0.281,
-    0.568
+    1.131,
+    0.224,
+    0.424
    ],
-   "reach": 0.742
-  },
-  "dress/apps-0": {
-   "kit": "city",
-   "file": "models/dress/apps-0.glb",
-   "bytes": 22644,
-   "sha256": "ef50a5c7f7c3ba630db440e1ad45a50bb8f59540fb8cafc23549fcea7fb2af79",
-   "tris": 614,
-   "size": [
-    0.792,
-    0.586,
-    1.174
-   ],
-   "reach": 0.856
-  },
-  "dress/apps-1": {
-   "kit": "city",
-   "file": "models/dress/apps-1.glb",
-   "bytes": 13712,
-   "sha256": "f24913f546b1f87bd2d4e2cbb7c3452e7563cd00fcc254b73174617b49669514",
-   "tris": 394,
-   "size": [
-    0.467,
-    0.654,
-    1.301
-   ],
-   "reach": 0.743
-  },
-  "dress/apps-2": {
-   "kit": "city",
-   "file": "models/dress/apps-2.glb",
-   "bytes": 11648,
-   "sha256": "102656fb3ec323ae1b6c325c5731b6f843de243fee2b6616310ee593175a2681",
-   "tris": 360,
-   "size": [
-    0.751,
-    0.316,
-    0.598
-   ],
-   "reach": 0.579
-  },
-  "dress/apps-3": {
-   "kit": "city",
-   "file": "models/dress/apps-3.glb",
-   "bytes": 14448,
-   "sha256": "122865f79fe3bb51e98be8657bc7e89ffbaa1bb284dcfb19f9f7867ec9b82085",
-   "tris": 464,
-   "size": [
-    1.242,
-    0.748,
-    0.863
-   ],
-   "reach": 0.639
-  },
-  "plot/code": {
-   "kit": "ukubi",
-   "file": "models/plot/code.glb",
-   "bytes": 3048,
-   "sha256": "6b0e8ffb0aa796d0aa395d801f8d00eb5354385296d3f8d1a2b79d5f50a7e9c8",
-   "tris": 28,
-   "size": [
-    1.94,
-    0.032,
-    2.24
-   ],
-   "reach": 0.97
-  },
-  "dress/code-0": {
-   "kit": "ukubi",
-   "file": "models/dress/code-0.glb",
-   "bytes": 17868,
-   "sha256": "c6b418526dcf692389446a39e8ede65e3a3b698d7b7b4553a7850fce39d9ceae",
-   "tris": 252,
-   "size": [
-    1.239,
-    0.346,
-    1.341
-   ],
-   "reach": 0.787
-  },
-  "dress/code-1": {
-   "kit": "ukubi",
-   "file": "models/dress/code-1.glb",
-   "bytes": 18796,
-   "sha256": "77ef50289892b7f7e47e0e6a5cadfdfed53213bb1e0cbcd83cb3e61b991a9169",
-   "tris": 266,
-   "size": [
-    1.212,
-    0.502,
-    1.443
-   ],
-   "reach": 0.825
-  },
-  "dress/code-2": {
-   "kit": "ukubi",
-   "file": "models/dress/code-2.glb",
-   "bytes": 10676,
-   "sha256": "607e7ef6cac355ac7e1b6e88e862c55e6cff86f4994b303c554318855ad00c8d",
-   "tris": 143,
-   "size": [
-    1.213,
-    0.389,
-    0.397
-   ],
-   "reach": 0.756
-  },
-  "dress/code-3": {
-   "kit": "ukubi",
-   "file": "models/dress/code-3.glb",
-   "bytes": 9620,
-   "sha256": "1f672946e0aaa769758d8a068942894f5357cad377bef08818c196947fccabb2",
-   "tris": 127,
-   "size": [
-    1.23,
-    0.496,
-    1.141
-   ],
-   "reach": 0.768
+   "reach": 0.613
   }
  },
  "styles": {
@@ -3644,53 +4697,41 @@
   "fortress-2": {
    "hexagon": "styles/fortress-2/hexagon.png"
   },
-  "spacebase-1": {
-   "hexagon": "styles/spacebase-1/hexagon.png",
-   "space": "styles/spacebase-1/space.png"
+  "abbey-1": {
+   "hexagon": "styles/abbey-1/hexagon.png"
   },
-  "spacebase-2": {
-   "hexagon": "styles/spacebase-2/hexagon.png",
-   "space": "styles/spacebase-2/space.png"
+  "abbey-2": {
+   "hexagon": "styles/abbey-2/hexagon.png"
   },
-  "modern-1": {
-   "city": "styles/modern-1/city.png",
-   "hexagon": "styles/modern-1/hexagon.png"
+  "harbour-1": {
+   "hexagon": "styles/harbour-1/hexagon.png"
   },
-  "modern-2": {
-   "city": "styles/modern-2/city.png",
-   "hexagon": "styles/modern-2/hexagon.png"
-  },
-  "vault-1": {
-   "dungeon": "styles/vault-1/dungeon.png",
-   "hexagon": "styles/vault-1/hexagon.png"
-  },
-  "vault-2": {
-   "dungeon": "styles/vault-2/dungeon.png",
-   "hexagon": "styles/vault-2/hexagon.png"
-  },
-  "depot-1": {
-   "hexagon": "styles/depot-1/hexagon.png",
-   "prototype": "styles/depot-1/prototype.png"
-  },
-  "depot-2": {
-   "hexagon": "styles/depot-2/hexagon.png",
-   "prototype": "styles/depot-2/prototype.png"
+  "harbour-2": {
+   "hexagon": "styles/harbour-2/hexagon.png"
   },
   "vigil-1": {
-   "halloween": "styles/vigil-1/halloween.png",
    "hexagon": "styles/vigil-1/hexagon.png"
   },
   "vigil-2": {
-   "halloween": "styles/vigil-2/halloween.png",
    "hexagon": "styles/vigil-2/hexagon.png"
   },
+  "garrison-1": {
+   "hexagon": "styles/garrison-1/hexagon.png"
+  },
+  "garrison-2": {
+   "hexagon": "styles/garrison-2/hexagon.png"
+  },
+  "bazaar-1": {
+   "hexagon": "styles/bazaar-1/hexagon.png"
+  },
+  "bazaar-2": {
+   "hexagon": "styles/bazaar-2/hexagon.png"
+  },
   "forge-1": {
-   "hexagon": "styles/forge-1/hexagon.png",
-   "ukubi": "styles/forge-1/ukubi.png"
+   "hexagon": "styles/forge-1/hexagon.png"
   },
   "forge-2": {
-   "hexagon": "styles/forge-2/hexagon.png",
-   "ukubi": "styles/forge-2/ukubi.png"
+   "hexagon": "styles/forge-2/hexagon.png"
   }
  },
  "civs": {
@@ -3711,9 +4752,11 @@
     ],
     "houses": [
      [
-      "hexagon/building_home_A_blue"
+      "hexagon/building_home_A_blue",
+      "hexagon/building_home_B_blue"
      ],
      [
+      "hexagon/building_home_B_blue",
       "recipe/home-yard"
      ]
     ],
@@ -3722,7 +4765,8 @@
       "hexagon/building_blacksmith_blue"
      ],
      [
-      "hexagon/building_blacksmith_blue"
+      "hexagon/building_blacksmith_blue",
+      "hexagon/building_lumbermill_blue"
      ]
     ],
     "economy": [
@@ -3730,15 +4774,18 @@
       "hexagon/building_mine_blue"
      ],
      [
-      "hexagon/building_mine_blue"
+      "hexagon/building_mine_blue",
+      "hexagon/building_grain"
      ]
     ],
     "utility": [
      [
-      "hexagon/building_well_blue"
+      "hexagon/building_well_blue",
+      "hexagon/building_windmill_blue"
      ],
      [
-      "hexagon/building_windmill_blue"
+      "hexagon/building_windmill_blue",
+      "hexagon/building_watermill_blue"
      ]
     ],
     "defence": [
@@ -3746,7 +4793,8 @@
       "hexagon/building_tower_base_blue"
      ],
      [
-      "recipe/tower-flag"
+      "recipe/tower-flag",
+      "hexagon/building_tower_B_blue"
      ]
     ],
     "trade": [
@@ -3754,6 +4802,7 @@
       "hexagon/building_market_blue"
      ],
      [
+      "hexagon/building_market_blue",
       "hexagon/building_tavern_blue"
      ]
     ],
@@ -3762,7 +4811,8 @@
       "hexagon/building_barracks_blue"
      ],
      [
-      "hexagon/building_barracks_blue"
+      "hexagon/building_barracks_blue",
+      "hexagon/building_archeryrange_blue"
      ]
     ],
     "product": [
@@ -3781,6 +4831,59 @@
     "dress/default-3"
    ]
   },
+  "apps": {
+   "kit": "hexagon",
+   "styles": [
+    "bazaar-1",
+    "bazaar-2"
+   ],
+   "roles": {
+    "product": [
+     [
+      "hexagon/building_market_yellow",
+      "hexagon/building_tavern_yellow",
+      "hexagon/building_home_A_yellow",
+      "hexagon/building_home_B_yellow"
+     ],
+     [
+      "hexagon/building_market_yellow",
+      "hexagon/building_tavern_yellow",
+      "hexagon/building_home_B_yellow",
+      "hexagon/building_windmill_yellow"
+     ]
+    ],
+    "houses": [
+     [
+      "hexagon/building_home_A_yellow",
+      "hexagon/building_home_B_yellow"
+     ],
+     [
+      "hexagon/building_home_B_yellow",
+      "hexagon/building_tavern_yellow"
+     ]
+    ],
+    "trade": [
+     [
+      "hexagon/building_market_yellow",
+      "hexagon/building_tavern_yellow"
+     ],
+     [
+      "hexagon/building_market_yellow",
+      "hexagon/building_tavern_yellow"
+     ]
+    ]
+   },
+   "shapes": {
+    "hexagon/building_market_yellow": "yard",
+    "hexagon/building_windmill_yellow": "mill"
+   },
+   "dress": [
+    "dress/apps-0",
+    "dress/apps-1",
+    "dress/apps-2",
+    "dress/apps-3"
+   ]
+  },
   "platform": {
    "kit": "hexagon",
    "styles": [
@@ -3788,43 +4891,42 @@
     "fortress-2"
    ],
    "roles": {
-    "houses": [
-     [
-      "hexagon/building_home_A_blue",
-      "hexagon/building_home_B_blue"
-     ],
-     [
-      "recipe/home-yard",
-      "hexagon/building_tavern_blue"
-     ]
-    ],
-    "utility": [
+    "product": [
      [
       "hexagon/building_well_blue",
       "hexagon/building_windmill_blue",
       "hexagon/building_tower_base_blue",
-      "hexagon/building_mine_blue"
+      "hexagon/building_home_A_blue"
      ],
      [
-      "recipe/tower-flag",
       "hexagon/building_tower_A_blue",
       "hexagon/building_tower_B_blue",
       "hexagon/building_windmill_blue"
      ]
     ],
-    "product": [
+    "utility": [
      [
-      "hexagon/building_home_A_blue"
+      "hexagon/building_well_blue",
+      "hexagon/building_windmill_blue"
      ],
      [
-      "recipe/home-yard"
+      "hexagon/building_windmill_blue",
+      "hexagon/building_well_blue"
+     ]
+    ],
+    "defence": [
+     [
+      "hexagon/building_tower_base_blue"
+     ],
+     [
+      "hexagon/building_tower_A_blue",
+      "hexagon/building_tower_B_blue"
      ]
     ]
    },
    "shapes": {
     "hexagon/building_windmill_blue": "mill",
     "hexagon/building_tower_base_blue": "tower",
-    "hexagon/building_mine_blue": "pit",
     "hexagon/building_tower_A_blue": "tower",
     "hexagon/building_tower_B_blue": "tower"
    },
@@ -3835,83 +4937,96 @@
     "dress/platform-3"
    ]
   },
-  "data": {
-   "kit": "dungeon",
+  "code": {
+   "kit": "hexagon",
    "styles": [
-    "vault-1",
-    "vault-2"
+    "forge-1",
+    "forge-2"
    ],
    "roles": {
-    "economy": [
-     [
-      "recipe/vault-chest",
-      "recipe/vault-coins",
-      "recipe/store-yard"
-     ],
-     [
-      "recipe/treasury-banners",
-      "recipe/treasury-gated",
-      "recipe/treasury-tower"
-     ]
-    ],
     "product": [
      [
-      "recipe/vault-chest"
+      "hexagon/building_blacksmith_green",
+      "hexagon/building_lumbermill_green",
+      "hexagon/building_home_A_green"
      ],
      [
-      "recipe/treasury-banners"
+      "hexagon/building_blacksmith_green",
+      "hexagon/building_lumbermill_green",
+      "hexagon/building_watermill_green"
+     ]
+    ],
+    "workshop": [
+     [
+      "hexagon/building_blacksmith_green",
+      "hexagon/building_lumbermill_green"
+     ],
+     [
+      "hexagon/building_blacksmith_green",
+      "hexagon/building_lumbermill_green",
+      "hexagon/building_watermill_green"
      ]
     ]
    },
    "shapes": {
-    "recipe/vault-coins": "vault",
-    "recipe/store-yard": "yard",
-    "recipe/treasury-gated": "vault",
-    "recipe/treasury-tower": "tower"
+    "hexagon/building_lumbermill_green": "mill",
+    "hexagon/building_watermill_green": "mill"
    },
-   "plot": "plot/data",
    "dress": [
-    "dress/data-0",
-    "dress/data-1",
-    "dress/data-2",
-    "dress/data-3"
+    "dress/code-0",
+    "dress/code-1",
+    "dress/code-2",
+    "dress/code-3"
    ]
   },
   "operations": {
-   "kit": "prototype",
+   "kit": "hexagon",
    "styles": [
-    "depot-1",
-    "depot-2"
+    "harbour-1",
+    "harbour-2"
    ],
    "roles": {
-    "trade": [
-     [
-      "recipe/shed-slope",
-      "recipe/depot-room",
-      "recipe/stock-yard"
-     ],
-     [
-      "recipe/depot-storeys",
-      "recipe/depot-roofstock",
-      "recipe/depot-block"
-     ]
-    ],
     "product": [
      [
-      "recipe/depot-room"
+      "hexagon/building_market_red",
+      "hexagon/building_lumbermill_red",
+      "hexagon/building_mine_red",
+      "hexagon/building_home_B_red"
      ],
      [
-      "recipe/depot-storeys"
+      "hexagon/building_market_red",
+      "hexagon/building_watermill_red",
+      "hexagon/building_barracks_red",
+      "hexagon/building_mine_red"
+     ]
+    ],
+    "trade": [
+     [
+      "hexagon/building_market_red"
+     ],
+     [
+      "hexagon/building_market_red",
+      "hexagon/building_watermill_red"
+     ]
+    ],
+    "economy": [
+     [
+      "hexagon/building_mine_red",
+      "hexagon/building_lumbermill_red"
+     ],
+     [
+      "hexagon/building_mine_red",
+      "hexagon/building_watermill_red"
      ]
     ]
    },
    "shapes": {
-    "recipe/depot-room": "bay",
-    "recipe/stock-yard": "yard",
-    "recipe/depot-roofstock": "yard",
-    "recipe/depot-block": "tower"
+    "hexagon/building_market_red": "yard",
+    "hexagon/building_lumbermill_red": "mill",
+    "hexagon/building_mine_red": "pit",
+    "hexagon/building_watermill_red": "mill",
+    "hexagon/building_barracks_red": "wide"
    },
-   "plot": "plot/operations",
    "dress": [
     "dress/operations-0",
     "dress/operations-1",
@@ -3920,40 +5035,57 @@
    ]
   },
   "guard": {
-   "kit": "halloween",
+   "kit": "hexagon",
    "styles": [
     "vigil-1",
     "vigil-2"
    ],
    "roles": {
-    "defence": [
-     [
-      "recipe/shrine-yard",
-      "recipe/gate-lanterns",
-      "recipe/watch-post"
-     ],
-     [
-      "recipe/crypt-lone",
-      "recipe/crypt-lanterns",
-      "recipe/gatehouse"
-     ]
-    ],
     "product": [
      [
-      "recipe/shrine-yard"
+      "hexagon/building_tower_base_red",
+      "hexagon/building_archeryrange_red",
+      "hexagon/building_tower_A_red"
      ],
      [
-      "recipe/crypt-lone"
+      "hexagon/building_tower_catapult_red",
+      "hexagon/building_tower_B_red",
+      "hexagon/building_barracks_red",
+      "hexagon/building_archeryrange_red"
+     ]
+    ],
+    "defence": [
+     [
+      "hexagon/building_tower_base_red",
+      "hexagon/building_tower_A_red",
+      "recipe/fort-gate"
+     ],
+     [
+      "hexagon/building_tower_catapult_red",
+      "hexagon/building_tower_B_red",
+      "recipe/fort-gatehouse"
+     ]
+    ],
+    "barracks": [
+     [
+      "hexagon/building_archeryrange_red"
+     ],
+     [
+      "hexagon/building_barracks_red",
+      "hexagon/building_archeryrange_red"
      ]
     ]
    },
    "shapes": {
-    "recipe/gate-lanterns": "gate",
-    "recipe/watch-post": "tower",
-    "recipe/crypt-lone": "vault",
-    "recipe/gatehouse": "gate"
+    "hexagon/building_tower_base_red": "tower",
+    "hexagon/building_archeryrange_red": "yard",
+    "hexagon/building_tower_A_red": "tower",
+    "hexagon/building_tower_catapult_red": "tower",
+    "hexagon/building_tower_B_red": "tower",
+    "hexagon/building_barracks_red": "wide",
+    "recipe/fort-gate": "gate",
+    "recipe/fort-gatehouse": "gate"
    },
-   "plot": "plot/guard",
    "dress": [
     "dress/guard-0",
     "dress/guard-1",
@@ -3961,113 +5093,87 @@
     "dress/guard-3"
    ]
   },
-  "fleet": {
-   "kit": "space",
+  "data": {
+   "kit": "hexagon",
    "styles": [
-    "spacebase-1",
-    "spacebase-2"
+    "abbey-1",
+    "abbey-2"
    ],
    "roles": {
-    "barracks": [
-     [
-      "space/basemodule_A",
-      "space/basemodule_B",
-      "space/basemodule_garage"
-     ],
-     [
-      "recipe/hub",
-      "recipe/hub-solar",
-      "space/drill_structure"
-     ]
-    ],
     "product": [
      [
-      "space/basemodule_A"
+      "hexagon/building_well_yellow",
+      "hexagon/building_church_yellow",
+      "hexagon/building_home_A_yellow"
      ],
      [
-      "recipe/hub"
+      "hexagon/building_church_yellow",
+      "hexagon/building_watermill_yellow",
+      "hexagon/building_well_yellow"
+     ]
+    ],
+    "economy": [
+     [
+      "hexagon/building_well_yellow",
+      "hexagon/building_church_yellow"
+     ],
+     [
+      "hexagon/building_church_yellow",
+      "hexagon/building_watermill_yellow"
      ]
     ]
    },
    "shapes": {
-    "space/basemodule_garage": "bay",
-    "recipe/hub-solar": "mill",
-    "space/drill_structure": "rig"
+    "hexagon/building_watermill_yellow": "mill",
+    "hexagon/building_church_yellow": "tower"
+   },
+   "dress": [
+    "dress/data-0",
+    "dress/data-1",
+    "dress/data-2",
+    "dress/data-3"
+   ]
+  },
+  "fleet": {
+   "kit": "hexagon",
+   "styles": [
+    "garrison-1",
+    "garrison-2"
+   ],
+   "roles": {
+    "product": [
+     [
+      "hexagon/building_barracks_green",
+      "hexagon/building_blacksmith_green",
+      "hexagon/building_mine_green"
+     ],
+     [
+      "hexagon/building_barracks_green",
+      "hexagon/building_mine_green",
+      "hexagon/building_blacksmith_green",
+      "hexagon/building_tower_base_green"
+     ]
+    ],
+    "barracks": [
+     [
+      "hexagon/building_barracks_green"
+     ],
+     [
+      "hexagon/building_barracks_green",
+      "hexagon/building_tower_base_green"
+     ]
+    ]
+   },
+   "shapes": {
+    "hexagon/building_barracks_green": "wide",
+    "hexagon/building_mine_green": "pit",
+    "hexagon/building_tower_base_green": "tower"
    },
    "dress": [
     "dress/fleet-0",
     "dress/fleet-1",
     "dress/fleet-2",
     "dress/fleet-3"
-   ]
-  },
-  "apps": {
-   "kit": "city",
-   "styles": [
-    "modern-1",
-    "modern-2"
-   ],
-   "roles": {
-    "product": [
-     [
-      "city/building_A_withoutBase",
-      "city/building_B_withoutBase",
-      "city/building_C_withoutBase"
-     ],
-     [
-      "city/building_E_withoutBase",
-      "city/building_F_withoutBase",
-      "city/building_G_withoutBase",
-      "city/building_H_withoutBase"
-     ]
-    ]
-   },
-   "shapes": {
-    "city/building_C_withoutBase": "tower",
-    "city/building_E_withoutBase": "wide",
-    "city/building_H_withoutBase": "tower"
-   },
-   "dress": [
-    "dress/apps-0",
-    "dress/apps-1",
-    "dress/apps-2",
-    "dress/apps-3"
-   ]
-  },
-  "code": {
-   "kit": "ukubi",
-   "styles": [
-    "forge-1",
-    "forge-2"
-   ],
-   "roles": {
-    "workshop": [
-     [
-      "ukubi/workshop_A",
-      "ukubi/workshop_B",
-      "ukubi/workshop_C"
-     ],
-     [
-      "ukubi/factory_A",
-      "ukubi/factory_B",
-      "ukubi/factory_C"
-     ]
-    ],
-    "product": [
-     [
-      "ukubi/workshop_A"
-     ],
-     [
-      "ukubi/factory_A"
-     ]
-    ]
-   },
-   "plot": "plot/code",
-   "dress": [
-    "dress/code-0",
-    "dress/code-1",
-    "dress/code-2",
-    "dress/code-3"
    ]
   }
  },

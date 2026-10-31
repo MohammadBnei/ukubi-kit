@@ -29,6 +29,16 @@ tower-flag:
   parts:
     - { model: building_tower_A_blue }
     - { model: flag_blue, at: [0.5, 0, 0.45] }
+fort-gate: # the guard's gate, first age: a tower base behind a stone fence's gate (an edge piece, like the keep's fences)
+  kit: hexagon
+  parts:
+    - { model: building_tower_base_red }
+    - { model: fence_stone_straight_gate }
+fort-gatehouse: # the guard's gate, second age: a roofed tower behind the stone fence's gate (a wall's gate hides it)
+  kit: hexagon
+  parts:
+    - { model: building_tower_B_red }
+    - { model: fence_stone_straight_gate }
 home-yard:
   kit: hexagon
   parts:

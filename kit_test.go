@@ -213,7 +213,7 @@ func TestPickFor(t *testing.T) {
 		}
 	}
 	// what the guard's defence draws for a gate, and that Pick is PickFor asking for nothing
-	if v, _, _ := m.PickFor("guard", "defence", 2, "x", []string{"gate"}); v != "recipe/gatehouse" {
+	if v, _, _ := m.PickFor("guard", "defence", 2, "x", []string{"gate"}); v != "recipe/fort-gatehouse" {
 		t.Errorf("guard's gate at age 2: %s", v)
 	}
 	a, _, _ := m.Pick("data", "economy", 1, "y")

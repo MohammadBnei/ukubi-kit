@@ -13,20 +13,79 @@ turns: 6
 # path prefixes whose models keep their own origin, never grounded: a tile's top at y = 0, its column down to -1
 unground: [tiles/]
 models:
+  # the pack's whole building set in its four team colours (one atlas: a colour is the models' UVs on its team cell)
+  - buildings/blue/building_archeryrange_blue
+  - buildings/blue/building_barracks_blue
+  - buildings/blue/building_blacksmith_blue
+  - buildings/blue/building_castle_blue
+  - buildings/blue/building_church_blue
   - buildings/blue/building_home_A_blue
   - buildings/blue/building_home_B_blue
-  - buildings/blue/building_tower_base_blue
+  - buildings/blue/building_lumbermill_blue
+  - buildings/blue/building_market_blue
+  - buildings/blue/building_mine_blue
+  - buildings/blue/building_tavern_blue
   - buildings/blue/building_tower_A_blue
   - buildings/blue/building_tower_B_blue
-  - buildings/blue/building_castle_blue
-  - buildings/blue/building_mine_blue
-  - buildings/blue/building_market_blue
-  - buildings/blue/building_blacksmith_blue
-  - buildings/blue/building_windmill_blue
-  - buildings/blue/building_church_blue
-  - buildings/blue/building_tavern_blue
-  - buildings/blue/building_barracks_blue
+  - buildings/blue/building_tower_base_blue
+  - buildings/blue/building_tower_catapult_blue
+  - buildings/blue/building_watermill_blue
   - buildings/blue/building_well_blue
+  - buildings/blue/building_windmill_blue
+  - buildings/green/building_archeryrange_green
+  - buildings/green/building_barracks_green
+  - buildings/green/building_blacksmith_green
+  - buildings/green/building_castle_green
+  - buildings/green/building_church_green
+  - buildings/green/building_home_A_green
+  - buildings/green/building_home_B_green
+  - buildings/green/building_lumbermill_green
+  - buildings/green/building_market_green
+  - buildings/green/building_mine_green
+  - buildings/green/building_tavern_green
+  - buildings/green/building_tower_A_green
+  - buildings/green/building_tower_B_green
+  - buildings/green/building_tower_base_green
+  - buildings/green/building_tower_catapult_green
+  - buildings/green/building_watermill_green
+  - buildings/green/building_well_green
+  - buildings/green/building_windmill_green
+  - buildings/red/building_archeryrange_red
+  - buildings/red/building_barracks_red
+  - buildings/red/building_blacksmith_red
+  - buildings/red/building_castle_red
+  - buildings/red/building_church_red
+  - buildings/red/building_home_A_red
+  - buildings/red/building_home_B_red
+  - buildings/red/building_lumbermill_red
+  - buildings/red/building_market_red
+  - buildings/red/building_mine_red
+  - buildings/red/building_tavern_red
+  - buildings/red/building_tower_A_red
+  - buildings/red/building_tower_B_red
+  - buildings/red/building_tower_base_red
+  - buildings/red/building_tower_catapult_red
+  - buildings/red/building_watermill_red
+  - buildings/red/building_well_red
+  - buildings/red/building_windmill_red
+  - buildings/yellow/building_archeryrange_yellow
+  - buildings/yellow/building_barracks_yellow
+  - buildings/yellow/building_blacksmith_yellow
+  - buildings/yellow/building_castle_yellow
+  - buildings/yellow/building_church_yellow
+  - buildings/yellow/building_home_A_yellow
+  - buildings/yellow/building_home_B_yellow
+  - buildings/yellow/building_lumbermill_yellow
+  - buildings/yellow/building_market_yellow
+  - buildings/yellow/building_mine_yellow
+  - buildings/yellow/building_tavern_yellow
+  - buildings/yellow/building_tower_A_yellow
+  - buildings/yellow/building_tower_B_yellow
+  - buildings/yellow/building_tower_base_yellow
+  - buildings/yellow/building_tower_catapult_yellow
+  - buildings/yellow/building_watermill_yellow
+  - buildings/yellow/building_well_yellow
+  - buildings/yellow/building_windmill_yellow
   - buildings/neutral/building_dirt
   - buildings/neutral/building_scaffolding
   - buildings/neutral/building_stage_A
@@ -35,6 +94,18 @@ models:
   - buildings/neutral/fence_stone_straight
   - buildings/neutral/fence_wood_straight
   - buildings/neutral/wall_straight
+  # the neutral pieces villages are dressed and walled with: gates, wall corners, a granary, bridges
+  - buildings/neutral/fence_stone_straight_gate
+  - buildings/neutral/fence_wood_straight_gate
+  - buildings/neutral/wall_straight_gate
+  - buildings/neutral/wall_corner_A_gate
+  - buildings/neutral/wall_corner_A_inside
+  - buildings/neutral/wall_corner_A_outside
+  - buildings/neutral/wall_corner_B_inside
+  - buildings/neutral/wall_corner_B_outside
+  - buildings/neutral/building_grain
+  - buildings/neutral/building_bridge_A
+  - buildings/neutral/building_bridge_B
   - decoration/nature/hill_single_A
   - decoration/nature/rock_single_A
   - decoration/nature/rock_single_C
@@ -59,6 +130,20 @@ models:
   - decoration/props/barrel
   - decoration/props/crate_A_small
   - decoration/props/flag_blue
+  - decoration/props/flag_green
+  - decoration/props/flag_red
+  - decoration/props/flag_yellow
+  - decoration/props/crate_B_small
+  - decoration/props/crate_long_A
+  - decoration/props/sack
+  - decoration/props/pallet
+  - decoration/props/bucket_water
+  - decoration/props/bucket_arrows
+  - decoration/props/resource_lumber
+  - decoration/props/resource_stone
+  - decoration/props/target
+  - decoration/props/tent
+  - decoration/props/weaponrack
   - decoration/props/ladder
   - decoration/props/wheelbarrow
   # the hex land: mountains and hills (decor, grounded), then the tiles: grass, its column, water, coast, rivers, roads
