@@ -49,11 +49,11 @@ built (the `pack` style paints them, and recipes use them) but no civ draws them
 | Civ | Colour | Age 1 → age 2 |
 |---|---|---|
 | default (town centre) | blue | a keep → a castle with flags; every role |
-| platform | blue | well, windmill, tower base, home → towers, windmill |
-| data | yellow | well, church, home → church, watermill |
-| operations | red | market, lumber mill, mine, home → market, watermill, barracks, mine |
+| platform | blue | well, windmill, tower base, mine, home → towers, windmill, mine |
+| data | yellow | well, church, granary, home → church, watermill, granary |
+| operations | red | market, lumber mill, mine, watch tower, home → market, lumber mill, watermill, tower, barracks, mine |
 | guard | red | tower base, archery range, tower, a gate → catapult tower, tower, barracks, a gatehouse |
-| fleet | green | barracks, smithy, mine → and a tower base |
+| fleet | green | barracks, smithy, lumber mill, mine → and a tower base |
 | apps | yellow | market, tavern, homes → market, tavern, home, windmill |
 | code | green | smithy, lumber mill, home → smithy, lumber mill, watermill |
 

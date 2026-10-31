@@ -4875,6 +4875,8 @@
    },
    "shapes": {
     "hexagon/building_market_yellow": "yard",
+    "hexagon/building_tavern_yellow": "wide",
+    "hexagon/building_home_B_yellow": "tower",
     "hexagon/building_windmill_yellow": "mill"
    },
    "dress": [
@@ -4907,11 +4909,15 @@
     "utility": [
      [
       "hexagon/building_well_blue",
-      "hexagon/building_windmill_blue"
+      "hexagon/building_windmill_blue",
+      "hexagon/building_tower_base_blue",
+      "hexagon/building_mine_blue"
      ],
      [
       "hexagon/building_windmill_blue",
-      "hexagon/building_well_blue"
+      "hexagon/building_well_blue",
+      "hexagon/building_tower_A_blue",
+      "hexagon/building_mine_blue"
      ]
     ],
     "defence": [
@@ -4927,6 +4933,7 @@
    "shapes": {
     "hexagon/building_windmill_blue": "mill",
     "hexagon/building_tower_base_blue": "tower",
+    "hexagon/building_mine_blue": "pit",
     "hexagon/building_tower_A_blue": "tower",
     "hexagon/building_tower_B_blue": "tower"
    },
@@ -5002,11 +5009,17 @@
     ],
     "trade": [
      [
-      "hexagon/building_market_red"
+      "hexagon/building_market_red",
+      "hexagon/building_lumbermill_red",
+      "hexagon/building_home_B_red",
+      "hexagon/building_tower_base_red"
      ],
      [
       "hexagon/building_market_red",
-      "hexagon/building_watermill_red"
+      "hexagon/building_lumbermill_red",
+      "hexagon/building_watermill_red",
+      "hexagon/building_tower_A_red",
+      "hexagon/building_barracks_red"
      ]
     ],
     "economy": [
@@ -5022,10 +5035,12 @@
    },
    "shapes": {
     "hexagon/building_market_red": "yard",
-    "hexagon/building_lumbermill_red": "mill",
+    "hexagon/building_lumbermill_red": "bay",
     "hexagon/building_mine_red": "pit",
     "hexagon/building_watermill_red": "mill",
-    "hexagon/building_barracks_red": "wide"
+    "hexagon/building_barracks_red": "wide",
+    "hexagon/building_tower_base_red": "tower",
+    "hexagon/building_tower_A_red": "tower"
    },
    "dress": [
     "dress/operations-0",
@@ -5079,9 +5094,7 @@
    "shapes": {
     "hexagon/building_tower_base_red": "tower",
     "hexagon/building_archeryrange_red": "yard",
-    "hexagon/building_tower_A_red": "tower",
     "hexagon/building_tower_catapult_red": "tower",
-    "hexagon/building_tower_B_red": "tower",
     "hexagon/building_barracks_red": "wide",
     "recipe/fort-gate": "gate",
     "recipe/fort-gatehouse": "gate"
@@ -5115,17 +5128,20 @@
     "economy": [
      [
       "hexagon/building_well_yellow",
-      "hexagon/building_church_yellow"
+      "hexagon/building_church_yellow",
+      "hexagon/building_grain"
      ],
      [
       "hexagon/building_church_yellow",
-      "hexagon/building_watermill_yellow"
+      "hexagon/building_watermill_yellow",
+      "hexagon/building_grain"
      ]
     ]
    },
    "shapes": {
     "hexagon/building_watermill_yellow": "mill",
-    "hexagon/building_church_yellow": "tower"
+    "hexagon/building_church_yellow": "tower",
+    "hexagon/building_grain": "vault"
    },
    "dress": [
     "dress/data-0",
@@ -5156,18 +5172,22 @@
     ],
     "barracks": [
      [
-      "hexagon/building_barracks_green"
+      "hexagon/building_barracks_green",
+      "hexagon/building_lumbermill_green",
+      "hexagon/building_mine_green"
      ],
      [
       "hexagon/building_barracks_green",
-      "hexagon/building_tower_base_green"
+      "hexagon/building_tower_base_green",
+      "hexagon/building_lumbermill_green"
      ]
     ]
    },
    "shapes": {
     "hexagon/building_barracks_green": "wide",
     "hexagon/building_mine_green": "pit",
-    "hexagon/building_tower_base_green": "tower"
+    "hexagon/building_tower_base_green": "tower",
+    "hexagon/building_lumbermill_green": "mill"
    },
    "dress": [
     "dress/fleet-0",

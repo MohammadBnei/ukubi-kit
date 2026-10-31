@@ -37,16 +37,16 @@ apps: # yellow, the bazaar: market stalls, taverns and homes, then a busier mark
     product: [[hexagon/building_market_yellow, hexagon/building_tavern_yellow, hexagon/building_home_A_yellow, hexagon/building_home_B_yellow], [hexagon/building_market_yellow, hexagon/building_tavern_yellow, hexagon/building_home_B_yellow, hexagon/building_windmill_yellow]]
     houses: [[hexagon/building_home_A_yellow, hexagon/building_home_B_yellow], [hexagon/building_home_B_yellow, hexagon/building_tavern_yellow]]
     trade: [[hexagon/building_market_yellow, hexagon/building_tavern_yellow], [hexagon/building_market_yellow, hexagon/building_tavern_yellow]]
-  shapes: { hexagon/building_market_yellow: yard, hexagon/building_windmill_yellow: mill }
+  shapes: { hexagon/building_market_yellow: yard, hexagon/building_tavern_yellow: wide, hexagon/building_home_B_yellow: tower, hexagon/building_windmill_yellow: mill }
   dress: { count: 4, scale: 0.8, parts: [hexagon/barrel, hexagon/crate_A_small, hexagon/sack, hexagon/crate_long_A, hexagon/tree_single_A, hexagon/flag_yellow] }
 platform: # blue, the étoile: a well, a windmill and a tower base, then its towers
   kit: hexagon
   styles: [fortress-1, fortress-2]
   roles:
     product: [[hexagon/building_well_blue, hexagon/building_windmill_blue, hexagon/building_tower_base_blue, hexagon/building_home_A_blue], [hexagon/building_tower_A_blue, hexagon/building_tower_B_blue, hexagon/building_windmill_blue]]
-    utility: [[hexagon/building_well_blue, hexagon/building_windmill_blue], [hexagon/building_windmill_blue, hexagon/building_well_blue]]
+    utility: [[hexagon/building_well_blue, hexagon/building_windmill_blue, hexagon/building_tower_base_blue, hexagon/building_mine_blue], [hexagon/building_windmill_blue, hexagon/building_well_blue, hexagon/building_tower_A_blue, hexagon/building_mine_blue]]
     defence: [hexagon/building_tower_base_blue, [hexagon/building_tower_A_blue, hexagon/building_tower_B_blue]]
-  shapes: { hexagon/building_windmill_blue: mill, hexagon/building_tower_base_blue: tower, hexagon/building_tower_A_blue: tower, hexagon/building_tower_B_blue: tower }
+  shapes: { hexagon/building_windmill_blue: mill, hexagon/building_tower_base_blue: tower, hexagon/building_mine_blue: pit, hexagon/building_tower_A_blue: tower, hexagon/building_tower_B_blue: tower }
   dress: { count: 4, scale: 0.7, parts: [hexagon/tree_single_A, hexagon/tree_single_B, hexagon/rock_single_A, hexagon/rock_single_C, hexagon/flag_blue] }
 code: # green, the presqu'île: a smithy, a lumber mill and homes, then a watermill joins them
   kit: hexagon
@@ -56,14 +56,14 @@ code: # green, the presqu'île: a smithy, a lumber mill and homes, then a waterm
     workshop: [[hexagon/building_blacksmith_green, hexagon/building_lumbermill_green], [hexagon/building_blacksmith_green, hexagon/building_lumbermill_green, hexagon/building_watermill_green]]
   shapes: { hexagon/building_lumbermill_green: mill, hexagon/building_watermill_green: mill }
   dress: { count: 4, scale: 0.8, parts: [hexagon/resource_lumber, hexagon/crate_B_small, hexagon/barrel, hexagon/tree_single_B, hexagon/wheelbarrow] }
-operations: # red, the harbour: a market, a lumber mill and a mine, then barracks and a watermill by the water
+operations: # red, the harbour: a market, a lumber mill, a mine and a watch tower, then barracks and a watermill by the water
   kit: hexagon
   styles: [harbour-1, harbour-2]
   roles:
     product: [[hexagon/building_market_red, hexagon/building_lumbermill_red, hexagon/building_mine_red, hexagon/building_home_B_red], [hexagon/building_market_red, hexagon/building_watermill_red, hexagon/building_barracks_red, hexagon/building_mine_red]]
-    trade: [hexagon/building_market_red, [hexagon/building_market_red, hexagon/building_watermill_red]]
+    trade: [[hexagon/building_market_red, hexagon/building_lumbermill_red, hexagon/building_home_B_red, hexagon/building_tower_base_red], [hexagon/building_market_red, hexagon/building_lumbermill_red, hexagon/building_watermill_red, hexagon/building_tower_A_red, hexagon/building_barracks_red]]
     economy: [[hexagon/building_mine_red, hexagon/building_lumbermill_red], [hexagon/building_mine_red, hexagon/building_watermill_red]]
-  shapes: { hexagon/building_market_red: yard, hexagon/building_lumbermill_red: mill, hexagon/building_mine_red: pit, hexagon/building_watermill_red: mill, hexagon/building_barracks_red: wide }
+  shapes: { hexagon/building_market_red: yard, hexagon/building_lumbermill_red: bay, hexagon/building_mine_red: pit, hexagon/building_watermill_red: mill, hexagon/building_barracks_red: wide, hexagon/building_tower_base_red: tower, hexagon/building_tower_A_red: tower }
   dress: { count: 4, scale: 0.8, parts: [hexagon/crate_long_A, hexagon/pallet, hexagon/barrel, hexagon/sack, hexagon/resource_stone] }
 guard: # red, the watch fort: a tower base, a gate and an archery range, then a catapult tower, a gatehouse and barracks
   kit: hexagon
@@ -72,23 +72,23 @@ guard: # red, the watch fort: a tower base, a gate and an archery range, then a 
     product: [[hexagon/building_tower_base_red, hexagon/building_archeryrange_red, hexagon/building_tower_A_red], [hexagon/building_tower_catapult_red, hexagon/building_tower_B_red, hexagon/building_barracks_red, hexagon/building_archeryrange_red]]
     defence: [[hexagon/building_tower_base_red, hexagon/building_tower_A_red, recipe/fort-gate], [hexagon/building_tower_catapult_red, hexagon/building_tower_B_red, recipe/fort-gatehouse]]
     barracks: [hexagon/building_archeryrange_red, [hexagon/building_barracks_red, hexagon/building_archeryrange_red]]
-  shapes: { hexagon/building_tower_base_red: tower, hexagon/building_archeryrange_red: yard, hexagon/building_tower_A_red: tower, hexagon/building_tower_catapult_red: tower, hexagon/building_tower_B_red: tower, hexagon/building_barracks_red: wide, recipe/fort-gate: gate, recipe/fort-gatehouse: gate }
+  shapes: { hexagon/building_tower_base_red: tower, hexagon/building_archeryrange_red: yard, hexagon/building_tower_catapult_red: tower, hexagon/building_barracks_red: wide, recipe/fort-gate: gate, recipe/fort-gatehouse: gate }
   dress: { count: 4, scale: 0.8, parts: [hexagon/target, hexagon/weaponrack, hexagon/bucket_arrows, hexagon/rock_single_A, hexagon/flag_red] }
-data: # yellow, the lakeside: a well, a church and homes, then the church and a watermill on the lake
+data: # yellow, the lakeside: a well, a church, a granary and homes, then the church and a watermill on the lake
   kit: hexagon
   styles: [abbey-1, abbey-2]
   roles:
     product: [[hexagon/building_well_yellow, hexagon/building_church_yellow, hexagon/building_home_A_yellow], [hexagon/building_church_yellow, hexagon/building_watermill_yellow, hexagon/building_well_yellow]]
-    economy: [[hexagon/building_well_yellow, hexagon/building_church_yellow], [hexagon/building_church_yellow, hexagon/building_watermill_yellow]]
-  shapes: { hexagon/building_watermill_yellow: mill, hexagon/building_church_yellow: tower }
+    economy: [[hexagon/building_well_yellow, hexagon/building_church_yellow, hexagon/building_grain], [hexagon/building_church_yellow, hexagon/building_watermill_yellow, hexagon/building_grain]]
+  shapes: { hexagon/building_watermill_yellow: mill, hexagon/building_church_yellow: tower, hexagon/building_grain: vault }
   dress: { count: 4, scale: 0.8, parts: [hexagon/tree_single_B, hexagon/rock_single_A, hexagon/bucket_water, hexagon/sack, hexagon/tree_single_A] }
-fleet: # green, the roots camp: barracks, a smithy and a mine, then a tower base joins them
+fleet: # green, the roots camp: barracks, a smithy, a lumber mill and a mine, then a tower base joins them
   kit: hexagon
   styles: [garrison-1, garrison-2]
   roles:
     product: [[hexagon/building_barracks_green, hexagon/building_blacksmith_green, hexagon/building_mine_green], [hexagon/building_barracks_green, hexagon/building_mine_green, hexagon/building_blacksmith_green, hexagon/building_tower_base_green]]
-    barracks: [hexagon/building_barracks_green, [hexagon/building_barracks_green, hexagon/building_tower_base_green]]
-  shapes: { hexagon/building_barracks_green: wide, hexagon/building_mine_green: pit, hexagon/building_tower_base_green: tower }
+    barracks: [[hexagon/building_barracks_green, hexagon/building_lumbermill_green, hexagon/building_mine_green], [hexagon/building_barracks_green, hexagon/building_tower_base_green, hexagon/building_lumbermill_green]]
+  shapes: { hexagon/building_barracks_green: wide, hexagon/building_mine_green: pit, hexagon/building_tower_base_green: tower, hexagon/building_lumbermill_green: mill }
   dress: { count: 4, scale: 0.8, parts: [hexagon/tent, hexagon/wheelbarrow, hexagon/resource_stone, hexagon/crate_A_small, hexagon/flag_green] }
 # The world kit: the hex tiles every district stands on and the construction states every civ shares, painted in each
 # civ's style. build.mjs names no kit: it reads this. `tiles` are its models that are tiles (each lies at its own
