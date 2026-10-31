@@ -94,7 +94,7 @@ models:
   - buildings/neutral/fence_stone_straight
   - buildings/neutral/fence_wood_straight
   - buildings/neutral/wall_straight
-  # the neutral pieces villages are dressed and walled with: gates, wall corners, a granary, bridges
+  # the neutral pieces villages are dressed and walled with: gates, wall corners, a grain field, bridges
   - buildings/neutral/fence_stone_straight_gate
   - buildings/neutral/fence_wood_straight_gate
   - buildings/neutral/wall_straight_gate

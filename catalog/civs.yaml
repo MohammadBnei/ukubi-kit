@@ -23,7 +23,7 @@ default: # the town centre, blue: every role
     town-centre: [recipe/keep, recipe/castle-flags]
     houses: [[hexagon/building_home_A_blue, hexagon/building_home_B_blue], [hexagon/building_home_B_blue, recipe/home-yard]]
     workshop: [hexagon/building_blacksmith_blue, [hexagon/building_blacksmith_blue, hexagon/building_lumbermill_blue]]
-    economy: [hexagon/building_mine_blue, [hexagon/building_mine_blue, hexagon/building_grain]]
+    economy: [hexagon/building_mine_blue, [hexagon/building_mine_blue, hexagon/building_lumbermill_blue]]
     utility: [[hexagon/building_well_blue, hexagon/building_windmill_blue], [hexagon/building_windmill_blue, hexagon/building_watermill_blue]]
     defence: [hexagon/building_tower_base_blue, [recipe/tower-flag, hexagon/building_tower_B_blue]]
     trade: [hexagon/building_market_blue, [hexagon/building_market_blue, hexagon/building_tavern_blue]]
@@ -74,13 +74,13 @@ guard: # red, the watch fort: a tower base, a gate and an archery range, then a 
     barracks: [hexagon/building_archeryrange_red, [hexagon/building_barracks_red, hexagon/building_archeryrange_red]]
   shapes: { hexagon/building_tower_base_red: tower, hexagon/building_archeryrange_red: yard, hexagon/building_tower_catapult_red: tower, hexagon/building_barracks_red: wide, recipe/fort-gate: gate, recipe/fort-gatehouse: gate }
   dress: { count: 4, scale: 0.8, parts: [hexagon/target, hexagon/weaponrack, hexagon/bucket_arrows, hexagon/rock_single_A, hexagon/flag_red] }
-data: # yellow, the lakeside: a well, a church, a granary and homes, then the church and a watermill on the lake
+data: # yellow, the lakeside: a well, a church, a stone keep and homes, then the church and a watermill on the lake
   kit: hexagon
   styles: [abbey-1, abbey-2]
   roles:
     product: [[hexagon/building_well_yellow, hexagon/building_church_yellow, hexagon/building_home_A_yellow], [hexagon/building_church_yellow, hexagon/building_watermill_yellow, hexagon/building_well_yellow]]
-    economy: [[hexagon/building_well_yellow, hexagon/building_church_yellow, hexagon/building_grain], [hexagon/building_church_yellow, hexagon/building_watermill_yellow, hexagon/building_grain]]
-  shapes: { hexagon/building_watermill_yellow: mill, hexagon/building_church_yellow: tower, hexagon/building_grain: vault }
+    economy: [[hexagon/building_well_yellow, hexagon/building_church_yellow, hexagon/building_tower_base_yellow], [hexagon/building_church_yellow, hexagon/building_watermill_yellow, hexagon/building_tower_base_yellow]]
+  shapes: { hexagon/building_watermill_yellow: mill, hexagon/building_church_yellow: tower, hexagon/building_tower_base_yellow: vault }
   dress: { count: 4, scale: 0.8, parts: [hexagon/tree_single_B, hexagon/rock_single_A, hexagon/bucket_water, hexagon/sack, hexagon/tree_single_A] }
 fleet: # green, the roots camp: barracks, a smithy, a lumber mill and a mine, then a tower base joins them
   kit: hexagon

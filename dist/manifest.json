@@ -4775,7 +4775,7 @@
      ],
      [
       "hexagon/building_mine_blue",
-      "hexagon/building_grain"
+      "hexagon/building_lumbermill_blue"
      ]
     ],
     "utility": [
@@ -5129,19 +5129,19 @@
      [
       "hexagon/building_well_yellow",
       "hexagon/building_church_yellow",
-      "hexagon/building_grain"
+      "hexagon/building_tower_base_yellow"
      ],
      [
       "hexagon/building_church_yellow",
       "hexagon/building_watermill_yellow",
-      "hexagon/building_grain"
+      "hexagon/building_tower_base_yellow"
      ]
     ]
    },
    "shapes": {
     "hexagon/building_watermill_yellow": "mill",
     "hexagon/building_church_yellow": "tower",
-    "hexagon/building_grain": "vault"
+    "hexagon/building_tower_base_yellow": "vault"
    },
    "dress": [
     "dress/data-0",
