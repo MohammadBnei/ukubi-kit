@@ -7,8 +7,8 @@
 //     file, so the page never decodes a blob: the town's CSP);
 //   - quantized (KHR_mesh_quantization, which corrects the inverse bind matrices), its skin weights put in order by
 //     weights.mjs, not by quantize (whose order depends on the engine).
-import { Logger } from '@gltf-transform/core';
-import { joinPrimitives, prune, quantize } from '@gltf-transform/functions';
+import { getBounds, Logger } from '@gltf-transform/core';
+import { joinPrimitives, prune, quantize, transformMesh } from '@gltf-transform/functions';
 import { io } from './model.mjs';
 import { canonicalWeights } from './weights.mjs';
 
@@ -222,4 +222,51 @@ export async function clips(file, names) {
   for (const m of root.listMaterials()) m.dispose();
   await doc.transform(prune({ keepLeaves: true }));
   return { doc, joints };
+}
+
+/**
+ * weapon: a held node of a character file (a rigid mesh on a hand slot bone) → {doc, png, tris, size, slot}: its mesh
+ * in the slot's space (its offset on the slot baked into its vertices), so the game parents it to the bone named slot
+ * with no offset; one primitive, quantized, no image (png: its texture's bytes, the character's).
+ */
+export async function weapon(file, name) {
+  const doc = await io.read(file);
+  doc.setLogger(quiet);
+  const root = doc.getRoot(),
+    node = root.listNodes().find(n => n.getName() === name),
+    slot = node?.getParentNode();
+  if (!node?.getMesh()) throw new Error(`${file}: no mesh ${name}`);
+  if (!slot || !root.listSkins()[0]?.listJoints().includes(slot)) throw new Error(`${file}: ${name} is on no bone`);
+  const mesh = node.getMesh(),
+    prims = mesh.listPrimitives(),
+    mat = prims[0].getMaterial(),
+    png = mat?.getBaseColorTexture()?.getImage();
+  if (!png) throw new Error(`${file}: ${name} has no base colour texture`);
+  for (const p of prims) {
+    p.setMaterial(mat);
+    for (const sem of p.listSemantics())
+      if (!['POSITION', 'NORMAL', 'TEXCOORD_0'].includes(sem)) p.setAttribute(sem, null);
+  }
+  transformMesh(mesh, node.getMatrix());
+  const one = doc.createMesh(name).addPrimitive(prims.length > 1 ? joinPrimitives(prims) : prims[0]),
+    held = doc.createNode(name).setMesh(one),
+    scene = doc.createScene().addChild(held);
+  for (const a of root.listAnimations()) {
+    for (const c of a.listChannels()) c.dispose();
+    for (const s of a.listSamplers()) s.dispose();
+    a.dispose();
+  }
+  for (const n of root.listNodes()) if (n !== held) n.dispose();
+  for (const s of root.listSkins()) s.dispose();
+  for (const s of root.listScenes()) if (s !== scene) s.dispose();
+  for (const t of root.listTextures()) t.dispose();
+  root.setDefaultScene(scene);
+  await doc.transform(prune({ keepAttributes: true }));
+  const b = getBounds(scene),
+    size = [0, 1, 2].map(i => +(b.max[i] - b.min[i]).toFixed(3));
+  await doc.transform(quantize({ quantizePosition: 16, quantizeNormal: 16, quantizeTexcoord: 16 }));
+  const out = root.listMeshes().flatMap(m => m.listPrimitives());
+  if (root.listMeshes().length !== 1 || out.length !== 1)
+    throw new Error(`${file}: ${name}: ${root.listMeshes().length} meshes, ${out.length} primitives, not one each`);
+  return { doc, png: Buffer.from(png), tris: out[0].getIndices().getCount() / 3, size, slot: slot.getName() };
 }

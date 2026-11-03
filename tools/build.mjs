@@ -7,10 +7,10 @@
 //   dist/styles/<style>/<kit>.png      a kit's atlas in a style (style.mjs): the kits the style's civs draw, and
 //                                      the world kit (catalog/civs.yaml world: the tiles and construction states
 //                                      every civ shares)
-//   dist/characters/…                  the town's people and their clip file (characters())
+//   dist/characters/…                  the town's people, their weapons and their clip file (characters())
 //   dist/props/<name>.glb              a props kit's model, and dist/props/<kit>.png its atlas, unstyled (props())
 //   dist/manifest.json                 what is where: kits and licences, models (tris, bounds, footprint), styles, civs,
-//                                      characters, clips and props
+//                                      characters, clips, weapons and props
 // Then it validates: every catalog reference resolves, a civ draws from its own kit only and has a product, every civ
 // draws each of its roles in every age, buildings, plots and dressing fit a hex, and no model is over its triangle
 // budget.
@@ -22,7 +22,7 @@ import { tmpdir } from 'node:os';
 import { join, relative } from 'node:path';
 import { PNG } from 'pngjs';
 import { parse } from 'yaml';
-import { character, clips } from './character.mjs';
+import { character, clips, weapon } from './character.mjs';
 import { build, io } from './model.mjs';
 import { COLS, ROWS } from './procgen/atlas.mjs';
 import { rng } from './procgen/random.mjs';
@@ -46,6 +46,8 @@ const MAX_TRIS = 8000,
   MAX_BUILDING_TRIS = 4500;
 // a character (one skinned draw: its body, its hat or cape baked in, nothing held)
 const MAX_CHARACTER_TRIS = 5500;
+// a weapon a character holds (its own draw, on a hand slot bone)
+const MAX_WEAPON_TRIS = 1000;
 // a prop (the world's: a ride, a carrier under the disc; each kit's source.yaml holds a cap per model below it)
 const MAX_PROP_TRIS = 4000;
 
@@ -57,7 +59,17 @@ async function run(out) {
     { states, world, ...civs } = await yaml('catalog/civs.yaml');
   const SHAPES = Object.keys(await yaml('catalog/shapes.yaml'));
   const errors = [],
-    manifest = { kits: {}, models: {}, styles: {}, civs: {}, states: {}, characters: {}, clips: null, props: {} };
+    manifest = {
+      kits: {},
+      models: {},
+      styles: {},
+      civs: {},
+      states: {},
+      characters: {},
+      clips: null,
+      weapons: {},
+      props: {}
+    };
 
   const files = {},
     atlases = {};
@@ -363,7 +375,7 @@ async function run(out) {
 
 // characters: each character kit's people (dist/characters/<name>.glb, its texture <png>.png, one per image) and the
 // clip file (dist/characters/clips.glb: the rig and the named clips), checked: every character on the clips' rig, by
-// joint name and order, and within its triangle budget.
+// joint name and order, and within its triangle budget; then its weapons (weapons:), each within MAX_WEAPON_TRIS.
 async function characters(people, write, manifest, errors) {
   for (const [kitName, kit] of Object.entries(people)) {
     const source = sources.characters,
@@ -413,6 +425,32 @@ async function characters(people, write, manifest, errors) {
         sha256: sha256(bytes),
         tris: ch.tris,
         height: ch.height
+      };
+    }
+    // its weapons (dist/characters/<name>.glb), each in its hand slot's space, painted by its character file's texture
+    for (const [name, w] of Object.entries(kit.weapons || {})) {
+      const wp = await weapon(fileOf(w.from), w.node),
+        bytes = Buffer.from(await io.writeBinary(wp.doc)),
+        file = `characters/${name}.glb`,
+        h = sha256(wp.png);
+      if (manifest.characters[name]) errors.push(`weapon ${name}: a character's name`);
+      if (wp.tris > MAX_WEAPON_TRIS) errors.push(`weapon ${name}: ${wp.tris} triangles, over ${MAX_WEAPON_TRIS}`);
+      textures[h] ||= `characters/${w.from
+        .split('/')
+        .pop()
+        .replace(/\.glb$/, '')
+        .toLowerCase()}.png`;
+      await write(textures[h], wp.png);
+      await write(file, bytes);
+      manifest.weapons[name] = {
+        kit: kitName,
+        file,
+        texture: textures[h],
+        bytes: bytes.length,
+        sha256: sha256(bytes),
+        tris: wp.tris,
+        size: wp.size,
+        slot: wp.slot
       };
     }
   }

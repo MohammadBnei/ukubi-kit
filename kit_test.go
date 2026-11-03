@@ -58,9 +58,35 @@ func TestManifest(t *testing.T) {
 	if k, ok := m.Characters["knight"]; !ok || k.Kit != m.Clips.Kit || m.Clips.Joints != 41 {
 		t.Errorf("knight %+v on clips %+v", k, m.Clips)
 	}
-	for _, c := range []string{"Idle", "Walking_A", "Interact", "Running_A", "Sit_Chair_Idle"} {
+	// the first five keep their places (the game may index the list), then a fight's
+	if !slices.Equal(m.Clips.Names[:min(5, len(m.Clips.Names))], []string{"Idle", "Walking_A", "Interact", "Running_A", "Sit_Chair_Idle"}) {
+		t.Errorf("clips: the first five are %v", m.Clips.Names)
+	}
+	for _, c := range []string{"1H_Melee_Attack_Chop", "Spellcast_Shoot", "1H_Ranged_Shoot", "Hit_A", "Death_A", "Jump_Start", "Jump_Land", "Block"} {
 		if !slices.Contains(m.Clips.Names, c) {
 			t.Errorf("clips: no %s in %v", c, m.Clips.Names)
+		}
+	}
+	// the weapons: each its file, by hash, its texture, held on a hand slot
+	for _, name := range []string{"sword_1handed", "staff", "wand", "crossbow_1handed"} {
+		w, ok := m.Weapons[name]
+		if !ok {
+			t.Errorf("no weapon %s", name)
+			continue
+		}
+		b, err := fs.ReadFile(FS(), w.File)
+		if err != nil {
+			t.Errorf("weapon %s: %v", name, err)
+			continue
+		}
+		if sum := sha256.Sum256(b); hex.EncodeToString(sum[:]) != w.SHA256 || len(b) != w.Bytes {
+			t.Errorf("weapon %s: %s is not the manifest's", name, w.File)
+		}
+		if _, err := fs.Stat(FS(), w.Texture); err != nil || !m.Kits[w.Kit].People || w.Tris <= 0 || w.Size[1] <= 0 {
+			t.Errorf("weapon %s: texture %v, kit %+v, %d triangles, size %v", name, err, m.Kits[w.Kit], w.Tris, w.Size)
+		}
+		if w.Slot != "handslot.r" && w.Slot != "handslot.l" {
+			t.Errorf("weapon %s: on %q, not a hand slot", name, w.Slot)
 		}
 	}
 	// the world's props: each its file, by hash, its texture, its kit a props kit, within its cap

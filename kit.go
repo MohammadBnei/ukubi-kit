@@ -37,6 +37,9 @@ type Manifest struct {
 	// Which character plays which unit is the game's, never the kit's.
 	Characters map[string]Character `json:"characters"`
 	Clips      *Clips               `json:"clips"`
+	// Weapons are what the characters hold (kits/adventurers weapons:): each its own draw, its mesh in the space of
+	// the hand slot bone it hangs on (Slot), so it is parented to that bone of a character with no offset.
+	Weapons map[string]Weapon `json:"weapons"`
 	// Props are the world's (kits/world): the rides (bike, ship) and the carriers under the disc (turtle,
 	// elephant, beam). Each is one mesh, painted by its kit's own texture; no style paints a prop.
 	Props map[string]Prop `json:"props"`
@@ -51,6 +54,18 @@ type Prop struct {
 	SHA256  string     `json:"sha256"`
 	Tris    int        `json:"tris"`
 	Size    [3]float64 `json:"size"` // its bounds' extent, x y z
+}
+
+// Weapon is a held model: one mesh, one primitive, in its slot bone's space, painted by its character's texture.
+type Weapon struct {
+	Kit     string     `json:"kit"`
+	File    string     `json:"file"`
+	Texture string     `json:"texture"` // its character's own image (load it with flipY false, sRGB)
+	Bytes   int        `json:"bytes"`
+	SHA256  string     `json:"sha256"`
+	Tris    int        `json:"tris"`
+	Size    [3]float64 `json:"size"` // its bounds' extent, x y z
+	Slot    string     `json:"slot"` // the bone it hangs on: handslot.r or handslot.l
 }
 
 // Character is one skinned model: its body, its hat and cape baked into the skin, nothing held.
