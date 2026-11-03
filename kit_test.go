@@ -58,13 +58,26 @@ func TestManifest(t *testing.T) {
 	if k, ok := m.Characters["knight"]; !ok || k.Kit != m.Clips.Kit || m.Clips.Joints != 41 {
 		t.Errorf("knight %+v on clips %+v", k, m.Clips)
 	}
-	// the first five keep their places (the game may index the list), then a fight's
-	if !slices.Equal(m.Clips.Names[:min(5, len(m.Clips.Names))], []string{"Idle", "Walking_A", "Interact", "Running_A", "Sit_Chair_Idle"}) {
-		t.Errorf("clips: the first five are %v", m.Clips.Names)
+	// both clip files' names, in order (the game may index them), on the one rig
+	want := map[string][]string{
+		"clips": {"Idle", "Walking_A", "Interact", "Running_A", "Sit_Chair_Idle"},
+		"fight": {"1H_Melee_Attack_Chop", "1H_Melee_Attack_Slice_Diagonal", "Spellcast_Shoot", "1H_Ranged_Shoot", "Hit_A", "Death_A", "Jump_Start", "Jump_Idle", "Jump_Land", "Block"},
 	}
-	for _, c := range []string{"1H_Melee_Attack_Chop", "Spellcast_Shoot", "1H_Ranged_Shoot", "Hit_A", "Death_A", "Jump_Start", "Jump_Land", "Block"} {
-		if !slices.Contains(m.Clips.Names, c) {
-			t.Errorf("clips: no %s in %v", c, m.Clips.Names)
+	for key, c := range map[string]*Clips{"clips": m.Clips, "fight": m.Fight} {
+		if c == nil {
+			t.Errorf("no %s", key)
+			continue
+		}
+		if !slices.Equal(c.Names, want[key]) || c.Joints != 41 || c.Kit != m.Clips.Kit {
+			t.Errorf("%s: %v on %d joints, kit %s; want %v on 41, kit %s", key, c.Names, c.Joints, c.Kit, want[key], m.Clips.Kit)
+		}
+		b, err := fs.ReadFile(FS(), c.File)
+		if err != nil {
+			t.Errorf("%s: %v", key, err)
+			continue
+		}
+		if sum := sha256.Sum256(b); hex.EncodeToString(sum[:]) != c.SHA256 || len(b) != c.Bytes {
+			t.Errorf("%s: %s is not the manifest's", key, c.File)
 		}
 	}
 	// the weapons: each its file, by hash, its texture, held on a hand slot

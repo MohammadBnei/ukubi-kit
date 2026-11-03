@@ -37,8 +37,11 @@ type Manifest struct {
 	// Which character plays which unit is the game's, never the kit's.
 	Characters map[string]Character `json:"characters"`
 	Clips      *Clips               `json:"clips"`
-	// Weapons are what the characters hold (kits/adventurers weapons:): each its own draw, its mesh in the space of
-	// the hand slot bone it hangs on (Slot), so it is parented to that bone of a character with no offset.
+	// Fight is a second clip file on the same rig: a fight's clips, apart so the town's pages download none of it.
+	Fight *Clips `json:"fight"`
+	// Weapons are what the characters hold (kits/adventurers weapons:): each its own draw. Its placement on the hand
+	// slot bone it hangs on (Slot) is its node's transform: add the GLB's whole scene, node transform kept, as a child
+	// of that bone.
 	Weapons map[string]Weapon `json:"weapons"`
 	// Props are the world's (kits/world): the rides (bike, ship) and the carriers under the disc (turtle,
 	// elephant, beam). Each is one mesh, painted by its kit's own texture; no style paints a prop.
@@ -56,7 +59,9 @@ type Prop struct {
 	Size    [3]float64 `json:"size"` // its bounds' extent, x y z
 }
 
-// Weapon is a held model: one mesh, one primitive, in its slot bone's space, painted by its character's texture.
+// Weapon is a held model: one mesh, one primitive, painted by its character's texture. Its one node carries the
+// quantization's dequantization and so its placement: with that node's transform kept, as a child of its slot bone,
+// it sits where the pack's character holds it.
 type Weapon struct {
 	Kit     string     `json:"kit"`
 	File    string     `json:"file"`
@@ -79,7 +84,7 @@ type Character struct {
 	Height  float64 `json:"height"` // standing, in the model's units
 }
 
-// Clips is the one clip file every character plays: the rig's nodes and the named clips.
+// Clips is a clip file every character plays (Clips, the town's; Fight, a fight's): the rig's nodes and the named clips.
 type Clips struct {
 	Kit    string   `json:"kit"`
 	File   string   `json:"file"`

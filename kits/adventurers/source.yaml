@@ -18,18 +18,21 @@ characters:
     model: Characters/gltf/Knight.glb
     keep: [Knight_Body, Knight_Head, Knight_ArmLeft, Knight_ArmRight, Knight_LegLeft, Knight_LegRight, Knight_Helmet, Knight_Cape]
 # the weapons a character holds, each a model of its own: a held node of a pack character file (from: its path, node:
-# its name), its mesh in the space of the hand slot it hangs on (handslot.r or handslot.l), so the game parents it to
-# that bone with no offset. The Rogue is fetched for its crossbow only: it is no town character.
+# its name) on a hand slot (handslot.r or handslot.l), placed by its node's transform: the game adds its whole scene
+# as a child of that bone. The Rogue is fetched for its crossbow only: it is no town character.
 weapons:
   sword_1handed: { from: Characters/gltf/Knight.glb, node: 1H_Sword }
   staff: { from: Characters/gltf/Mage.glb, node: 2H_Staff }
   wand: { from: Characters/gltf/Mage.glb, node: 1H_Wand }
   crossbow_1handed: { from: Characters/gltf/Rogue.glb, node: 1H_Crossbow }
 # one clip file for every character (they share one 41-joint rig): standing, walking, at work (no "work" clip in the
-# pack: Interact stands in), running and seated (the avatar's); then a fight's: a one-handed chop and slice, a
-# spellcast, a one-handed shot, a hit, a death, a jump (start, in the air, landing) and a block. New names go last: the
-# game may index the list.
+# pack: Interact stands in), running and seated (the avatar's)
 clips:
   from: barbarian
-  names: [Idle, Walking_A, Interact, Running_A, Sit_Chair_Idle, 1H_Melee_Attack_Chop, 1H_Melee_Attack_Slice_Diagonal,
-    Spellcast_Shoot, 1H_Ranged_Shoot, Hit_A, Death_A, Jump_Start, Jump_Idle, Jump_Land, Block]
+  names: [Idle, Walking_A, Interact, Running_A, Sit_Chair_Idle]
+# a fight's clips, a second file on the same rig (from clips.from), so the town's pages download none of it: a
+# one-handed chop and slice, a spellcast, a one-handed shot, a hit, a death, a jump (start, in the air, landing) and a
+# block. New names go last: the game may index the list.
+fight:
+  names: [1H_Melee_Attack_Chop, 1H_Melee_Attack_Slice_Diagonal, Spellcast_Shoot, 1H_Ranged_Shoot, Hit_A, Death_A,
+    Jump_Start, Jump_Idle, Jump_Land, Block]
