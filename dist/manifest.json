@@ -59,6 +59,10 @@
    "licence": "CC0-1.0",
    "scale": 1,
    "props": true
+  },
+  "animals": {
+   "licence": "CC0-1.0",
+   "creatures": true
   }
  },
  "models": {
@@ -5246,7 +5250,7 @@
   "kit": "adventurers",
   "file": "characters/clips.glb",
   "bytes": 198636,
-  "sha256": "6470387489c00207c1639597515ffa1c15141847e04d00eea21ed5d521c6b36f",
+  "sha256": "62769a367eeb2ac42c4cc0f888efae1323142a8309c3080b529eaabfdcebfebb",
   "names": [
    "Idle",
    "Walking_A",
@@ -5260,7 +5264,7 @@
   "kit": "adventurers",
   "file": "characters/fight.glb",
   "bytes": 375712,
-  "sha256": "c5ae3059be6a4d6f178a07ee338c3f7d000c85a62119802d8099199c94791273",
+  "sha256": "3c46a15c7edd706b0ecc806fc91fa70b4404fdeeb5054c6fae4b04aad7c83e35",
   "names": [
    "1H_Melee_Attack_Chop",
    "1H_Melee_Attack_Slice_Diagonal",
@@ -5397,6 +5401,37 @@
     1,
     1,
     1
+   ]
+  }
+ },
+ "creatures": {
+  "wolf": {
+   "kit": "animals",
+   "file": "creatures/wolf.glb",
+   "bytes": 297932,
+   "sha256": "d475011d3aef6c1b69e1619b1ab1904d3e2f89c4d202bc65dff8f091b2b9412e",
+   "tris": 1962,
+   "size": [
+    1.057,
+    2.701,
+    5.272
+   ],
+   "height": 2.691,
+   "clips": [
+    "Idle",
+    "Walk",
+    "Gallop",
+    "Attack",
+    "Idle_HitReact_Left",
+    "Death"
+   ],
+   "durations": [
+    3.333,
+    1.042,
+    0.542,
+    1.333,
+    0.667,
+    1.042
    ]
   }
  },

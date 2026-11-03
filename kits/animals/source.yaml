@@ -1,0 +1,13 @@
+# Quaternius' Ultimate Animated Animals (CC0), as Quaternius published them on Poly Pizza: the world's creatures, the
+# mobs the game draws. The files live in no repo, so each is pinned by its address and its sha256 (lock.json, keyed by
+# the URL). Each creature is one skinned draw (its materials' colours baked into its vertices) and carries its own rig
+# and its own clips (the pack's names, in the order clips: lists; new names go last: the game may index the list).
+# Which creature plays which mob is the game's, never the kit's.
+name: animals
+licence: CC0-1.0
+creatures:
+  # https://poly.pizza/m/P1gU3Qkr9r (Quaternius, "Wolf", Public Domain (CC0)): standing, walking, at a gallop, a bite,
+  # a hit (from the left) and a death
+  wolf:
+    url: https://static.poly.pizza/f1d12388-e39b-4157-b32a-646a1d089fc4.glb
+    clips: [Idle, Walk, Gallop, Attack, Idle_HitReact_Left, Death]

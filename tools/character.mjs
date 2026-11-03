@@ -59,17 +59,47 @@ function inv(m) {
 }
 const apply = (m, v, w) => [0, 1, 2].map(r => m[r] * v[0] + m[4 + r] * v[1] + m[8 + r] * v[2] + m[12 + r] * w);
 
-// strip: every animation but the kept ones (its channels and samplers first: disposing an animation alone leaves its
-// samplers holding their accessors, which may be a kept clip's too, shared key times: prune drops the rest), and every
-// texture (no image is ever embedded: the town's CSP)
-function strip(root, keep = []) {
+// strip: every animation but the kept ones (keep: the animations themselves, never matched by name; its channels and
+// samplers first: disposing an animation alone leaves its samplers holding their accessors, which may be a kept clip's
+// too, shared key times: prune drops the rest), and every texture (no image is ever embedded: the town's CSP)
+function strip(root, keep = new Set()) {
   for (const a of root.listAnimations()) {
-    if (keep.includes(a.getName())) continue;
+    if (keep.has(a)) continue;
     for (const c of a.listChannels()) c.dispose();
     for (const s of a.listSamplers()) s.dispose();
     a.dispose();
   }
   for (const t of root.listTextures()) t.dispose();
+}
+
+// pickClips: the named clips, rebuilt in the order named (each a new animation holding the first source clip of that
+// name's channels and samplers; the root's list keeps the order they are made in), every other animation dropped,
+// a duplicate-named one too. → the Set of the animations made, and each one's length in seconds.
+function pickClips(doc, file, names) {
+  const root = doc.getRoot();
+  if (new Set(names).size !== names.length) throw new Error(`${file}: a clip named twice in ${names.join(', ')}`);
+  const missing = names.filter(n => !root.listAnimations().some(a => a.getName() === n));
+  if (missing.length) throw new Error(`${file}: no clip ${missing.join(', ')}`);
+  const made = new Set(),
+    moved = new Set(),
+    durations = [];
+  for (const name of names) {
+    const from = root.listAnimations().find(a => a.getName() === name && !made.has(a)),
+      a = doc.createAnimation(name);
+    let end = 0;
+    for (const s of from.listSamplers()) {
+      a.addSampler(s);
+      end = Math.max(end, s.getInput().getMax([])[0]);
+    }
+    for (const c of from.listChannels()) a.addChannel(c);
+    moved.add(from);
+    made.add(a);
+    durations.push(+end.toFixed(3));
+  }
+  // a moved clip's channels and samplers are the made one's now: only the animation itself goes
+  for (const a of moved) a.dispose();
+  strip(root, made);
+  return { made, durations };
 }
 
 /** a pack character file, parsed once: each call gets its own copy (every step below edits the document it gets) */
@@ -224,10 +254,7 @@ export async function clips(doc, file, names) {
       n.setSkin(null);
     }
   for (const s of root.listSkins()) s.dispose();
-  const have = root.listAnimations().map(a => a.getName()),
-    missing = names.filter(n => !have.includes(n));
-  if (missing.length) throw new Error(`${file}: no clip ${missing.join(', ')}`);
-  strip(root, names);
+  pickClips(doc, file, names);
   for (const m of root.listMaterials()) m.dispose();
   await doc.transform(prune({ keepLeaves: true }));
   return { doc, joints };
@@ -276,4 +303,139 @@ export async function weapon(doc, file, name) {
   if (root.listMeshes().length !== 1 || out.length !== 1)
     throw new Error(`${file}: ${name}: ${root.listMeshes().length} meshes, ${out.length} primitives, not one each`);
   return { doc, png: Buffer.from(png), tris: out[0].getIndices().getCount() / 3, size, slot: slot.getName() };
+}
+
+/**
+ * creature: an animated animal's .glb (one skin) as the world's creature, its own rig and its own clips in one file:
+ *   - its primitives joined into one skinned primitive (one draw), each one's material colour baked into its vertices
+ *     (COLOR_0: glTF's vertex colour and base colour factor are both linear, so the product is the pack's colour),
+ *     drawn by one material that keeps the pack's (its base colour white); a textured creature is refused;
+ *   - the clips named, in that order (the pack's duplicates and the rest dropped);
+ *   - quantized as a character is, its skin weights put in order by weights.mjs.
+ * → {doc, tris, size (x y z), height, durations (s, per clip)}: size and height are of its bind pose, skinned.
+ */
+export async function creature(file, names) {
+  const doc = await io.read(file);
+  doc.setLogger(quiet);
+  const root = doc.getRoot(),
+    skins = root.listSkins();
+  if (skins.length !== 1) throw new Error(`${file}: ${skins.length} skins, not one`);
+  const [skin] = skins,
+    joints = skin.listJoints(),
+    ibm = skin.getInverseBindMatrices(),
+    buf = root.listBuffers()[0];
+  const prims = [],
+    blank = doc.createMaterial(), // a part with no material draws glTF's default one
+    // what one material must keep for every part: all but the base colour, which goes into the vertices
+    look = m =>
+      JSON.stringify([
+        m.getMetallicFactor(),
+        m.getRoughnessFactor(),
+        m.getEmissiveFactor(),
+        m.getAlphaMode(),
+        m.getDoubleSided()
+      ]);
+  let first;
+  for (const node of root.listNodes()) {
+    const mesh = node.getMesh();
+    if (!mesh) continue;
+    if (node.getSkin() !== skin) throw new Error(`${file}: ${node.getName()} is not on the skin`);
+    for (const p of mesh.listPrimitives()) {
+      const mat = p.getMaterial() || blank;
+      if (mat.getBaseColorTexture() || p.getAttribute('COLOR_0'))
+        throw new Error(`${file}: ${node.getName()} is textured or coloured already: not a creature this builds`);
+      if (p.listTargets().length)
+        throw new Error(`${file}: ${node.getName()} has morph targets: not a creature this builds`);
+      if (mat.getBaseColorFactor()[3] !== 1)
+        throw new Error(
+          `${file}: ${node.getName()}: material ${mat.getName()} is not opaque (base colour alpha ${mat.getBaseColorFactor()[3]})`
+        );
+      first ??= mat;
+      if (look(mat) !== look(first))
+        throw new Error(
+          `${file}: ${node.getName()}: material ${mat.getName()} differs from ${first.getName()} in more than its base colour`
+        );
+      for (const sem of p.listSemantics())
+        if (!['POSITION', 'NORMAL', 'JOINTS_0', 'WEIGHTS_0'].includes(sem)) p.setAttribute(sem, null);
+      const n = p.getAttribute('POSITION').getCount(),
+        c = mat.getBaseColorFactor().slice(0, 3),
+        J = p.getAttribute('JOINTS_0'),
+        W = p.getAttribute('WEIGHTS_0'),
+        v = [];
+      const C = new Float32Array(n * 3),
+        J16 = new Uint16Array(n * 4),
+        WF = new Float32Array(n * 4);
+      for (let i = 0; i < n; i++) {
+        C.set(c, i * 3);
+        J16.set(J.getElement(i, v), i * 4);
+        WF.set(W.getElement(i, v), i * 4);
+      }
+      const acc = (arr, type) => doc.createAccessor().setArray(arr).setType(type).setBuffer(buf);
+      p.setAttribute('COLOR_0', acc(C, 'VEC3'))
+        .setAttribute('JOINTS_0', acc(J16, 'VEC4'))
+        .setAttribute('WEIGHTS_0', acc(WF, 'VEC4'));
+      prims.push(p);
+    }
+  }
+  if (!prims.length) throw new Error(`${file}: no mesh`);
+  const mat = (prims[0].getMaterial() || blank).setName('creature').setBaseColorFactor([1, 1, 1, 1]);
+  for (const p of prims) p.setMaterial(mat);
+  const joined = joinPrimitives(prims);
+  for (const node of root.listNodes())
+    if (node.getMesh()) {
+      node.getMesh().dispose();
+      node.setSkin(null);
+      if (!node.listChildren().length) node.dispose();
+    }
+  (root.getDefaultScene() || root.listScenes()[0]).addChild(
+    doc.createNode('creature').setMesh(doc.createMesh('creature').addPrimitive(joined)).setSkin(skin)
+  );
+  // its clips, in the order named; every other animation goes
+  const { durations } = pickClips(doc, file, names);
+  // its bind pose, skinned (each vertex through its joints' world × inverse bind matrices): what it stands as
+  const mats = joints.map((j, k) => mul(j.getWorldMatrix(), ibm.getElement(k, [])));
+  const pos = joined.getAttribute('POSITION'),
+    J = joined.getAttribute('JOINTS_0'),
+    W = joined.getAttribute('WEIGHTS_0'),
+    lo = [Infinity, Infinity, Infinity],
+    hi = [-Infinity, -Infinity, -Infinity];
+  for (let i = 0; i < pos.getCount(); i++) {
+    const p = pos.getElement(i, []),
+      j = J.getElement(i, []),
+      w = W.getElement(i, []),
+      out = [0, 0, 0];
+    for (let k = 0; k < 4; k++) {
+      if (!w[k]) continue;
+      const q = apply(mats[j[k]], p, 1);
+      for (let r = 0; r < 3; r++) out[r] += w[k] * q[r];
+    }
+    for (let r = 0; r < 3; r++) {
+      lo[r] = Math.min(lo[r], out[r]);
+      hi[r] = Math.max(hi[r], out[r]);
+    }
+  }
+  await doc.transform(
+    prune({ keepAttributes: true, keepLeaves: true }),
+    quantize({
+      quantizePosition: 16,
+      quantizeNormal: 16,
+      quantizeColor: 16,
+      normalizeWeights: false
+    }),
+    prune({ keepAttributes: true, keepLeaves: true })
+  );
+  const out = root.listMeshes().flatMap(m => m.listPrimitives());
+  if (root.listMeshes().length !== 1 || out.length !== 1 || root.listSkins().length !== 1)
+    throw new Error(
+      `${file}: ${root.listMeshes().length} meshes, ${out.length} primitives, ${root.listSkins().length} skins, not one each`
+    );
+  canonicalWeights(out[0]);
+  return {
+    doc,
+    tris: out[0].getIndices().getCount() / 3,
+    size: [0, 1, 2].map(r => +(hi[r] - lo[r]).toFixed(3)),
+    bottom: +lo[1].toFixed(3),
+    height: +hi[1].toFixed(3),
+    durations
+  };
 }

@@ -167,6 +167,57 @@ func TestManifest(t *testing.T) {
 	}
 }
 
+// TestCreatures: the wolf, its file by hash, and its clips pinned by name and order, in the manifest and in its own
+// GLB (the game may index the list: a new clip goes last).
+func TestCreatures(t *testing.T) {
+	m, err := Load()
+	if err != nil {
+		t.Fatal(err)
+	}
+	w, ok := m.Creatures["wolf"]
+	if !ok {
+		t.Fatal("no wolf")
+	}
+	clips := []string{"Idle", "Walk", "Gallop", "Attack", "Idle_HitReact_Left", "Death"}
+	if !slices.Equal(w.Clips, clips) || len(w.Durations) != len(clips) {
+		t.Errorf("wolf clips %v (%v), want %v", w.Clips, w.Durations, clips)
+	}
+	if w.SHA256 != "d475011d3aef6c1b69e1619b1ab1904d3e2f89c4d202bc65dff8f091b2b9412e" {
+		t.Errorf("wolf: sha256 %s: a changed wolf is reviewed, then pinned here", w.SHA256)
+	}
+	if !m.Kits[w.Kit].Animals || w.Tris <= 0 || w.Tris > 3000 || w.Height <= 0 {
+		t.Errorf("wolf %+v, kit %+v", w, m.Kits[w.Kit])
+	}
+	for name, c := range m.Creatures {
+		b, err := fs.ReadFile(FS(), c.File)
+		if err != nil {
+			t.Errorf("creature %s: %v", name, err)
+			continue
+		}
+		if sum := sha256.Sum256(b); hex.EncodeToString(sum[:]) != c.SHA256 || len(b) != c.Bytes {
+			t.Errorf("creature %s: %s is not the manifest's", name, c.File)
+		}
+		var doc struct {
+			Animations []struct{ Name string }
+			Skins      []json.RawMessage
+			Meshes     []struct{ Primitives []json.RawMessage }
+		}
+		if err := json.Unmarshal(b[20:20+int(binary.LittleEndian.Uint32(b[12:16]))], &doc); err != nil {
+			t.Fatalf("creature %s: %v", name, err)
+		}
+		var names []string
+		for _, a := range doc.Animations {
+			names = append(names, a.Name)
+		}
+		if !slices.Equal(names, c.Clips) {
+			t.Errorf("creature %s: its file's clips %v, the manifest's %v", name, names, c.Clips)
+		}
+		if len(doc.Skins) != 1 || len(doc.Meshes) != 1 || len(doc.Meshes[0].Primitives) != 1 {
+			t.Errorf("creature %s: %d skins, %d meshes: not one skinned draw", name, len(doc.Skins), len(doc.Meshes))
+		}
+	}
+}
+
 func TestPick(t *testing.T) {
 	m, err := Load()
 	if err != nil {

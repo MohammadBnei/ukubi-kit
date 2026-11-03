@@ -9,6 +9,7 @@
 | KayKit Dungeon Remastered 1.0 (Kay Lousberg) | `dist/models/dungeon/`, `dist/styles/*/dungeon.png` | CC0 1.0 |
 | KayKit Prototype Bits 1.0 (Kay Lousberg) | `dist/models/prototype/`, `dist/styles/*/prototype.png` | CC0 1.0 |
 | KayKit Adventurers Character Pack 1.0 (Kay Lousberg) | `dist/characters/` (three characters, the weapons they hold, their textures as shipped, and the clip files) | CC0 1.0 |
+| Quaternius Ultimate Animated Animals: Wolf (Quaternius), from https://poly.pizza/m/P1gU3Qkr9r | `dist/creatures/wolf.glb` (its rig and clips, its colours baked into its vertices) | CC0 1.0 |
 | ukubi (ours: `kits/ukubi/models.mjs`, made with `tools/procgen/`) | `dist/models/ukubi/`, `dist/styles/*/ukubi.png` | CC0 1.0 |
 | world (ours: `kits/world/models.mjs`, made with `tools/procgen/`) | `dist/props/` | CC0 1.0 |
 | three.js r186.1 | `sheet/vendor/` | MIT (`sheet/vendor/LICENSE`) |
@@ -16,4 +17,5 @@
 
 The KayKit packs are fetched at the commits `kits/*/source.yaml` pins, checked against `kits/*/lock.json`
 (https://github.com/KayKit-Game-Assets). No attribution is required; it is given anyway: "3D models: KayKit by Kay
-Lousberg (CC0), repainted".
+Lousberg (CC0), repainted". The creatures are fetched by address, checked against `kits/animals/lock.json` (sha256);
+no attribution is required, it is given anyway: "Animals: Quaternius (CC0)".
