@@ -1,6 +1,6 @@
 # KayKit Adventurers Character Pack 1.0, free tier (CC0), pinned by commit: the town's people (plan/13 §5 Characters).
-# Each character is one skinned draw: the body meshes it keeps, its hat and cape baked into the skin, nothing held (a
-# weapon is a look no signal stands behind yet). Which character plays which unit is the game's, never the kit's.
+# Each character is one skinned draw: the body meshes it keeps, its hat and cape baked into the skin, nothing held (its
+# weapons are models of their own: weapons:). Which character plays which unit is the game's, never the kit's.
 name: adventurers
 repo: KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0
 commit: 672074b73ba276876a19e8816ecdc5241817ab47
@@ -17,8 +17,22 @@ characters:
   knight:
     model: Characters/gltf/Knight.glb
     keep: [Knight_Body, Knight_Head, Knight_ArmLeft, Knight_ArmRight, Knight_LegLeft, Knight_LegRight, Knight_Helmet, Knight_Cape]
+# the weapons a character holds, each a model of its own: a held node of a pack character file (from: its path, node:
+# its name) on a hand slot (handslot.r or handslot.l), placed by its node's transform: the game adds its whole scene
+# as a child of that bone. The Rogue is fetched for its crossbow only: it is no town character.
+weapons:
+  sword_1handed: { from: Characters/gltf/Knight.glb, node: 1H_Sword }
+  staff: { from: Characters/gltf/Mage.glb, node: 2H_Staff }
+  wand: { from: Characters/gltf/Mage.glb, node: 1H_Wand }
+  crossbow_1handed: { from: Characters/gltf/Rogue.glb, node: 1H_Crossbow }
 # one clip file for every character (they share one 41-joint rig): standing, walking, at work (no "work" clip in the
 # pack: Interact stands in), running and seated (the avatar's)
 clips:
   from: barbarian
   names: [Idle, Walking_A, Interact, Running_A, Sit_Chair_Idle]
+# a fight's clips, a second file on the same rig (from clips.from), so the town's pages download none of it: a
+# one-handed chop and slice, a spellcast, a one-handed shot, a hit, a death, a jump (start, in the air, landing) and a
+# block. New names go last: the game may index the list.
+fight:
+  names: [1H_Melee_Attack_Chop, 1H_Melee_Attack_Slice_Diagonal, Spellcast_Shoot, 1H_Ranged_Shoot, Hit_A, Death_A,
+    Jump_Start, Jump_Idle, Jump_Land, Block]

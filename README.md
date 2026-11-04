@@ -32,7 +32,10 @@ model a civ draws for a role in an age, and a Go package that embeds the result.
   character is built apart from the models (`tools/character.mjs`): the meshes it keeps, its hat and cape baked into
   the skin, nothing held, so it is one skinned draw; its own texture as a file (no style paints people); and one clip
   file for all of them (`dist/characters/clips.glb`: the 41-joint rig and the named clips, played by bone name).
-  Which character plays which unit is the game's, never this repo's.
+  A fight's clips are a second file on the same rig (`dist/characters/fight.glb`), so a page that shows no fight
+  downloads none of them. The weapons they hold are models of their own (`weapons:`): a held node of a pack character
+  file, placed on the hand slot bone it hangs on. Which character plays which unit, or holds which weapon, is the game's, never this
+  repo's.
 - **Props** (`kits/world/`): the world's own models, made by procgen, that no civ draws: the player's rides (a bike,
   a spaceship) and the carriers under the disc (the great turtle, the elephants on its shell, the beams they hold).
   Each is built apart from the models (`dist/props/<name>.glb`), painted by its kit's own atlas (`dist/props/world.png`),
@@ -95,6 +98,18 @@ it. A quantized GLB keeps its dequantization on its node: apply the node's matri
 (`flipY = false`, sRGB); `manifest.clips` gives the clip file and its clip names. Clone a character with three's
 `SkeletonUtils.clone` and play the clip file's clips on it with an `AnimationMixer` (the tracks bind by bone name).
 There is no root motion: the game moves a walking character itself. `height` is its standing height, unscaled.
+
+### Using a weapon
+`manifest.weapons[name]` gives its `file` (a GLB: one node, one mesh, one primitive, quantized), its `texture` (its
+character's image: `flipY = false`, sRGB), its `size` (x, y, z) and its `slot`, the bone it hangs on (`handslot.r` or
+`handslot.l`). Its placement on that bone is its node's transform (the quantization's dequantization, the mesh's
+offset on the slot baked in before it), not its vertices: add the GLB's whole scene (three's `gltf.scene`, the node's
+transform kept) as a child of that bone of a cloned character, with no offset of its own. It then sits as the pack's
+character holds it and follows every clip. A weapon is a draw of its own.
+
+`manifest.fight` is the fight's clip file (`characters/fight.glb`, the same rig as `manifest.clips`): `1H_Melee_Attack_Chop`,
+`1H_Melee_Attack_Slice_Diagonal`, `Spellcast_Shoot`, `1H_Ranged_Shoot`, `Hit_A`, `Death_A`, `Jump_Start`, `Jump_Idle`,
+`Jump_Land`, `Block`, in that order. Play its clips on a character with the same `AnimationMixer` as the town's.
 
 ### Using a prop
 `manifest.props[name]` gives its `file` (a GLB: one mesh, one primitive, quantized, standing on y = 0 about its own

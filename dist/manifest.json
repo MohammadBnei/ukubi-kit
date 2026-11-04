@@ -5256,6 +5256,83 @@
   ],
   "joints": 41
  },
+ "fight": {
+  "kit": "adventurers",
+  "file": "characters/fight.glb",
+  "bytes": 375712,
+  "sha256": "c5ae3059be6a4d6f178a07ee338c3f7d000c85a62119802d8099199c94791273",
+  "names": [
+   "1H_Melee_Attack_Chop",
+   "1H_Melee_Attack_Slice_Diagonal",
+   "Spellcast_Shoot",
+   "1H_Ranged_Shoot",
+   "Hit_A",
+   "Death_A",
+   "Jump_Start",
+   "Jump_Idle",
+   "Jump_Land",
+   "Block"
+  ],
+  "joints": 41
+ },
+ "weapons": {
+  "sword_1handed": {
+   "kit": "adventurers",
+   "file": "characters/sword_1handed.glb",
+   "texture": "characters/knight.png",
+   "bytes": 10272,
+   "sha256": "0cb248ec1a2e9e0565d42fb25f53bcbe7e98615274e7f61791329a4aed4a695d",
+   "tris": 300,
+   "size": [
+    0.503,
+    1.775,
+    0.131
+   ],
+   "slot": "handslot.r"
+  },
+  "staff": {
+   "kit": "adventurers",
+   "file": "characters/staff.glb",
+   "texture": "characters/mage.png",
+   "bytes": 13888,
+   "sha256": "1c7c8ac77c555d3b187a1718be31b8dae9407d27a4b960ceb99afcc7a1874887",
+   "tris": 440,
+   "size": [
+    0.576,
+    2.155,
+    0.292
+   ],
+   "slot": "handslot.r"
+  },
+  "wand": {
+   "kit": "adventurers",
+   "file": "characters/wand.glb",
+   "texture": "characters/mage.png",
+   "bytes": 5352,
+   "sha256": "a969e8852738dc019093d9e7e162022f86eacb269b0304ccaf9cc7c55f997348",
+   "tris": 150,
+   "size": [
+    0.161,
+    0.966,
+    0.161
+   ],
+   "slot": "handslot.r"
+  },
+  "crossbow_1handed": {
+   "kit": "adventurers",
+   "file": "characters/crossbow_1handed.glb",
+   "texture": "characters/rogue.png",
+   "bytes": 18368,
+   "sha256": "b748ae1f9b1baf63edd65910e8c8fc66818945f5bdfaa96c84dbfe5db020008d",
+   "tris": 584,
+   "size": [
+    1.222,
+    0.406,
+    0.911
+   ],
+   "slot": "handslot.r"
+  }
+ },
  "props": {
   "bike": {
    "kit": "world",

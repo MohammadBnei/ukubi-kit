@@ -7,10 +7,10 @@
 //   dist/styles/<style>/<kit>.png      a kit's atlas in a style (style.mjs): the kits the style's civs draw, and
 //                                      the world kit (catalog/civs.yaml world: the tiles and construction states
 //                                      every civ shares)
-//   dist/characters/…                  the town's people and their clip file (characters())
+//   dist/characters/…                  the town's people, their weapons and their clip files (characters())
 //   dist/props/<name>.glb              a props kit's model, and dist/props/<kit>.png its atlas, unstyled (props())
 //   dist/manifest.json                 what is where: kits and licences, models (tris, bounds, footprint), styles, civs,
-//                                      characters, clips and props
+//                                      characters, clips, fight, weapons and props
 // Then it validates: every catalog reference resolves, a civ draws from its own kit only and has a product, every civ
 // draws each of its roles in every age, buildings, plots and dressing fit a hex, and no model is over its triangle
 // budget.
@@ -22,7 +22,7 @@ import { tmpdir } from 'node:os';
 import { join, relative } from 'node:path';
 import { PNG } from 'pngjs';
 import { parse } from 'yaml';
-import { character, clips } from './character.mjs';
+import { character, clips, reader, weapon } from './character.mjs';
 import { build, io } from './model.mjs';
 import { COLS, ROWS } from './procgen/atlas.mjs';
 import { rng } from './procgen/random.mjs';
@@ -46,6 +46,8 @@ const MAX_TRIS = 8000,
   MAX_BUILDING_TRIS = 4500;
 // a character (one skinned draw: its body, its hat or cape baked in, nothing held)
 const MAX_CHARACTER_TRIS = 5500;
+// a weapon a character holds (its own draw, on a hand slot bone)
+const MAX_WEAPON_TRIS = 1000;
 // a prop (the world's: a ride, a carrier under the disc; each kit's source.yaml holds a cap per model below it)
 const MAX_PROP_TRIS = 4000;
 
@@ -57,7 +59,18 @@ async function run(out) {
     { states, world, ...civs } = await yaml('catalog/civs.yaml');
   const SHAPES = Object.keys(await yaml('catalog/shapes.yaml'));
   const errors = [],
-    manifest = { kits: {}, models: {}, styles: {}, civs: {}, states: {}, characters: {}, clips: null, props: {} };
+    manifest = {
+      kits: {},
+      models: {},
+      styles: {},
+      civs: {},
+      states: {},
+      characters: {},
+      clips: null,
+      fight: null,
+      weapons: {},
+      props: {}
+    };
 
   const files = {},
     atlases = {};
@@ -361,9 +374,11 @@ async function run(out) {
   return errors;
 }
 
-// characters: each character kit's people (dist/characters/<name>.glb, its texture <png>.png, one per image) and the
-// clip file (dist/characters/clips.glb: the rig and the named clips), checked: every character on the clips' rig, by
-// joint name and order, and within its triangle budget.
+// characters: each character kit's people (dist/characters/<name>.glb, its texture <png>.png, one per image), its clip
+// files (dist/characters/clips.glb: the rig and the town's clips; dist/characters/fight.glb: the same rig and a fight's,
+// so a page that shows no fight downloads none of it) and its weapons (dist/characters/<name>.glb, in a hand slot's
+// space), checked: every character on the clips' rig, by joint name and order, within its triangle budget; every
+// weapon within MAX_WEAPON_TRIS; no two files at one path in characters/.
 async function characters(people, write, manifest, errors) {
   for (const [kitName, kit] of Object.entries(people)) {
     const source = sources.characters,
@@ -376,22 +391,49 @@ async function characters(people, write, manifest, errors) {
           .pop()
           .replace(/\.glb$/, '')
       ];
-    const rig = await clips(fileOf(kit.characters[kit.clips.from].model), kit.clips.names);
-    const cbytes = Buffer.from(await io.writeBinary(rig.doc));
-    await write('characters/clips.glb', cbytes);
-    if (manifest.clips) errors.push(`${kitName}: a second clip file (one rig for the town)`);
-    manifest.clips = {
-      kit: kitName,
-      file: 'characters/clips.glb',
-      bytes: cbytes.length,
-      sha256: sha256(cbytes),
-      names: kit.clips.names,
-      joints: rig.joints.length
-    };
-    const textures = {};
+    const read = reader(),
+      docOf = async model => read(fileOf(model));
+    // every file in characters/ is claimed once: a second claim of a path (a weapon named clips, a texture named for a
+    // character with another image) is an error, never an overwrite
+    const claimed = {},
+      claim = (file, what) => {
+        if (claimed[file]) errors.push(`${what}: ${file} is already ${claimed[file]}'s`);
+        else claimed[file] = what;
+        return claimed[file] === what;
+      };
+    // the clip files, one rig: the town's (clips:) and a fight's (fight:)
+    const from = kit.characters[kit.clips.from].model;
+    let rig;
+    for (const key of ['clips', 'fight']) {
+      if (!kit[key]) continue;
+      const file = `characters/${key}.glb`,
+        c = await clips(await docOf(from), fileOf(from), kit[key].names),
+        bytes = Buffer.from(await io.writeBinary(c.doc));
+      rig ||= c;
+      if (manifest[key]) errors.push(`${kitName}: a second ${key} file (one rig for the town)`);
+      if (claim(file, key)) await write(file, bytes);
+      manifest[key] = {
+        kit: kitName,
+        file,
+        bytes: bytes.length,
+        sha256: sha256(bytes),
+        names: kit[key].names,
+        joints: c.joints.length
+      };
+    }
+    const textures = {},
+      // a texture: the file its image already has, or a new one claimed (characters sharing an image share its file)
+      texture = async (png, file, what) => {
+        const h = sha256(png);
+        if (!textures[h] && claim(file, what)) {
+          textures[h] = file;
+          await write(file, png);
+        }
+        return textures[h];
+      };
     let bind; // the clips' character's inverse bind matrices: every character's must match (the clips carry its bones' rest)
     for (const [name, c] of Object.entries({ [kit.clips.from]: kit.characters[kit.clips.from], ...kit.characters })) {
-      const ch = await character(fileOf(c.model), c.keep);
+      const ch = await character(await docOf(c.model), fileOf(c.model), c.keep);
       if (ch.joints.join() !== rig.joints.join())
         errors.push(`character ${name}: its rig is not the clips' (${ch.joints.length} joints)`);
       bind ||= ch.ibms;
@@ -400,19 +442,39 @@ async function characters(people, write, manifest, errors) {
       if (ch.tris > MAX_CHARACTER_TRIS)
         errors.push(`character ${name}: ${ch.tris} triangles, over ${MAX_CHARACTER_TRIS}`);
       const bytes = Buffer.from(await io.writeBinary(ch.doc)),
-        file = `characters/${name}.glb`,
-        h = sha256(ch.png);
-      textures[h] ||= `characters/${name}.png`; // characters sharing an image share its file
-      if (textures[h] === `characters/${name}.png`) await write(textures[h], ch.png);
-      await write(file, bytes);
+        file = `characters/${name}.glb`;
+      if (claim(file, `character ${name}`)) await write(file, bytes);
       manifest.characters[name] = {
         kit: kitName,
         file,
-        texture: textures[h],
+        texture: await texture(ch.png, `characters/${name}.png`, `character ${name}`),
         bytes: bytes.length,
         sha256: sha256(bytes),
         tris: ch.tris,
         height: ch.height
+      };
+    }
+    // its weapons, painted by their character file's texture (a new image's file named for that character file)
+    for (const [name, w] of Object.entries(kit.weapons || {})) {
+      const wp = await weapon(await docOf(w.from), fileOf(w.from), w.node),
+        bytes = Buffer.from(await io.writeBinary(wp.doc)),
+        file = `characters/${name}.glb`,
+        png = `characters/${w.from
+          .split('/')
+          .pop()
+          .replace(/\.glb$/, '')
+          .toLowerCase()}.png`;
+      if (wp.tris > MAX_WEAPON_TRIS) errors.push(`weapon ${name}: ${wp.tris} triangles, over ${MAX_WEAPON_TRIS}`);
+      if (claim(file, `weapon ${name}`)) await write(file, bytes);
+      manifest.weapons[name] = {
+        kit: kitName,
+        file,
+        texture: await texture(wp.png, png, `weapon ${name}`),
+        bytes: bytes.length,
+        sha256: sha256(bytes),
+        tris: wp.tris,
+        size: wp.size,
+        slot: wp.slot
       };
     }
   }

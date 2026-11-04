@@ -3,7 +3,8 @@
 // give the town's people their own path.
 //   fetch       a CC0 pack pinned at a commit (repo, commit, root), sha256-locked (fetch.mjs)
 //   generator   a kit of our own, made by the procgen library (generator: its module) (procgen/kit.mjs)
-//   characters  the town's people (characters:): their own path, characters() in build.mjs; never a civ's kit
+//   characters  the town's people (characters:) and their weapons (weapons:): their own path, characters() in
+//               build.mjs; never a civ's kit
 //   props       the world's props (props: true), made like a generator kit: their own path, props() in build.mjs;
 //               never a civ's kit, never styled
 import { join } from 'node:path';
@@ -43,7 +44,20 @@ export const sources = Object.freeze({
   },
   characters: {
     load: (root, kit, opts) =>
-      fetchKit(root, { ...kit, models: Object.values(kit.characters).map(c => c.model) }, opts),
+      fetchKit(
+        root,
+        {
+          ...kit,
+          // the characters' files and the files their weapons are held in (weapons:), each once
+          models: [
+            ...new Set([
+              ...Object.values(kit.characters).map(c => c.model),
+              ...Object.values(kit.weapons || {}).map(w => w.from)
+            ])
+          ]
+        },
+        opts
+      ),
     origin: kit => ({ repo: kit.repo, commit: kit.commit })
   }
 });

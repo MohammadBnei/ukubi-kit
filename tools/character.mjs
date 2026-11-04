@@ -7,8 +7,8 @@
 //     file, so the page never decodes a blob: the town's CSP);
 //   - quantized (KHR_mesh_quantization, which corrects the inverse bind matrices), its skin weights put in order by
 //     weights.mjs, not by quantize (whose order depends on the engine).
-import { Logger } from '@gltf-transform/core';
-import { joinPrimitives, prune, quantize } from '@gltf-transform/functions';
+import { getBounds, Logger } from '@gltf-transform/core';
+import { cloneDocument, joinPrimitives, prune, quantize, transformMesh } from '@gltf-transform/functions';
 import { io } from './model.mjs';
 import { canonicalWeights } from './weights.mjs';
 
@@ -59,6 +59,30 @@ function inv(m) {
 }
 const apply = (m, v, w) => [0, 1, 2].map(r => m[r] * v[0] + m[4 + r] * v[1] + m[8 + r] * v[2] + m[12 + r] * w);
 
+// strip: every animation but the kept ones (its channels and samplers first: disposing an animation alone leaves its
+// samplers holding their accessors, which may be a kept clip's too, shared key times: prune drops the rest), and every
+// texture (no image is ever embedded: the town's CSP)
+function strip(root, keep = []) {
+  for (const a of root.listAnimations()) {
+    if (keep.includes(a.getName())) continue;
+    for (const c of a.listChannels()) c.dispose();
+    for (const s of a.listSamplers()) s.dispose();
+    a.dispose();
+  }
+  for (const t of root.listTextures()) t.dispose();
+}
+
+/** a pack character file, parsed once: each call gets its own copy (every step below edits the document it gets) */
+export function reader() {
+  const parsed = {};
+  return async file => {
+    parsed[file] ||= io.read(file);
+    const doc = cloneDocument(await parsed[file]);
+    doc.setLogger(quiet);
+    return doc;
+  };
+}
+
 /** the joint names of a document's one skin, in order */
 export const jointsOf = doc =>
   doc
@@ -68,11 +92,10 @@ export const jointsOf = doc =>
     .map(j => j.getName()) || [];
 
 /**
- * character: file (.glb), keep (node names) → {doc, png (its texture's bytes), tris, height, joints}.
+ * character: doc (a character file's, named file in errors), keep (node names) → {doc, png (its texture's bytes), tris,
+ * height, joints}.
  */
-export async function character(file, keep) {
-  const doc = await io.read(file);
-  doc.setLogger(quiet);
+export async function character(doc, file, keep) {
   const root = doc.getRoot(),
     [skin] = root.listSkins(),
     joints = skin.listJoints();
@@ -162,13 +185,7 @@ export async function character(file, keep) {
       node.setSkin(null);
     }
   scene.addChild(doc.createNode('character').setMesh(mesh).setSkin(skin));
-  // no clips: the clip file holds them (disposing an animation alone leaves its samplers holding their accessors)
-  for (const a of root.listAnimations()) {
-    for (const c of a.listChannels()) c.dispose();
-    for (const s of a.listSamplers()) s.dispose(); // its accessors may be a kept clip's too (shared key times): prune drops the rest
-    a.dispose();
-  }
-  for (const t of root.listTextures()) t.dispose();
+  strip(root); // no clips: the clip files hold them
   // its height standing, in bind space, before quantizing (which normalises positions) (KayKit's bind pose is its rest pose, standing)
   let top = 0;
   const pos = joined.getAttribute('POSITION'),
@@ -197,10 +214,8 @@ export async function character(file, keep) {
   return { doc, png: Buffer.from(png), tris, height: +top.toFixed(3), joints: jointsOf(doc), ibms };
 }
 
-/** clips: the rig (no mesh, no skin) and the named animations of one character file. */
-export async function clips(file, names) {
-  const doc = await io.read(file);
-  doc.setLogger(quiet);
+/** clips: the rig (no mesh, no skin) and the named animations of one character file's doc. */
+export async function clips(doc, file, names) {
   const root = doc.getRoot(),
     joints = jointsOf(doc);
   for (const n of root.listNodes())
@@ -212,14 +227,53 @@ export async function clips(file, names) {
   const have = root.listAnimations().map(a => a.getName()),
     missing = names.filter(n => !have.includes(n));
   if (missing.length) throw new Error(`${file}: no clip ${missing.join(', ')}`);
-  for (const a of root.listAnimations()) {
-    if (names.includes(a.getName())) continue;
-    for (const c of a.listChannels()) c.dispose();
-    for (const s of a.listSamplers()) s.dispose(); // its accessors may be a kept clip's too (shared key times): prune drops the rest
-    a.dispose();
-  }
-  for (const t of root.listTextures()) t.dispose();
+  strip(root, names);
   for (const m of root.listMaterials()) m.dispose();
   await doc.transform(prune({ keepLeaves: true }));
   return { doc, joints };
+}
+
+// the bones a weapon may hang on
+const SLOTS = ['handslot.r', 'handslot.l'];
+
+/**
+ * weapon: a held node of a character file's doc (a rigid mesh on a hand slot bone) → {doc, png, tris, size, slot}: its
+ * offset on the slot baked into its vertices, then quantized, which puts the dequantization on the one node: added
+ * whole (its node's transform kept) as a child of the bone named slot, it sits as the pack's character holds it. One
+ * primitive, no image (png: its texture's bytes, the character's).
+ */
+export async function weapon(doc, file, name) {
+  const root = doc.getRoot(),
+    node = root.listNodes().find(n => n.getName() === name),
+    slot = node?.getParentNode();
+  if (!node?.getMesh()) throw new Error(`${file}: no mesh ${name}`);
+  if (!slot || !root.listSkins()[0]?.listJoints().includes(slot) || !SLOTS.includes(slot.getName()))
+    throw new Error(`${file}: ${name} is on ${slot?.getName() ?? 'nothing'}, not a hand slot (${SLOTS.join(', ')})`);
+  const mesh = node.getMesh(),
+    prims = mesh.listPrimitives(),
+    mat = prims[0].getMaterial(),
+    png = mat?.getBaseColorTexture()?.getImage();
+  if (!png) throw new Error(`${file}: ${name} has no base colour texture`);
+  for (const p of prims) {
+    p.setMaterial(mat);
+    for (const sem of p.listSemantics())
+      if (!['POSITION', 'NORMAL', 'TEXCOORD_0'].includes(sem)) p.setAttribute(sem, null);
+  }
+  transformMesh(mesh, node.getMatrix());
+  const one = doc.createMesh(name).addPrimitive(prims.length > 1 ? joinPrimitives(prims) : prims[0]),
+    held = doc.createNode(name).setMesh(one),
+    scene = doc.createScene().addChild(held);
+  strip(root);
+  for (const n of root.listNodes()) if (n !== held) n.dispose();
+  for (const s of root.listSkins()) s.dispose();
+  for (const s of root.listScenes()) if (s !== scene) s.dispose();
+  root.setDefaultScene(scene);
+  await doc.transform(prune({ keepAttributes: true }));
+  const b = getBounds(scene),
+    size = [0, 1, 2].map(i => +(b.max[i] - b.min[i]).toFixed(3));
+  await doc.transform(quantize({ quantizePosition: 16, quantizeNormal: 16, quantizeTexcoord: 16 }));
+  const out = root.listMeshes().flatMap(m => m.listPrimitives());
+  if (root.listMeshes().length !== 1 || out.length !== 1)
+    throw new Error(`${file}: ${name}: ${root.listMeshes().length} meshes, ${out.length} primitives, not one each`);
+  return { doc, png: Buffer.from(png), tris: out[0].getIndices().getCount() / 3, size, slot: slot.getName() };
 }

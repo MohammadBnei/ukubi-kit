@@ -58,9 +58,48 @@ func TestManifest(t *testing.T) {
 	if k, ok := m.Characters["knight"]; !ok || k.Kit != m.Clips.Kit || m.Clips.Joints != 41 {
 		t.Errorf("knight %+v on clips %+v", k, m.Clips)
 	}
-	for _, c := range []string{"Idle", "Walking_A", "Interact", "Running_A", "Sit_Chair_Idle"} {
-		if !slices.Contains(m.Clips.Names, c) {
-			t.Errorf("clips: no %s in %v", c, m.Clips.Names)
+	// both clip files' names, in order (the game may index them), on the one rig
+	want := map[string][]string{
+		"clips": {"Idle", "Walking_A", "Interact", "Running_A", "Sit_Chair_Idle"},
+		"fight": {"1H_Melee_Attack_Chop", "1H_Melee_Attack_Slice_Diagonal", "Spellcast_Shoot", "1H_Ranged_Shoot", "Hit_A", "Death_A", "Jump_Start", "Jump_Idle", "Jump_Land", "Block"},
+	}
+	for key, c := range map[string]*Clips{"clips": m.Clips, "fight": m.Fight} {
+		if c == nil {
+			t.Errorf("no %s", key)
+			continue
+		}
+		if !slices.Equal(c.Names, want[key]) || c.Joints != 41 || c.Kit != m.Clips.Kit {
+			t.Errorf("%s: %v on %d joints, kit %s; want %v on 41, kit %s", key, c.Names, c.Joints, c.Kit, want[key], m.Clips.Kit)
+		}
+		b, err := fs.ReadFile(FS(), c.File)
+		if err != nil {
+			t.Errorf("%s: %v", key, err)
+			continue
+		}
+		if sum := sha256.Sum256(b); hex.EncodeToString(sum[:]) != c.SHA256 || len(b) != c.Bytes {
+			t.Errorf("%s: %s is not the manifest's", key, c.File)
+		}
+	}
+	// the weapons: each its file, by hash, its texture, held on a hand slot
+	for _, name := range []string{"sword_1handed", "staff", "wand", "crossbow_1handed"} {
+		w, ok := m.Weapons[name]
+		if !ok {
+			t.Errorf("no weapon %s", name)
+			continue
+		}
+		b, err := fs.ReadFile(FS(), w.File)
+		if err != nil {
+			t.Errorf("weapon %s: %v", name, err)
+			continue
+		}
+		if sum := sha256.Sum256(b); hex.EncodeToString(sum[:]) != w.SHA256 || len(b) != w.Bytes {
+			t.Errorf("weapon %s: %s is not the manifest's", name, w.File)
+		}
+		if _, err := fs.Stat(FS(), w.Texture); err != nil || !m.Kits[w.Kit].People || w.Tris <= 0 || w.Size[1] <= 0 {
+			t.Errorf("weapon %s: texture %v, kit %+v, %d triangles, size %v", name, err, m.Kits[w.Kit], w.Tris, w.Size)
+		}
+		if w.Slot != "handslot.r" && w.Slot != "handslot.l" {
+			t.Errorf("weapon %s: on %q, not a hand slot", name, w.Slot)
 		}
 	}
 	// the world's props: each its file, by hash, its texture, its kit a props kit, within its cap
