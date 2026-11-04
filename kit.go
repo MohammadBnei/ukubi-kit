@@ -15,7 +15,7 @@ import (
 //go:embed dist
 var dist embed.FS
 
-// FS is dist/ as a file system: manifest.json, models/…, styles/…, characters/…, props/….
+// FS is dist/ as a file system: manifest.json, models/…, styles/…, characters/…, props/…, creatures/….
 func FS() fs.FS {
 	sub, err := fs.Sub(dist, "dist")
 	if err != nil {
@@ -46,6 +46,24 @@ type Manifest struct {
 	// Props are the world's (kits/world): the rides (bike, ship) and the carriers under the disc (turtle,
 	// elephant, beam). Each is one mesh, painted by its kit's own texture; no style paints a prop.
 	Props map[string]Prop `json:"props"`
+	// Creatures are the world's animals (kits/animals): the mobs the game draws. Each is one skinned draw carrying its
+	// own rig and its own clips. Which creature plays which mob is the game's, never the kit's.
+	Creatures map[string]Creature `json:"creatures"`
+}
+
+// Creature is one animated animal: one mesh, one primitive, skinned, its pack's colours in its vertices (COLOR_0, no
+// texture), its rig and its clips in its own file. It stands on y = 0 about its own origin, front +z, with no root
+// motion: the game moves it.
+type Creature struct {
+	Kit       string     `json:"kit"`
+	File      string     `json:"file"`
+	Bytes     int        `json:"bytes"`
+	SHA256    string     `json:"sha256"`
+	Tris      int        `json:"tris"`
+	Size      [3]float64 `json:"size"`      // its bind pose's extent, x y z, in its own units
+	Height    float64    `json:"height"`    // its bind pose's top, in its own units
+	Clips     []string   `json:"clips"`     // its file's animations, in this order (new ones go last)
+	Durations []float64  `json:"durations"` // each clip's length in seconds, in Clips' order
 }
 
 // Prop is one of the world's models: one mesh, one primitive, standing on y = 0 about its own origin, front +z.
@@ -101,6 +119,7 @@ type Kit struct {
 	Licence   string  `json:"licence"`
 	People    bool    `json:"characters,omitempty"` // a character kit: no civ draws it, no style paints it
 	IsProps   bool    `json:"props,omitempty"`      // a props kit (the world's): no civ draws it, no style paints it
+	Animals   bool    `json:"creatures,omitempty"`  // a creatures kit (the world's animals): no civ draws it, no style paints it
 	Scale     float64 `json:"scale"`
 	Turns     int     `json:"turns"` // the turns its models take about +y: 6 (a hex), 4 (a square), 2 (one front)
 }

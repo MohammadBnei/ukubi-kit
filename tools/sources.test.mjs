@@ -18,6 +18,7 @@ test('every kit is one kind, with a source', async () => {
   assert.equal(kinds.ukubi, 'generator');
   assert.equal(kinds.adventurers, 'characters');
   assert.equal(kinds.hexagon, 'fetch');
+  assert.equal(kinds.animals, 'creatures');
 });
 
 test('a kit that is two kinds is refused; the origin a kind records', () => {
@@ -27,6 +28,7 @@ test('a kit that is two kinds is refused; the origin a kind records', () => {
   );
   assert.deepEqual(sources.fetch.origin({ repo: 'a/b', commit: 'c' }), { repo: 'a/b', commit: 'c' });
   assert.deepEqual(sources.generator.origin({ generator: 'models.mjs' }), { generator: 'models.mjs' });
+  assert.throws(() => kindOf({ name: 'x', repo: 'a/b', creatures: {} }), /creatures are a kit of their own/);
 });
 
 test("a kind's files: a pinned pack's from the cache, by its commit; the people's origin is their pack's", async () => {

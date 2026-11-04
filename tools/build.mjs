@@ -9,8 +9,9 @@
 //                                      every civ shares)
 //   dist/characters/…                  the town's people, their weapons and their clip files (characters())
 //   dist/props/<name>.glb              a props kit's model, and dist/props/<kit>.png its atlas, unstyled (props())
+//   dist/creatures/<name>.glb          a creature, its rig and its own clips (creatures())
 //   dist/manifest.json                 what is where: kits and licences, models (tris, bounds, footprint), styles, civs,
-//                                      characters, clips, fight, weapons and props
+//                                      characters, clips, fight, weapons, props and creatures
 // Then it validates: every catalog reference resolves, a civ draws from its own kit only and has a product, every civ
 // draws each of its roles in every age, buildings, plots and dressing fit a hex, and no model is over its triangle
 // budget.
@@ -22,7 +23,7 @@ import { tmpdir } from 'node:os';
 import { join, relative } from 'node:path';
 import { PNG } from 'pngjs';
 import { parse } from 'yaml';
-import { character, clips, reader, weapon } from './character.mjs';
+import { character, clips, creature, reader, weapon } from './character.mjs';
 import { build, io } from './model.mjs';
 import { COLS, ROWS } from './procgen/atlas.mjs';
 import { rng } from './procgen/random.mjs';
@@ -50,6 +51,8 @@ const MAX_CHARACTER_TRIS = 5500;
 const MAX_WEAPON_TRIS = 1000;
 // a prop (the world's: a ride, a carrier under the disc; each kit's source.yaml holds a cap per model below it)
 const MAX_PROP_TRIS = 4000;
+// a creature (one skinned draw, the world's mobs: the game draws many at once)
+const MAX_CREATURE_TRIS = 3000;
 
 async function run(out) {
   const kits = {};
@@ -69,7 +72,8 @@ async function run(out) {
       clips: null,
       fight: null,
       weapons: {},
-      props: {}
+      props: {},
+      creatures: {}
     };
 
   const files = {},
@@ -81,6 +85,9 @@ async function run(out) {
   // a props kit is the world's (props: true): its own path too (props(), last), never a civ's kit nor styled
   const propKits = Object.fromEntries(Object.entries(kits).filter(([, k]) => kindOf(k) === 'props'));
   for (const name of Object.keys(propKits)) delete kits[name];
+  // a creatures kit is the world's animals (creatures:): its own path too (creatures(), last), never a civ's kit
+  const animalKits = Object.fromEntries(Object.entries(kits).filter(([, k]) => kindOf(k) === 'creatures'));
+  for (const name of Object.keys(animalKits)) delete kits[name];
   for (const [name, kit] of Object.entries(kits)) {
     // the model kits in their order, fetched or made alike (the manifest's order)
     const source = sources[kindOf(kit)],
@@ -250,6 +257,7 @@ async function run(out) {
 
   await characters(people, write, manifest, errors);
   await props(propKits, write, manifest, errors);
+  await creatures(animalKits, write, manifest, errors);
 
   // the checks after the build, as ordered lists (mountain plan/15: a list that grows is a registry): a civ is resolved
   // first (its roles' model ids), then each check reads it and writes nothing, then its manifest entry is assembled.
@@ -505,6 +513,36 @@ async function props(propKits, write, manifest, errors) {
         sha256: sha256(bytes),
         tris,
         size: [0, 1, 2].map(i => +(bounds.max[i] - bounds.min[i]).toFixed(3))
+      };
+    }
+  }
+}
+
+// creatures: each creatures kit's animals (dist/creatures/<name>.glb: one skinned draw, its rig and its clips, in the
+// order its source.yaml names them), checked: within MAX_CREATURE_TRIS, standing on y = 0 (its bind pose).
+async function creatures(animalKits, write, manifest, errors) {
+  for (const [kitName, kit] of Object.entries(animalKits)) {
+    const source = sources.creatures,
+      files = await source.load(ROOT, kit, { lock: args.has('--lock') });
+    manifest.kits[kitName] = { ...source.origin(kit), licence: kit.licence, creatures: true };
+    for (const [name, c] of Object.entries(kit.creatures)) {
+      if (manifest.creatures[name]) errors.push(`creature ${name}: in two creatures kits`);
+      const cr = await creature(files[name], c.clips);
+      if (cr.tris > MAX_CREATURE_TRIS) errors.push(`creature ${name}: ${cr.tris} triangles, over ${MAX_CREATURE_TRIS}`);
+      if (Math.abs(cr.bottom) > 0.05) errors.push(`creature ${name}: its feet at y = ${cr.bottom}, not on the ground`);
+      const bytes = Buffer.from(await io.writeBinary(cr.doc)),
+        file = `creatures/${name}.glb`;
+      await write(file, bytes);
+      manifest.creatures[name] = {
+        kit: kitName,
+        file,
+        bytes: bytes.length,
+        sha256: sha256(bytes),
+        tris: cr.tris,
+        size: cr.size,
+        height: cr.height,
+        clips: c.clips,
+        durations: cr.durations
       };
     }
   }

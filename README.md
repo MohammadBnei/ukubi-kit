@@ -40,6 +40,11 @@ model a civ draws for a role in an age, and a Go package that embeds the result.
   a spaceship) and the carriers under the disc (the great turtle, the elephants on its shell, the beams they hold).
   Each is built apart from the models (`dist/props/<name>.glb`), painted by its kit's own atlas (`dist/props/world.png`),
   never by a style. See [`docs/procedural.md`](docs/procedural.md#a-props-kit).
+- **Creatures** (`kits/animals/source.yaml`): the world's animals, the mobs the game draws: Quaternius' Ultimate
+  Animated Animals (CC0), as Quaternius published them on Poly Pizza. They are in no repo, so each file is pinned by
+  its address and its sha256 (`lock.json`, keyed by the URL). Each is built apart (`tools/character.mjs` `creature`):
+  one skinned draw, its materials' colours baked into its vertices (no texture), and its own rig and clips in its own
+  file (`dist/creatures/<name>.glb`), only those a mob plays. Which creature plays which mob is the game's.
 - **Shapes** (`catalog/shapes.yaml`): what a model looks like (tower, gate, yard, vault, mill, bay, rig, pit, wide),
   never what it stands for. A civ tags some variants with one shape each; the game's `PickFor` draws a building among
   the variants with a shape it asks for, else the untagged ones, else all (it is always drawn). Which shapes fit
@@ -63,7 +68,7 @@ built (the `pack` style paints them, and recipes use them) but no civ draws them
 ## Build
 ```sh
 bun install --frozen-lockfile   # Bun 1.4.2 (package.json's packageManager)
-bun run build          # kits + catalog -> dist/ (models/, styles/, characters/, props/, manifest.json), then validates
+bun run build          # kits + catalog -> dist/ (models/, styles/, characters/, props/, creatures/, manifest.json), then validates
 bun run check          # rebuild into a temp dir; fail unless dist/ is current (CI runs this)
 bun run lock           # after changing a pin or a model list: refetch and rewrite kits/*/lock.json, then review it
 bun run test           # the procgen library's tests and the skin weights'
@@ -84,7 +89,9 @@ swatches, a civ style without the tiles' ground and team
 cells, or a `world` that is not a model kit with its tiles and two cells. The checks are ordered lists in `build.mjs`
 (each civ's, then the town's), and a kit's source is chosen by its kind (`tools/sources.mjs`: fetched, made, or the
 town's people). Characters fail on a rig that is not the clip file's (by joint name and order), on more than one draw, or on
-more than 5500 triangles. A prop fails on more than one mesh or primitive, or more than 4000 triangles.
+more than 5500 triangles. A prop fails on more than one mesh or primitive, or more than 4000 triangles. A creature
+fails on more than one skin, a textured part, a clip its source.yaml names that its file lacks, more than 3000
+triangles, or feet off y = 0.
 
 ### Using a model
 `manifest.models[id]` gives its `kit` and `file` (a GLB: one mesh, one primitive, KHR_mesh_quantization, no texture,
@@ -123,6 +130,15 @@ The knight (`manifest.characters.knight`) is the player's avatar: it plays the s
   style colours its own kit and the tiles, so little repeats.
 - The manifest lists each model's kit, not its parts' provenance; every part is from that one kit.
 - Every kit's models are built, used or not (the sheet shows the parts too).
+
+### Using a creature
+`manifest.creatures[name]` gives its `file` (a GLB: one skinned mesh, one primitive, quantized, its rig and its
+clips), its `size` (x, y, z) and `height` (its bind pose, in its own units: scale it to the world yourself), and
+`clips` with their `durations` (seconds), in a fixed order: new clips go last. It has no texture: its colours are its
+vertex colours (`COLOR_0`, linear; three's GLTFLoader turns `vertexColors` on). It stands on y = 0 about its own
+origin, front +z, with no root motion. Clone it with three's `SkeletonUtils.clone` and play its own clips with an
+`AnimationMixer`. The wolf: `Idle`, `Walk`, `Gallop` (its run), `Attack` (a bite), `Idle_HitReact_Left` (a hit),
+`Death`.
 
 ## Contact sheet
 `sheet/` shows every civ, age, role, construction state and dressing, painted. `node sheet/shoot.mjs [outdir]` (Node: Playwright)
