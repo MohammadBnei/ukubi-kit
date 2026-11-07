@@ -502,20 +502,26 @@ async function characters(people, write, manifest, errors) {
         errors.push(`cells ${name}: no character ${name}_bare`);
         continue;
       }
+      if (!bare.keep.includes(c.head)) {
+        errors.push(`cells ${name}: head ${c.head} is no mesh of ${name}_bare`);
+        continue;
+      }
       const doc = await docOf(bare.model),
         body = uvCells(doc, bare.keep),
         head = new Set(uvCells(doc, [c.head]).cells.map(key)),
         used = new Set(body.cells.map(key)),
         slotted = new Map();
       if (body.straddles) errors.push(`cells ${name}: ${body.straddles} triangles of the body straddle two cells`);
-      for (const slot of ['cloth', 'trim'])
-        for (const cell of c[slot]) {
+      for (const slot of ['cloth', 'trim']) {
+        if (!c[slot]?.length) errors.push(`cells ${name}: no ${slot} cells`);
+        for (const cell of c[slot] ?? []) {
           if (head.has(key(cell))) errors.push(`cells ${name}: ${slot} ${key(cell)} is a head cell`);
           if (!used.has(key(cell))) errors.push(`cells ${name}: ${slot} ${key(cell)} is no cell of the body`);
           if (slotted.has(key(cell)))
             errors.push(`cells ${name}: ${slot} ${key(cell)} is already ${slotted.get(key(cell))}'s`);
           slotted.set(key(cell), slot);
         }
+      }
       manifest.cells[name] = { cloth: c.cloth, trim: c.trim };
     }
   }
