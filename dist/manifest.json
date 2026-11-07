@@ -5244,6 +5244,15 @@
    "sha256": "30ed3186c919bb5ac4014ef0af508d39ab58d927850cb78a8732f1d0e9a7df3c",
    "tris": 4712,
    "height": 2.467
+  },
+  "rogue": {
+   "kit": "adventurers",
+   "file": "characters/rogue.glb",
+   "texture": "characters/rogue.png",
+   "bytes": 138492,
+   "sha256": "6769ba2ac6968cb0a7afa1c90aedaf0175115b7da78615ce3a74e5c139a846a4",
+   "tris": 4347,
+   "height": 2.187
   }
  },
  "clips": {
@@ -5263,8 +5272,8 @@
  "fight": {
   "kit": "adventurers",
   "file": "characters/fight.glb",
-  "bytes": 375712,
-  "sha256": "3c46a15c7edd706b0ecc806fc91fa70b4404fdeeb5054c6fae4b04aad7c83e35",
+  "bytes": 1610480,
+  "sha256": "10454aae640baa284cb571ec0bf80d4c91b6639287e011f37a4e42815c0d1a6f",
   "names": [
    "1H_Melee_Attack_Chop",
    "1H_Melee_Attack_Slice_Diagonal",
@@ -5275,7 +5284,38 @@
    "Jump_Start",
    "Jump_Idle",
    "Jump_Land",
-   "Block"
+   "Block",
+   "1H_Melee_Attack_Slice_Horizontal",
+   "1H_Melee_Attack_Stab",
+   "Blocking",
+   "Block_Attack",
+   "Block_Hit",
+   "Cheer",
+   "Spellcast_Long",
+   "Spellcast_Raise",
+   "Spellcasting",
+   "2H_Melee_Attack_Chop",
+   "2H_Melee_Attack_Slice",
+   "2H_Melee_Attack_Stab",
+   "2H_Melee_Attack_Spin",
+   "2H_Melee_Attack_Spinning",
+   "2H_Melee_Idle",
+   "Dodge_Forward",
+   "Dodge_Backward",
+   "Dodge_Left",
+   "Dodge_Right",
+   "Throw",
+   "Dualwield_Melee_Attack_Chop",
+   "Dualwield_Melee_Attack_Slice",
+   "Dualwield_Melee_Attack_Stab",
+   "1H_Ranged_Aiming",
+   "1H_Ranged_Reload",
+   "1H_Ranged_Shooting",
+   "2H_Ranged_Aiming",
+   "2H_Ranged_Shoot",
+   "2H_Ranged_Shooting",
+   "2H_Ranged_Reload",
+   "Jump_Full_Long"
   ],
   "joints": 41
  },
@@ -5333,6 +5373,230 @@
     1.222,
     0.406,
     0.911
+   ],
+   "slot": "handslot.r"
+  },
+  "sword_2handed": {
+   "kit": "adventurers",
+   "file": "characters/sword_2handed.glb",
+   "texture": "characters/knight.png",
+   "bytes": 14672,
+   "sha256": "699ef9e1ff21993bd051b70df8a1005bf9cf2b9586a8b3a339f81417e110c7b3",
+   "tris": 412,
+   "size": [
+    0.839,
+    2.366,
+    0.248
+   ],
+   "slot": "handslot.r"
+  },
+  "sword_offhand": {
+   "kit": "adventurers",
+   "file": "characters/sword_offhand.glb",
+   "texture": "characters/knight.png",
+   "bytes": 10288,
+   "sha256": "ac111a3f547dace463ee347d672fbe728418c518698329eddb3cfeae483990da",
+   "tris": 300,
+   "size": [
+    0.503,
+    1.775,
+    0.131
+   ],
+   "slot": "handslot.l"
+  },
+  "shield_badge": {
+   "kit": "adventurers",
+   "file": "characters/shield_badge.glb",
+   "texture": "characters/knight.png",
+   "bytes": 8572,
+   "sha256": "b518d4ab19a311706fdb5d3a1e08fd26161af9a1682a403f5db8b1bf798c3cae",
+   "tris": 262,
+   "size": [
+    0.883,
+    1.022,
+    0.246
+   ],
+   "slot": "handslot.l"
+  },
+  "shield_rectangle": {
+   "kit": "adventurers",
+   "file": "characters/shield_rectangle.glb",
+   "texture": "characters/knight.png",
+   "bytes": 8600,
+   "sha256": "8e30e5ec6697c3973be124ed31ea6a1b70e53a61af4f16bcc20249ca6204b7d7",
+   "tris": 262,
+   "size": [
+    0.883,
+    1.193,
+    0.301
+   ],
+   "slot": "handslot.l"
+  },
+  "shield_round": {
+   "kit": "adventurers",
+   "file": "characters/shield_round.glb",
+   "texture": "characters/knight.png",
+   "bytes": 9448,
+   "sha256": "7d8ef6b55ab54387424ff9348bd0e97d616da134d86e9f0a3c2e8e69794d2899",
+   "tris": 284,
+   "size": [
+    0.883,
+    0.883,
+    0.332
+   ],
+   "slot": "handslot.l"
+  },
+  "shield_spike": {
+   "kit": "adventurers",
+   "file": "characters/shield_spike.glb",
+   "texture": "characters/knight.png",
+   "bytes": 15668,
+   "sha256": "2ac1b0746a93faefd9c57134f937145676b7d1e017343dc5c93025c7c1f3a408",
+   "tris": 420,
+   "size": [
+    1.007,
+    1.037,
+    0.46
+   ],
+   "slot": "handslot.l"
+  },
+  "axe_1handed": {
+   "kit": "adventurers",
+   "file": "characters/axe_1handed.glb",
+   "texture": "characters/barbarian.png",
+   "bytes": 9732,
+   "sha256": "a918bc80a6cff9b121ab3909a5fd6c39ef6f45182c4fc3bbd9d1fb42a547ed35",
+   "tris": 274,
+   "size": [
+    0.714,
+    1.244,
+    0.185
+   ],
+   "slot": "handslot.r"
+  },
+  "axe_offhand": {
+   "kit": "adventurers",
+   "file": "characters/axe_offhand.glb",
+   "texture": "characters/barbarian.png",
+   "bytes": 9752,
+   "sha256": "653f396f0d9ec2c984cc01d011db32d75f5a18175ffa613e66ae6f741fdcae32",
+   "tris": 274,
+   "size": [
+    0.714,
+    1.244,
+    0.185
+   ],
+   "slot": "handslot.l"
+  },
+  "axe_2handed": {
+   "kit": "adventurers",
+   "file": "characters/axe_2handed.glb",
+   "texture": "characters/barbarian.png",
+   "bytes": 16164,
+   "sha256": "345c27223e775a4ba23b213811da83b182685d8d05125de7f832e9c9fab508d4",
+   "tris": 508,
+   "size": [
+    1.24,
+    1.725,
+    0.262
+   ],
+   "slot": "handslot.r"
+  },
+  "shield_barbarian": {
+   "kit": "adventurers",
+   "file": "characters/shield_barbarian.glb",
+   "texture": "characters/barbarian.png",
+   "bytes": 9312,
+   "sha256": "77f04e240725ad8dd3b8e3318260bf9219c84aa263560205938fce59d57dc9ec",
+   "tris": 284,
+   "size": [
+    0.883,
+    0.883,
+    0.332
+   ],
+   "slot": "handslot.l"
+  },
+  "spellbook": {
+   "kit": "adventurers",
+   "file": "characters/spellbook.glb",
+   "texture": "characters/mage.png",
+   "bytes": 11028,
+   "sha256": "3d303fcedb59e1913167854fe942cf4a42f347bad5ba34e50f431ed205819e09",
+   "tris": 292,
+   "size": [
+    0.293,
+    0.427,
+    0.575
+   ],
+   "slot": "handslot.l"
+  },
+  "spellbook_open": {
+   "kit": "adventurers",
+   "file": "characters/spellbook_open.glb",
+   "texture": "characters/mage.png",
+   "bytes": 11420,
+   "sha256": "783caccd329b765389360a6a5276f6d03918a61de125891375a3efe4caa08d25",
+   "tris": 292,
+   "size": [
+    0.828,
+    0.222,
+    0.569
+   ],
+   "slot": "handslot.l"
+  },
+  "crossbow_2handed": {
+   "kit": "adventurers",
+   "file": "characters/crossbow_2handed.glb",
+   "texture": "characters/rogue.png",
+   "bytes": 24896,
+   "sha256": "0bb5f7a9be2000a66edefcedbefc33b1b40c7f5a01145a38b6fa90e2fc3dbe85",
+   "tris": 792,
+   "size": [
+    1.441,
+    0.479,
+    1.223
+   ],
+   "slot": "handslot.r"
+  },
+  "knife": {
+   "kit": "adventurers",
+   "file": "characters/knife.glb",
+   "texture": "characters/rogue.png",
+   "bytes": 6456,
+   "sha256": "352670392e82452cbe46b8130616e0648da90fed9f4323f9754b9c2a9c1eb13f",
+   "tris": 172,
+   "size": [
+    0.259,
+    1.206,
+    0.152
+   ],
+   "slot": "handslot.r"
+  },
+  "knife_offhand": {
+   "kit": "adventurers",
+   "file": "characters/knife_offhand.glb",
+   "texture": "characters/rogue.png",
+   "bytes": 6452,
+   "sha256": "31357689522c68f7a164a948c455a6f79b433dbbd551b7342a05c5bd96a42955",
+   "tris": 172,
+   "size": [
+    0.259,
+    1.206,
+    0.152
+   ],
+   "slot": "handslot.l"
+  },
+  "throwable": {
+   "kit": "adventurers",
+   "file": "characters/throwable.glb",
+   "texture": "characters/rogue.png",
+   "bytes": 9164,
+   "sha256": "582898cea2395ec192892eecfb7fe1805b57c844aea4652697c2682b62884159",
+   "tris": 310,
+   "size": [
+    0.383,
+    0.423,
+    0.364
    ],
    "slot": "handslot.r"
   }

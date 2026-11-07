@@ -28,8 +28,8 @@ model a civ draws for a role in an age, and a Go package that embeds the result.
   seeded dressing on the free land. `default` is the town centre's and an unknown civ's. Construction states are
   shared by every civ: the scaffold, the four stages a new building or a wonder rises through, and `wonder`, the
   monument a finished wonder stands as (the town's own, no civ draws it).
-- **Characters** (`kits/adventurers/source.yaml`): the town's people, KayKit's Adventurers pinned by commit. Each
-  character is built apart from the models (`tools/character.mjs`): the meshes it keeps, its hat and cape baked into
+- **Characters** (`kits/adventurers/source.yaml`): the town's people and the player's classes, KayKit's Adventurers
+  pinned by commit. Each character is built apart from the models (`tools/character.mjs`): the meshes it keeps, its hat and cape baked into
   the skin, nothing held, so it is one skinned draw; its own texture as a file (no style paints people); and one clip
   file for all of them (`dist/characters/clips.glb`: the 41-joint rig and the named clips, played by bone name).
   A fight's clips are a second file on the same rig (`dist/characters/fight.glb`), so a page that shows no fight

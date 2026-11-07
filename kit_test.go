@@ -58,10 +58,23 @@ func TestManifest(t *testing.T) {
 	if k, ok := m.Characters["knight"]; !ok || k.Kit != m.Clips.Kit || m.Clips.Joints != 41 {
 		t.Errorf("knight %+v on clips %+v", k, m.Clips)
 	}
+	// the game's four classes, each a character on the clips' kit
+	for _, id := range []string{"knight", "mage", "barbarian", "rogue"} {
+		if c, ok := m.Characters[id]; !ok || c.Kit != m.Clips.Kit {
+			t.Errorf("class %s: %+v", id, c)
+		}
+	}
 	// both clip files' names, in order (the game may index them), on the one rig
 	want := map[string][]string{
 		"clips": {"Idle", "Walking_A", "Interact", "Running_A", "Sit_Chair_Idle"},
-		"fight": {"1H_Melee_Attack_Chop", "1H_Melee_Attack_Slice_Diagonal", "Spellcast_Shoot", "1H_Ranged_Shoot", "Hit_A", "Death_A", "Jump_Start", "Jump_Idle", "Jump_Land", "Block"},
+		"fight": {"1H_Melee_Attack_Chop", "1H_Melee_Attack_Slice_Diagonal", "Spellcast_Shoot", "1H_Ranged_Shoot", "Hit_A", "Death_A", "Jump_Start", "Jump_Idle", "Jump_Land", "Block",
+			"1H_Melee_Attack_Slice_Horizontal", "1H_Melee_Attack_Stab", "Blocking", "Block_Attack", "Block_Hit", "Cheer",
+			"Spellcast_Long", "Spellcast_Raise", "Spellcasting",
+			"2H_Melee_Attack_Chop", "2H_Melee_Attack_Slice", "2H_Melee_Attack_Stab", "2H_Melee_Attack_Spin", "2H_Melee_Attack_Spinning", "2H_Melee_Idle",
+			"Dodge_Forward", "Dodge_Backward", "Dodge_Left", "Dodge_Right", "Throw",
+			"Dualwield_Melee_Attack_Chop", "Dualwield_Melee_Attack_Slice", "Dualwield_Melee_Attack_Stab",
+			"1H_Ranged_Aiming", "1H_Ranged_Reload", "1H_Ranged_Shooting", "2H_Ranged_Aiming", "2H_Ranged_Shoot", "2H_Ranged_Shooting", "2H_Ranged_Reload",
+			"Jump_Full_Long"},
 	}
 	for key, c := range map[string]*Clips{"clips": m.Clips, "fight": m.Fight} {
 		if c == nil {
@@ -81,7 +94,9 @@ func TestManifest(t *testing.T) {
 		}
 	}
 	// the weapons: each its file, by hash, its texture, held on a hand slot
-	for _, name := range []string{"sword_1handed", "staff", "wand", "crossbow_1handed"} {
+	for _, name := range []string{"sword_1handed", "staff", "wand", "crossbow_1handed", "sword_2handed", "sword_offhand",
+		"shield_badge", "shield_rectangle", "shield_round", "shield_spike", "axe_1handed", "axe_offhand", "axe_2handed",
+		"shield_barbarian", "spellbook", "spellbook_open", "crossbow_2handed", "knife", "knife_offhand", "throwable"} {
 		w, ok := m.Weapons[name]
 		if !ok {
 			t.Errorf("no weapon %s", name)

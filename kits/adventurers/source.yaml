@@ -17,14 +17,34 @@ characters:
   knight:
     model: Characters/gltf/Knight.glb
     keep: [Knight_Body, Knight_Head, Knight_ArmLeft, Knight_ArmRight, Knight_LegLeft, Knight_LegRight, Knight_Helmet, Knight_Cape]
+  # a player class's (the game's classes: knight, mage, barbarian, rogue); no hat in the pack's free tier
+  rogue:
+    model: Characters/gltf/Rogue.glb
+    keep: [Rogue_Body, Rogue_Head, Rogue_ArmLeft, Rogue_ArmRight, Rogue_LegLeft, Rogue_LegRight, Rogue_Cape]
 # the weapons a character holds, each a model of its own: a held node of a pack character file (from: its path, node:
 # its name) on a hand slot (handslot.r or handslot.l), placed by its node's transform: the game adds its whole scene
-# as a child of that bone. The Rogue is fetched for its crossbow only: it is no town character.
+# as a child of that bone. An offhand item hangs on handslot.l.
 weapons:
   sword_1handed: { from: Characters/gltf/Knight.glb, node: 1H_Sword }
   staff: { from: Characters/gltf/Mage.glb, node: 2H_Staff }
   wand: { from: Characters/gltf/Mage.glb, node: 1H_Wand }
   crossbow_1handed: { from: Characters/gltf/Rogue.glb, node: 1H_Crossbow }
+  sword_2handed: { from: Characters/gltf/Knight.glb, node: 2H_Sword }
+  sword_offhand: { from: Characters/gltf/Knight.glb, node: 1H_Sword_Offhand }
+  shield_badge: { from: Characters/gltf/Knight.glb, node: Badge_Shield }
+  shield_rectangle: { from: Characters/gltf/Knight.glb, node: Rectangle_Shield }
+  shield_round: { from: Characters/gltf/Knight.glb, node: Round_Shield }
+  shield_spike: { from: Characters/gltf/Knight.glb, node: Spike_Shield }
+  axe_1handed: { from: Characters/gltf/Barbarian.glb, node: 1H_Axe }
+  axe_offhand: { from: Characters/gltf/Barbarian.glb, node: 1H_Axe_Offhand }
+  axe_2handed: { from: Characters/gltf/Barbarian.glb, node: 2H_Axe }
+  shield_barbarian: { from: Characters/gltf/Barbarian.glb, node: Barbarian_Round_Shield }
+  spellbook: { from: Characters/gltf/Mage.glb, node: Spellbook }
+  spellbook_open: { from: Characters/gltf/Mage.glb, node: Spellbook_open }
+  crossbow_2handed: { from: Characters/gltf/Rogue.glb, node: 2H_Crossbow }
+  knife: { from: Characters/gltf/Rogue.glb, node: Knife }
+  knife_offhand: { from: Characters/gltf/Rogue.glb, node: Knife_Offhand }
+  throwable: { from: Characters/gltf/Rogue.glb, node: Throwable }
 # one clip file for every character (they share one 41-joint rig): standing, walking, at work (no "work" clip in the
 # pack: Interact stands in), running and seated (the avatar's)
 clips:
@@ -32,7 +52,19 @@ clips:
   names: [Idle, Walking_A, Interact, Running_A, Sit_Chair_Idle]
 # a fight's clips, a second file on the same rig (from clips.from), so the town's pages download none of it: a
 # one-handed chop and slice, a spellcast, a one-handed shot, a hit, a death, a jump (start, in the air, landing) and a
-# block. New names go last: the game may index the list.
+# block; then the classes' (the game's knight, mage, barbarian and rogue): the sword chain's slice and stab, the
+# shield's guard, counter and cheer; the casts held, raised and channelled; the two-handed swings, spin and stance; the
+# dodges, the throw, the dual knives and the crossbows' aim, reload and volley; a leap. New names go last: the game may
+# index the list.
+# ponytail: one fight file for every class (about 37 KB a clip); a file per class when a page's download matters
 fight:
   names: [1H_Melee_Attack_Chop, 1H_Melee_Attack_Slice_Diagonal, Spellcast_Shoot, 1H_Ranged_Shoot, Hit_A, Death_A,
-    Jump_Start, Jump_Idle, Jump_Land, Block]
+    Jump_Start, Jump_Idle, Jump_Land, Block,
+    1H_Melee_Attack_Slice_Horizontal, 1H_Melee_Attack_Stab, Blocking, Block_Attack, Block_Hit, Cheer,
+    Spellcast_Long, Spellcast_Raise, Spellcasting,
+    2H_Melee_Attack_Chop, 2H_Melee_Attack_Slice, 2H_Melee_Attack_Stab, 2H_Melee_Attack_Spin, 2H_Melee_Attack_Spinning,
+    2H_Melee_Idle,
+    Dodge_Forward, Dodge_Backward, Dodge_Left, Dodge_Right, Throw, Dualwield_Melee_Attack_Chop,
+    Dualwield_Melee_Attack_Slice, Dualwield_Melee_Attack_Stab, 1H_Ranged_Aiming, 1H_Ranged_Reload,
+    1H_Ranged_Shooting, 2H_Ranged_Aiming, 2H_Ranged_Shoot, 2H_Ranged_Shooting, 2H_Ranged_Reload,
+    Jump_Full_Long]
