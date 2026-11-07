@@ -43,6 +43,12 @@ type Manifest struct {
 	// slot bone it hangs on (Slot) is its node's transform: add the GLB's whole scene, node transform kept, as a child
 	// of that bone.
 	Weapons map[string]Weapon `json:"weapons"`
+	// Parts are the hats and capes a look wears (kits/adventurers parts:): built like a weapon, each its own draw, on
+	// the head or chest bone (Slot). Any class may wear any part; the rogue has no hat.
+	Parts map[string]Weapon `json:"parts"`
+	// Cells are each class's tint slots (kits/adventurers cells:): the [col, row] cells of its texture's 8×4 grid (row 0
+	// at the top) that a look's cloth and trim colours recolour on its <class>_bare body. Never a head cell.
+	Cells map[string]Cells `json:"cells"`
 	// Props are the world's (kits/world): the rides (bike, ship) and the carriers under the disc (turtle,
 	// elephant, beam). Each is one mesh, painted by its kit's own texture; no style paints a prop.
 	Props map[string]Prop `json:"props"`
@@ -77,7 +83,13 @@ type Prop struct {
 	Size    [3]float64 `json:"size"` // its bounds' extent, x y z
 }
 
-// Weapon is a held model: one mesh, one primitive, painted by its character's texture. Its one node carries the
+// Cells is one class's tint slots: the swatch cells of its texture a look's colours replace.
+type Cells struct {
+	Cloth [][2]int `json:"cloth"`
+	Trim  [][2]int `json:"trim"`
+}
+
+// Weapon is a held model (or a worn part, a hat or cape): one mesh, one primitive, painted by its character's texture. Its one node carries the
 // quantization's dequantization and so its placement: with that node's transform kept, as a child of its slot bone,
 // it sits where the pack's character holds it.
 type Weapon struct {
@@ -88,10 +100,10 @@ type Weapon struct {
 	SHA256  string     `json:"sha256"`
 	Tris    int        `json:"tris"`
 	Size    [3]float64 `json:"size"` // its bounds' extent, x y z
-	Slot    string     `json:"slot"` // the bone it hangs on: handslot.r or handslot.l
+	Slot    string     `json:"slot"` // the bone it hangs on: handslot.r or handslot.l (a weapon), head or chest (a part)
 }
 
-// Character is one skinned model: its body, its hat and cape baked into the skin, nothing held.
+// Character is one skinned model: its body, its hat and cape baked into the skin (none in a <class>_bare body), nothing held.
 type Character struct {
 	Kit     string  `json:"kit"`
 	File    string  `json:"file"`

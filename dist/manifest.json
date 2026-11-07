@@ -5253,6 +5253,42 @@
    "sha256": "6769ba2ac6968cb0a7afa1c90aedaf0175115b7da78615ce3a74e5c139a846a4",
    "tris": 4347,
    "height": 2.187
+  },
+  "barbarian_bare": {
+   "kit": "adventurers",
+   "file": "characters/barbarian_bare.glb",
+   "texture": "characters/barbarian.png",
+   "bytes": 130424,
+   "sha256": "686c2eb2098e41f12abaf5b694b791660eaee6ed6f5ed42afd2d891bf38d83b2",
+   "tris": 4045,
+   "height": 2.186
+  },
+  "mage_bare": {
+   "kit": "adventurers",
+   "file": "characters/mage_bare.glb",
+   "texture": "characters/mage.png",
+   "bytes": 130464,
+   "sha256": "2258ba501af031dcb86c47b03d36aa2d16b5b6f1979147c39159c1ce16a2cf8d",
+   "tris": 4029,
+   "height": 2.203
+  },
+  "knight_bare": {
+   "kit": "adventurers",
+   "file": "characters/knight_bare.glb",
+   "texture": "characters/knight.png",
+   "bytes": 141560,
+   "sha256": "1df3ffc080d62411fa68a039157eb9826ecd5bc8abb8e2c2219eaf654490e47c",
+   "tris": 4148,
+   "height": 2.315
+  },
+  "rogue_bare": {
+   "kit": "adventurers",
+   "file": "characters/rogue_bare.glb",
+   "texture": "characters/rogue.png",
+   "bytes": 136420,
+   "sha256": "08346f76d86a6798a534286085e5808677cf014b5a6e88846cf7740a6831a9fe",
+   "tris": 4263,
+   "height": 2.187
   }
  },
  "clips": {
@@ -5599,6 +5635,208 @@
     0.364
    ],
    "slot": "handslot.r"
+  }
+ },
+ "parts": {
+  "hat_knight": {
+   "kit": "adventurers",
+   "file": "characters/hat_knight.glb",
+   "texture": "characters/knight.png",
+   "bytes": 14260,
+   "sha256": "f2d57c534d7d48d80a845687bad322d608b70e8be3575aca54f19595a22962e2",
+   "tris": 480,
+   "size": [
+    1.139,
+    1.356,
+    1.254
+   ],
+   "slot": "head"
+  },
+  "hat_mage": {
+   "kit": "adventurers",
+   "file": "characters/hat_mage.glb",
+   "texture": "characters/mage.png",
+   "bytes": 11708,
+   "sha256": "c0cae4dda859047d37a8c0904f414367973fb47d91a003e707db79521db9faf3",
+   "tris": 396,
+   "size": [
+    2.093,
+    1.337,
+    2.04
+   ],
+   "slot": "head"
+  },
+  "hat_barbarian": {
+   "kit": "adventurers",
+   "file": "characters/hat_barbarian.glb",
+   "texture": "characters/barbarian.png",
+   "bytes": 15792,
+   "sha256": "168e2dedce3b5f9c1d4c199a68e82603c99bff1c0042631bd053ac2d7e9ac614",
+   "tris": 654,
+   "size": [
+    1.109,
+    1.017,
+    1.264
+   ],
+   "slot": "head"
+  },
+  "cape_knight": {
+   "kit": "adventurers",
+   "file": "characters/cape_knight.glb",
+   "texture": "characters/knight.png",
+   "bytes": 2920,
+   "sha256": "7d53d6ea41a4aba454135bac885f63b70a0ea31ad3ff6fba8cefbc77824e15a1",
+   "tris": 84,
+   "size": [
+    0.971,
+    1.142,
+    0.343
+   ],
+   "slot": "chest"
+  },
+  "cape_mage": {
+   "kit": "adventurers",
+   "file": "characters/cape_mage.glb",
+   "texture": "characters/mage.png",
+   "bytes": 2912,
+   "sha256": "012ed6fd6f3277d778143fcdd78349e4b1788ab6e26f933e8aa9e7ad43667ef0",
+   "tris": 84,
+   "size": [
+    0.971,
+    1.181,
+    0.343
+   ],
+   "slot": "chest"
+  },
+  "cape_barbarian": {
+   "kit": "adventurers",
+   "file": "characters/cape_barbarian.glb",
+   "texture": "characters/barbarian.png",
+   "bytes": 2832,
+   "sha256": "04c9a28f71b8b76478cc705a94ef641b836b849e4c8cc14b2c8e942a79b80aa5",
+   "tris": 78,
+   "size": [
+    0.971,
+    1.145,
+    0.343
+   ],
+   "slot": "chest"
+  },
+  "cape_rogue": {
+   "kit": "adventurers",
+   "file": "characters/cape_rogue.glb",
+   "texture": "characters/rogue.png",
+   "bytes": 2916,
+   "sha256": "5f22a828898ad44055165a521dc0f7b86e1758cff5b26dd8fe7045c064b8b20d",
+   "tris": 84,
+   "size": [
+    0.971,
+    1.142,
+    0.343
+   ],
+   "slot": "chest"
+  }
+ },
+ "cells": {
+  "knight": {
+   "cloth": [
+    [
+     2,
+     1
+    ],
+    [
+     3,
+     0
+    ],
+    [
+     7,
+     0
+    ]
+   ],
+   "trim": [
+    [
+     0,
+     1
+    ],
+    [
+     6,
+     0
+    ]
+   ]
+  },
+  "mage": {
+   "cloth": [
+    [
+     0,
+     1
+    ],
+    [
+     7,
+     1
+    ]
+   ],
+   "trim": [
+    [
+     3,
+     2
+    ],
+    [
+     5,
+     0
+    ]
+   ]
+  },
+  "barbarian": {
+   "cloth": [
+    [
+     0,
+     1
+    ],
+    [
+     1,
+     1
+    ]
+   ],
+   "trim": [
+    [
+     6,
+     0
+    ]
+   ]
+  },
+  "rogue": {
+   "cloth": [
+    [
+     0,
+     1
+    ],
+    [
+     1,
+     1
+    ]
+   ],
+   "trim": [
+    [
+     3,
+     2
+    ],
+    [
+     5,
+     0
+    ],
+    [
+     5,
+     2
+    ],
+    [
+     6,
+     0
+    ],
+    [
+     7,
+     1
+    ]
+   ]
   }
  },
  "props": {

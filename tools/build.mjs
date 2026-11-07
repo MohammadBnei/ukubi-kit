@@ -7,11 +7,11 @@
 //   dist/styles/<style>/<kit>.png      a kit's atlas in a style (style.mjs): the kits the style's civs draw, and
 //                                      the world kit (catalog/civs.yaml world: the tiles and construction states
 //                                      every civ shares)
-//   dist/characters/…                  the town's people, their weapons and their clip files (characters())
+//   dist/characters/…                  the town's people, their weapons, hats and capes, and their clip files (characters())
 //   dist/props/<name>.glb              a props kit's model, and dist/props/<kit>.png its atlas, unstyled (props())
 //   dist/creatures/<name>.glb          a creature, its rig and its own clips (creatures())
 //   dist/manifest.json                 what is where: kits and licences, models (tris, bounds, footprint), styles, civs,
-//                                      characters, clips, fight, weapons, props and creatures
+//                                      characters, clips, fight, weapons, parts, cells, props and creatures
 // Then it validates: every catalog reference resolves, a civ draws from its own kit only and has a product, every civ
 // draws each of its roles in every age, buildings, plots and dressing fit a hex, and no model is over its triangle
 // budget.
@@ -23,7 +23,7 @@ import { tmpdir } from 'node:os';
 import { join, relative } from 'node:path';
 import { PNG } from 'pngjs';
 import { parse } from 'yaml';
-import { character, clips, creature, reader, weapon } from './character.mjs';
+import { character, clips, creature, HAND_SLOTS, PART_SLOTS, reader, uvCells, weapon } from './character.mjs';
 import { build, io } from './model.mjs';
 import { COLS, ROWS } from './procgen/atlas.mjs';
 import { rng } from './procgen/random.mjs';
@@ -47,7 +47,7 @@ const MAX_TRIS = 8000,
   MAX_BUILDING_TRIS = 4500;
 // a character (one skinned draw: its body, its hat or cape baked in, nothing held)
 const MAX_CHARACTER_TRIS = 5500;
-// a weapon a character holds (its own draw, on a hand slot bone)
+// a weapon a character holds, or a hat or cape it wears (its own draw, on a hand slot, head or chest bone)
 const MAX_WEAPON_TRIS = 1000;
 // a prop (the world's: a ride, a carrier under the disc; each kit's source.yaml holds a cap per model below it)
 const MAX_PROP_TRIS = 4000;
@@ -72,6 +72,8 @@ async function run(out) {
       clips: null,
       fight: null,
       weapons: {},
+      parts: {},
+      cells: {},
       props: {},
       creatures: {}
     };
@@ -384,9 +386,11 @@ async function run(out) {
 
 // characters: each character kit's people (dist/characters/<name>.glb, its texture <png>.png, one per image), its clip
 // files (dist/characters/clips.glb: the rig and the town's clips; dist/characters/fight.glb: the same rig and a fight's,
-// so a page that shows no fight downloads none of it) and its weapons (dist/characters/<name>.glb, in a hand slot's
-// space), checked: every character on the clips' rig, by joint name and order, within its triangle budget; every
-// weapon within MAX_WEAPON_TRIS; no two files at one path in characters/.
+// so a page that shows no fight downloads none of it), its weapons and its worn parts (dist/characters/<name>.glb, in
+// a hand slot's, the head's or the chest's space) and its classes' tint slots (manifest.cells), checked: every
+// character on the clips' rig, by joint name and order, within its triangle budget; every weapon and part within
+// MAX_WEAPON_TRIS; no tint slot on a head cell, on a cell the body lacks, or on two slots; no body triangle across two
+// cells; no two files at one path in characters/.
 async function characters(people, write, manifest, errors) {
   for (const [kitName, kit] of Object.entries(people)) {
     const source = sources.characters,
@@ -462,28 +466,63 @@ async function characters(people, write, manifest, errors) {
         height: ch.height
       };
     }
-    // its weapons, painted by their character file's texture (a new image's file named for that character file)
-    for (const [name, w] of Object.entries(kit.weapons || {})) {
-      const wp = await weapon(await docOf(w.from), fileOf(w.from), w.node),
-        bytes = Buffer.from(await io.writeBinary(wp.doc)),
-        file = `characters/${name}.glb`,
-        png = `characters/${w.from
-          .split('/')
-          .pop()
-          .replace(/\.glb$/, '')
-          .toLowerCase()}.png`;
-      if (wp.tris > MAX_WEAPON_TRIS) errors.push(`weapon ${name}: ${wp.tris} triangles, over ${MAX_WEAPON_TRIS}`);
-      if (claim(file, `weapon ${name}`)) await write(file, bytes);
-      manifest.weapons[name] = {
-        kit: kitName,
-        file,
-        texture: await texture(wp.png, png, `weapon ${name}`),
-        bytes: bytes.length,
-        sha256: sha256(bytes),
-        tris: wp.tris,
-        size: wp.size,
-        slot: wp.slot
-      };
+    // its weapons and its worn parts (hats and capes), painted by their character file's texture (a new image's file
+    // named for that character file); a weapon hangs on a hand slot, a part on the head or chest bone
+    for (const [section, label, slots] of [
+      ['weapons', 'weapon', HAND_SLOTS],
+      ['parts', 'part', PART_SLOTS]
+    ])
+      for (const [name, w] of Object.entries(kit[section] || {})) {
+        const wp = await weapon(await docOf(w.from), fileOf(w.from), w.node, slots),
+          bytes = Buffer.from(await io.writeBinary(wp.doc)),
+          file = `characters/${name}.glb`,
+          png = `characters/${w.from
+            .split('/')
+            .pop()
+            .replace(/\.glb$/, '')
+            .toLowerCase()}.png`;
+        if (wp.tris > MAX_WEAPON_TRIS) errors.push(`${label} ${name}: ${wp.tris} triangles, over ${MAX_WEAPON_TRIS}`);
+        if (claim(file, `${label} ${name}`)) await write(file, bytes);
+        manifest[section][name] = {
+          kit: kitName,
+          file,
+          texture: await texture(wp.png, png, `${label} ${name}`),
+          bytes: bytes.length,
+          sha256: sha256(bytes),
+          tris: wp.tris,
+          size: wp.size,
+          slot: wp.slot
+        };
+      }
+    // its classes' tint slots (cells:), hand-written: checked against the body they tint (<class>_bare) and its head
+    for (const [name, c] of Object.entries(kit.cells || {})) {
+      const bare = kit.characters[`${name}_bare`],
+        key = cell => cell.join(',');
+      if (!bare) {
+        errors.push(`cells ${name}: no character ${name}_bare`);
+        continue;
+      }
+      if (!bare.keep.includes(c.head)) {
+        errors.push(`cells ${name}: head ${c.head} is no mesh of ${name}_bare`);
+        continue;
+      }
+      const doc = await docOf(bare.model),
+        body = uvCells(doc, bare.keep),
+        head = new Set(uvCells(doc, [c.head]).cells.map(key)),
+        used = new Set(body.cells.map(key)),
+        slotted = new Map();
+      if (body.straddles) errors.push(`cells ${name}: ${body.straddles} triangles of the body straddle two cells`);
+      for (const slot of ['cloth', 'trim']) {
+        if (!c[slot]?.length) errors.push(`cells ${name}: no ${slot} cells`);
+        for (const cell of c[slot] ?? []) {
+          if (head.has(key(cell))) errors.push(`cells ${name}: ${slot} ${key(cell)} is a head cell`);
+          if (!used.has(key(cell))) errors.push(`cells ${name}: ${slot} ${key(cell)} is no cell of the body`);
+          if (slotted.has(key(cell)))
+            errors.push(`cells ${name}: ${slot} ${key(cell)} is already ${slotted.get(key(cell))}'s`);
+          slotted.set(key(cell), slot);
+        }
+      }
+      manifest.cells[name] = { cloth: c.cloth, trim: c.trim };
     }
   }
 }
