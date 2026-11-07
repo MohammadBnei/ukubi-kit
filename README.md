@@ -34,7 +34,9 @@ model a civ draws for a role in an age, and a Go package that embeds the result.
   file for all of them (`dist/characters/clips.glb`: the 41-joint rig and the named clips, played by bone name).
   A fight's clips are a second file on the same rig (`dist/characters/fight.glb`), so a page that shows no fight
   downloads none of them. The weapons they hold are models of their own (`weapons:`): a held node of a pack character
-  file, placed on the hand slot bone it hangs on. Which character plays which unit, or holds which weapon, is the game's, never this
+  file, placed on the hand slot bone it hangs on. A class's look is made of parts: its bare body (`<class>_bare`, a
+  character without its hat and cape), the hats and capes (`parts:`, built like weapons on the head and chest bones),
+  and the class's tint slots (`cells:`, hand-written from its texture). Which character plays which unit, or holds which weapon, is the game's, never this
   repo's.
 - **Props** (`kits/world/`): the world's own models, made by procgen, that no civ draws: the player's rides (a bike,
   a spaceship) and the carriers under the disc (the great turtle, the elephants on its shell, the beams they hold).
@@ -118,6 +120,17 @@ character holds it and follows every clip. A weapon is a draw of its own.
 `1H_Melee_Attack_Slice_Diagonal`, `Spellcast_Shoot`, `1H_Ranged_Shoot`, `Hit_A`, `Death_A`, `Jump_Start`, `Jump_Idle`,
 `Jump_Land`, `Block`, in that order, then the classes' clips (`manifest.fight.names` lists them all; new names go
 last). Play its clips on a character with the same `AnimationMixer` as the town's.
+
+### Using a look
+`manifest.characters[<class>_bare]` is the class's body without its hat and cape (same texture, same rig and clips as
+the character). `manifest.parts[id]` are the hats (`hat_knight`, `hat_mage`, `hat_barbarian`; the rogue has none) and
+capes (`cape_knight`, `cape_mage`, `cape_barbarian`, `cape_rogue`): each has a `file`, a `texture` (its own class's),
+a `size` and a `slot` (`head` or `chest`), and is added to that bone exactly as a weapon is to a hand slot. Any class
+may wear any part. `manifest.cells[class]` is `{cloth, trim}`: lists of `[col, row]` cells of the 8×4 grid (row 0 at
+the top) of that class's texture. A shader that finds a fragment's cell from its UV and multiplies the swatch's
+brightness by a colour recolours the body's cloth or trim; a cell in neither list (the head, steel joints, skin) keeps the
+pack's colour. The build refuses a slot on a cell the class's head mesh paints, on a cell its body does not use, on two
+slots, or a body triangle across two cells. Tint a cape by its material colour; the parts are untinted by cells.
 
 ### Using a prop
 `manifest.props[name]` gives its `file` (a GLB: one mesh, one primitive, quantized, standing on y = 0 about its own

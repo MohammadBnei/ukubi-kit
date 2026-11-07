@@ -117,6 +117,70 @@ func TestManifest(t *testing.T) {
 			t.Errorf("weapon %s: on %q, not a hand slot", name, w.Slot)
 		}
 	}
+	// the classes' bare bodies (no hat, no cape: the look wears parts) share their character's texture and rig, and are
+	// lighter than it by the hat and cape
+	for _, id := range []string{"knight", "mage", "barbarian", "rogue"} {
+		c, bare := m.Characters[id], m.Characters[id+"_bare"]
+		b, err := fs.ReadFile(FS(), bare.File)
+		if err != nil {
+			t.Errorf("%s_bare: %v", id, err)
+			continue
+		}
+		if sum := sha256.Sum256(b); hex.EncodeToString(sum[:]) != bare.SHA256 || len(b) != bare.Bytes {
+			t.Errorf("%s_bare: %s is not the manifest's", id, bare.File)
+		}
+		if bare.Texture != c.Texture || bare.Kit != c.Kit || bare.Tris <= 0 || bare.Tris >= c.Tris {
+			t.Errorf("%s_bare: %+v against %+v", id, bare, c)
+		}
+	}
+	// the hats and capes: weapons built on the head or chest bone, each painted by its own class's texture
+	slots := map[string]string{"hat_knight": "head", "hat_mage": "head", "hat_barbarian": "head",
+		"cape_knight": "chest", "cape_mage": "chest", "cape_barbarian": "chest", "cape_rogue": "chest"}
+	if len(m.Parts) != len(slots) {
+		t.Errorf("%d parts, want %d", len(m.Parts), len(slots))
+	}
+	for id, slot := range slots {
+		p, ok := m.Parts[id]
+		if !ok {
+			t.Errorf("no part %s", id)
+			continue
+		}
+		b, err := fs.ReadFile(FS(), p.File)
+		if err != nil {
+			t.Errorf("part %s: %v", id, err)
+			continue
+		}
+		if sum := sha256.Sum256(b); hex.EncodeToString(sum[:]) != p.SHA256 || len(b) != p.Bytes {
+			t.Errorf("part %s: %s is not the manifest's", id, p.File)
+		}
+		class := id[strings.Index(id, "_")+1:]
+		if p.Slot != slot || p.Texture != m.Characters[class].Texture || p.Tris <= 0 || p.Size[1] <= 0 || !m.Kits[p.Kit].People {
+			t.Errorf("part %s: %+v on %q, want slot %s, texture %s", id, p, p.Slot, slot, m.Characters[class].Texture)
+		}
+	}
+	// the tint slots, hand-written from the textures: the measured head cells (the face, hair and eyes) are never a slot's
+	// (the build checks it too), the slots share no cell, and every cell is on the grid
+	head := map[string][][2]int{
+		"knight":    {{0, 0}, {1, 0}, {2, 0}},
+		"mage":      {{0, 0}, {1, 0}, {1, 1}, {2, 0}},
+		"barbarian": {{0, 0}, {1, 0}, {2, 0}},
+		"rogue":     {{0, 0}, {1, 0}, {2, 0}, {3, 0}},
+	}
+	if len(m.Cells) != len(head) {
+		t.Errorf("cells for %d classes, want %d", len(m.Cells), len(head))
+	}
+	for id, heads := range head {
+		c, seen := m.Cells[id], map[[2]int]bool{}
+		if len(c.Cloth) == 0 || len(c.Trim) == 0 {
+			t.Errorf("cells %s: %+v", id, c)
+		}
+		for _, cell := range append(slices.Clone(c.Cloth), c.Trim...) {
+			if slices.Contains(heads, cell) || seen[cell] || cell[0] < 0 || cell[0] >= 8 || cell[1] < 0 || cell[1] >= 4 {
+				t.Errorf("cells %s: %v is a head cell, twice a slot's or off the 8×4 grid", id, cell)
+			}
+			seen[cell] = true
+		}
+	}
 	// the world's props: each its file, by hash, its texture, its kit a props kit, within its cap
 	caps := map[string]int{"bike": 800, "ship": 1500, "turtle": 3000, "elephant": 1500, "beam": 24}
 	for name, limit := range caps {

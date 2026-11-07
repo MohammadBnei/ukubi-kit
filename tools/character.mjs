@@ -10,6 +10,7 @@
 import { getBounds, Logger } from '@gltf-transform/core';
 import { cloneDocument, joinPrimitives, prune, quantize, transformMesh } from '@gltf-transform/functions';
 import { io } from './model.mjs';
+import { COLS, ROWS } from './procgen/atlas.mjs';
 import { canonicalWeights } from './weights.mjs';
 
 const quiet = new Logger(Logger.Verbosity.WARN);
@@ -260,22 +261,24 @@ export async function clips(doc, file, names) {
   return { doc, joints };
 }
 
-// the bones a weapon may hang on
-const SLOTS = ['handslot.r', 'handslot.l'];
+// the bones a weapon may hang on, and a worn part (a hat, a cape)
+export const HAND_SLOTS = ['handslot.r', 'handslot.l'];
+export const PART_SLOTS = ['head', 'chest'];
 
 /**
- * weapon: a held node of a character file's doc (a rigid mesh on a hand slot bone) → {doc, png, tris, size, slot}: its
- * offset on the slot baked into its vertices, then quantized, which puts the dequantization on the one node: added
- * whole (its node's transform kept) as a child of the bone named slot, it sits as the pack's character holds it. One
- * primitive, no image (png: its texture's bytes, the character's).
+ * weapon: a held node of a character file's doc (a rigid mesh on a bone of slots: a hand slot for a weapon, head or
+ * chest for a worn part) → {doc, png, tris, size, slot}: its offset on the slot baked into its vertices, then
+ * quantized, which puts the dequantization on the one node: added whole (its node's transform kept) as a child of the
+ * bone named slot, it sits as the pack's character holds it. One primitive, no image (png: its texture's bytes, the
+ * character's).
  */
-export async function weapon(doc, file, name) {
+export async function weapon(doc, file, name, slots = HAND_SLOTS) {
   const root = doc.getRoot(),
     node = root.listNodes().find(n => n.getName() === name),
     slot = node?.getParentNode();
   if (!node?.getMesh()) throw new Error(`${file}: no mesh ${name}`);
-  if (!slot || !root.listSkins()[0]?.listJoints().includes(slot) || !SLOTS.includes(slot.getName()))
-    throw new Error(`${file}: ${name} is on ${slot?.getName() ?? 'nothing'}, not a hand slot (${SLOTS.join(', ')})`);
+  if (!slot || !root.listSkins()[0]?.listJoints().includes(slot) || !slots.includes(slot.getName()))
+    throw new Error(`${file}: ${name} is on ${slot?.getName() ?? 'nothing'}, not one of ${slots.join(', ')}`);
   const mesh = node.getMesh(),
     prims = mesh.listPrimitives(),
     mat = prims[0].getMaterial(),
@@ -303,6 +306,42 @@ export async function weapon(doc, file, name) {
   if (root.listMeshes().length !== 1 || out.length !== 1)
     throw new Error(`${file}: ${name}: ${root.listMeshes().length} meshes, ${out.length} primitives, not one each`);
   return { doc, png: Buffer.from(png), tris: out[0].getIndices().getCount() / 3, size, slot: slot.getName() };
+}
+
+/**
+ * uvCells: the cells of the atlas grid (COLS×ROWS, row 0 at the top) that the named meshes of a character file's doc
+ * paint, and the triangles that straddle two cells → {cells: [[col, row]…] sorted, straddles: how many}. A triangle's
+ * cell is its centroid's; it straddles when a vertex lies more than TOL of a cell outside it.
+ */
+const TOL = 0.03;
+export function uvCells(doc, names) {
+  const found = new Map(),
+    seen = new Set();
+  let straddles = 0;
+  for (const node of doc.getRoot().listNodes()) {
+    if (!names.includes(node.getName()) || !node.getMesh()) continue;
+    seen.add(node.getName());
+    for (const p of node.getMesh().listPrimitives()) {
+      const uv = p.getAttribute('TEXCOORD_0'),
+        idx = p.getIndices();
+      for (let t = 0; t < idx.getCount(); t += 3) {
+        const q = [0, 1, 2].map(k => uv.getElement(idx.getScalar(t + k), [])),
+          col = Math.floor(((q[0][0] + q[1][0] + q[2][0]) / 3) * COLS),
+          row = Math.floor(((q[0][1] + q[1][1] + q[2][1]) / 3) * ROWS);
+        found.set(`${col},${row}`, [col, row]);
+        if (
+          q.some(
+            ([u, v]) =>
+              u * COLS < col - TOL || u * COLS > col + 1 + TOL || v * ROWS < row - TOL || v * ROWS > row + 1 + TOL
+          )
+        )
+          straddles++;
+      }
+    }
+  }
+  const missing = names.filter(n => !seen.has(n));
+  if (missing.length) throw new Error(`no mesh ${missing.join(', ')}`);
+  return { cells: [...found.values()].sort((a, b) => a[0] - b[0] || a[1] - b[1]), straddles };
 }
 
 /**
