@@ -116,7 +116,8 @@ character holds it and follows every clip. A weapon is a draw of its own.
 
 `manifest.fight` is the fight's clip file (`characters/fight.glb`, the same rig as `manifest.clips`): `1H_Melee_Attack_Chop`,
 `1H_Melee_Attack_Slice_Diagonal`, `Spellcast_Shoot`, `1H_Ranged_Shoot`, `Hit_A`, `Death_A`, `Jump_Start`, `Jump_Idle`,
-`Jump_Land`, `Block`, in that order. Play its clips on a character with the same `AnimationMixer` as the town's.
+`Jump_Land`, `Block`, in that order, then the classes' clips (`manifest.fight.names` lists them all; new names go
+last). Play its clips on a character with the same `AnimationMixer` as the town's.
 
 ### Using a prop
 `manifest.props[name]` gives its `file` (a GLB: one mesh, one primitive, quantized, standing on y = 0 about its own
