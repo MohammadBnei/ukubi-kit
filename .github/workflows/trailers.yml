@@ -11,9 +11,9 @@ concurrency:
   cancel-in-progress: true
 jobs:
   trailers:
-    # GitHub-hosted only: this repo is public. No AI-attribution text in a commit message, the PR title or the PR body
+    # No AI-attribution text in a commit message, the PR title or the PR body
     # (CLAUDE.md, "Rules"): an agent's commit carries only the allowed Co-Authored-By and Agent-Session trailers
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:

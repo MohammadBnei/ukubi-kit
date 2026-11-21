@@ -19,7 +19,7 @@ The game's public 3D kit (orientation only; the design is mountain `plan/13-game
 - **Styles change textures, never geometry.** A civ's look per age is a style; a model chain per role is the catalog.
 - **Health looks belong to the world, not to styles** (grey, smoke, rubble, fire): never put them in a style or a
   recipe (plan/13, the binding rule).
-- GitHub-hosted runners only (public repo). Conventional Commits, feature branch + PR.
+- CI runs on Forgejo Actions (`ubuntu-latest`); the macOS check runs only on the GitHub mirror. Conventional Commits, feature branch + PR.
 - Commit trailers: `Co-Authored-By: ukubi-claude-cloud <noreply@bnei.dev>` (cloud) or `ukubi-claude-<host>`, plus
   `Agent-Session: <id>`. Never model names, URLs or a "Generated with" footer.
 
