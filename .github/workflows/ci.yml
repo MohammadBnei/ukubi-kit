@@ -7,10 +7,10 @@ permissions:
   contents: read
 jobs:
   check:
-    # Forgejo's container runner (ubuntu-latest), or GitHub's on the mirror. The build is Bun's, and dist must not
+    # Forgejo's Talos runner (k8s-ubuntu-latest), or GitHub's ubuntu-latest on the mirror. The build is Bun's, and dist must not
     # depend on the platform: Bun's Math functions are the platform's libm, so the check runs on Linux here and on
     # macOS in check-macos
-    runs-on: ubuntu-latest
+    runs-on: ${{ github.server_url == 'https://github.com' && 'ubuntu-latest' || 'k8s-ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -36,9 +36,9 @@ jobs:
   check-macos:
     # the same Bun check on macOS. GitHub-only: Forgejo has no macOS runner, so it skips this job and the GitHub
     # mirror runs it. Forgejo checks a job's if: only on a runner, and a job for a label no runner has waits forever:
-    # off GitHub the job asks for ubuntu-latest, where the if: skips it
+    # off GitHub the job asks for k8s-ubuntu-latest, where the if: skips it
     if: github.server_url == 'https://github.com'
-    runs-on: ${{ github.server_url == 'https://github.com' && 'macos-latest' || 'ubuntu-latest' }}
+    runs-on: ${{ github.server_url == 'https://github.com' && 'macos-latest' || 'k8s-ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -53,7 +53,7 @@ jobs:
       - run: bun run check
   node:
     # and dist must not depend on the engine: the same check under Node (V8 carries its own Math)
-    runs-on: ubuntu-latest
+    runs-on: ${{ github.server_url == 'https://github.com' && 'ubuntu-latest' || 'k8s-ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
