@@ -12,7 +12,7 @@ concurrency:
 jobs:
   trailers:
     # No AI-attribution text in a commit message, the PR title or the PR body
-    # (CLAUDE.md, "Rules"): an agent's commit carries only the allowed Co-Authored-By and Agent-Session trailers
+    # (workspace rule: agent commits add no trailers; the check still accepts the old allowed pair)
     runs-on: ${{ github.server_url == 'https://github.com' && 'ubuntu-latest' || 'k8s-ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v4
