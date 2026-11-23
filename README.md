@@ -1,8 +1,8 @@
 # ukubi-kit
 
 The game's 3D kit: free CC0 models (KayKit's free tiers), repainted into each civ's style, a catalog that says which
-model a civ draws for a role in an age, and a Go package that embeds the result. The design is the private game's
-(mountain `plan/13-game-town.md` §5); this repo holds no names of what the game draws, only roles and civs.
+model a civ draws for a role in an age, and a Go package that embeds the result. The design is in mountain
+`plan/13-game-town.md` §5; this repo holds no names of what the game draws, only roles and civs.
 
 ## How it works
 - **Kits** (`kits/<kit>/source.yaml`): a KayKit pack pinned by commit (Medieval Hexagon, City Builder, Space Base,
@@ -173,5 +173,4 @@ f := ukubikit.FS()                                         // dist/ as an fs.FS:
 ```
 
 ## Commits
-Conventional Commits. Feature branch and PR. Agent commits carry `Co-Authored-By: <agent> <noreply@bnei.dev>` and
-`Agent-Session: <id>`; never a model name, a URL or a "Generated with" footer.
+Conventional Commits. Feature branch and PR. Agent commits add no trailers.
