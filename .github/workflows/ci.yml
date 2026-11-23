@@ -16,6 +16,7 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version-file: package.json
+          no-cache: true # its built-in cache would restore on main a key a PR can write
       - run: bun install --frozen-lockfile
       # Biome lint and format check (once: the result does not depend on the OS)
       - run: bun run lint
@@ -74,6 +75,7 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version-file: package.json
+          no-cache: true # its built-in cache would restore on main a key a PR can write
       - run: bun install --frozen-lockfile
       - run: bun run test
       # Cache model (owner decision 2026-11-22): a PR restores and saves; push never restores
@@ -118,6 +120,7 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version-file: package.json
+          no-cache: true # its built-in cache would restore on main a key a PR can write
       - run: bun install --frozen-lockfile
       - uses: actions/setup-node@v4
         with:
